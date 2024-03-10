@@ -20,7 +20,7 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 // ALoryShelterCharacter
 
 
-ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr)
+ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr), bMovementBlock(false)
 {
 	//Engine Defaults
 	{
@@ -98,8 +98,8 @@ void ALoryShelterCharacter::BeginPlay()
 	testQuest->questDecr = FText(FText::FromString(TEXT("Load sacks of flour form the barn into the truck at the entrance")));
 	questSystemComp->addQuest(testQuest2);
 
-
-
+	GetMesh()->GetAnimInstance()->OnMontageStarted.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageStarted);
+	GetMesh()->GetAnimInstance()->OnMontageEnded.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageEnded);
 	
 }
 
@@ -131,8 +131,20 @@ void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	}
 }
 
+void ALoryShelterCharacter::OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	bBlockInput = false;
+}
+
+void ALoryShelterCharacter::OnAnimMontageStarted(UAnimMontage* Montage)
+{
+	bBlockInput = true;
+}
+
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)
 {
+	if (bBlockInput) return; //Need To Check Where Is Using bBlockInput in Pawn
+
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 

@@ -60,6 +60,12 @@ class ALoryShelterCharacter : public ACharacter
 	UPROPERTY()
 	ALoryHUD* baseHUD;
 
+	//--Custom Delegates-----------------------------------------------------------------------------
+	UFUNCTION()
+	void OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+	UFUNCTION()
+	void OnAnimMontageStarted(UAnimMontage* Montage);
+
 protected:
 
 	//--Components-----------------------------------------------------------------------------------
@@ -68,6 +74,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
 	UQuestSystemComponent* questSystemComp;
 
+	//--Variables-------------------------------------------------------------------------------------
+	
+	//true if Player Can't Move
+	bool bMovementBlock;
 
 	//--User Input------------------------------------------------------------------------------------
 
