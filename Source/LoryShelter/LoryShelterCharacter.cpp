@@ -133,17 +133,17 @@ void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 void ALoryShelterCharacter::OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	bBlockInput = false;
+	bMovementBlock = false;
 }
 
 void ALoryShelterCharacter::OnAnimMontageStarted(UAnimMontage* Montage)
 {
-	bBlockInput = true;
+	bMovementBlock = true;
 }
 
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)
 {
-	if (bBlockInput) return; //Need To Check Where Is Using bBlockInput in Pawn
+	if (bMovementBlock) return; //Need To Check Where Is Using bBlockInput in Pawn
 
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
