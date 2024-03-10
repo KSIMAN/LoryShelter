@@ -10,7 +10,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-
+#include "Logics/QuestSystemComponent.h" //Move To Components Folder Please
+#include "Logics/QuestItem.h"
 #include "UI/LoryHUD.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -21,6 +22,7 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr)
 {
+	//Engine Defaults
 	{
 		// Set size for collision capsule
 		GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -58,6 +60,8 @@ ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr)
 		// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 	}
 	
+	questSystemComp = CreateDefaultSubobject<UQuestSystemComponent>("Quest System Component");
+
 }
 
 void ALoryShelterCharacter::setFocusItem(IInteractionInterface* itemPointer)
@@ -81,6 +85,20 @@ void ALoryShelterCharacter::BeginPlay()
 		baseHUD = Cast<ALoryHUD>(PlayerController->GetHUD());
 		
 	}
+
+	//////////////////////////////////////////////
+	// Move to Quests desc and parse from json
+	UQuestItem* testQuest = NewObject<UQuestItem>(this);
+	testQuest->questName = FName("Fluffy escape");
+	testQuest->questDecr = FText(FText::FromString(TEXT("Return escaped rabbits to the aviary")));
+	questSystemComp->addQuest(testQuest);
+
+	UQuestItem* testQuest2 = NewObject<UQuestItem>(this);
+	testQuest->questName = FName("Barn work");
+	testQuest->questDecr = FText(FText::FromString(TEXT("Load sacks of flour form the barn into the truck at the entrance")));
+	questSystemComp->addQuest(testQuest2);
+
+
 
 	
 }

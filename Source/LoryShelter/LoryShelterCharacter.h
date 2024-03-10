@@ -14,6 +14,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class ALoryHUD;
+class UQuestSystemComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -49,17 +50,27 @@ class ALoryShelterCharacter : public ACharacter
 	UInputAction* LookAction;
 
 
-	//--Interaction Interface---------------------------------------------------------------------------
+	//--Interaction Interface------------------------------------------------------------------------
 
 	IInteractionInterface* interactionItem;
 
-	//--UI Components-----------------------------------------------------------------------------------
+	//--UI Components--------------------------------------------------------------------------------
 
 	//Base HUD for player
 	UPROPERTY()
 	ALoryHUD* baseHUD;
 
 protected:
+
+	//--Components-----------------------------------------------------------------------------------
+	
+	//Quest Component
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
+	UQuestSystemComponent* questSystemComp;
+
+
+	//--User Input------------------------------------------------------------------------------------
+
 
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
@@ -73,10 +84,10 @@ protected:
 	//Called when user unpress Interaction Key (on future)
 	//void BeginInteractItem();
 
-			
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
+
 	// To add mapping context
 	virtual void BeginPlay();
 
@@ -85,8 +96,11 @@ public:
 	ALoryShelterCharacter();
 
 	//--Setters------------------------------------------------------------------------
+
 	//Setting up Pointer on Item, that can be Interacted
 	void setFocusItem(IInteractionInterface* itemPointer);
+
+
 	//--Getters------------------------------------------------------------------------
 
 	//Returns LoryHud pointer
