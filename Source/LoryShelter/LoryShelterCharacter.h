@@ -66,6 +66,13 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	//Called when user press Interaction Key
+	void BeginInteractItem();
+
+	//Called when user unpress Interaction Key (on future)
+	//void BeginInteractItem();
+
 			
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -77,6 +84,9 @@ public:
 	//Default Constructor
 	ALoryShelterCharacter();
 
+	//--Setters------------------------------------------------------------------------
+	//Setting up Pointer on Item, that can be Interacted
+	void setFocusItem(IInteractionInterface* itemPointer);
 	//--Getters------------------------------------------------------------------------
 
 	//Returns LoryHud pointer

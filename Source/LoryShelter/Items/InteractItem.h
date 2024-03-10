@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Animation/AnimMontage.h"
+#include "Sound/SoundCue.h"
 #include "InteractItem.generated.h"
 
 
@@ -57,9 +58,13 @@ protected:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 
-	virtual void beginFocus(ALoryShelterCharacter* playerPtr);
+	//--Interaction Interface------------------------------------------------------------------------------------
 
-	virtual void endFocus(ALoryShelterCharacter* playerPtr);
+	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
+
+	virtual void beginFocus(ALoryShelterCharacter* playerPtr) override;
+
+	virtual void endFocus(ALoryShelterCharacter* playerPtr) override;
 
 	//--SubObjects-----------------------------------------------------------------------------------------------
 	
@@ -70,11 +75,15 @@ protected:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UCapsuleComponent* itemCollider;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FInteractionInfo itemInfo;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Interaction Content")
 	UAnimMontage* interactMontage;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	FInteractionInfo itemInfo;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Interaction Content")
+	USoundCue* interactSound;
+
 
 
 

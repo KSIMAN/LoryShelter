@@ -9,3 +9,8 @@ AContainerItem::AContainerItem() : AInteractItem(), isEmpty(true)
 	itemInfo.interactKey = FString(TEXT("F"));
 	itemInfo.itemName = FName(TEXT("Box"));
 }
+
+void AContainerItem::BeginPlay()
+{
+	Super::BeginPlay();
+}

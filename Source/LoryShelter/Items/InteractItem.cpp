@@ -3,6 +3,7 @@
 
 #include "InteractItem.h"
 #include "../LoryShelterCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "../UI/LoryHUD.h" //Bad idea, need to be removed later
 
 // Sets default values
@@ -12,6 +13,8 @@ AInteractItem::AInteractItem()
 	PrimaryActorTick.bCanEverTick = true;
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("Item Mesh");
 	itemCollider = CreateDefaultSubobject<UCapsuleComponent>("Item Interact Collider");
+	interactMontage = CreateDefaultSubobject<UAnimMontage>("Interaction Anim Montage");
+	interactSound = CreateDefaultSubobject<USoundCue>("Interaction Sound Cue");
 
 	itemCollider->SetupAttachment(itemMesh);
 }
@@ -39,13 +42,30 @@ void AInteractItem::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActo
 		endFocus(loryPlayer);
 }
 
+void AInteractItem::Interact(ALoryShelterCharacter* playerPtr)
+{
+	if (!playerPtr)
+		return;
+	playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
+	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
+
+}
+
 void AInteractItem::beginFocus(ALoryShelterCharacter* playerPtr)
 {
+	if (!playerPtr)
+		return;
+
+	playerPtr->setFocusItem(this);
 	playerPtr->getPlayerHUD()->showAliasInteract(itemInfo);
 }
 
 void AInteractItem::endFocus(ALoryShelterCharacter* playerPtr)
 {
+	if (!playerPtr)
+		return;
+
+	playerPtr->setFocusItem(nullptr);
 	playerPtr->getPlayerHUD()->hideAliasInteract();
 }
 

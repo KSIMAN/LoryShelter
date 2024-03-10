@@ -60,6 +60,11 @@ ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr)
 	
 }
 
+void ALoryShelterCharacter::setFocusItem(IInteractionInterface* itemPointer)
+{
+	interactionItem = itemPointer; //We don't mind if its nullptr
+}
+
 void ALoryShelterCharacter::BeginPlay()
 {
 	// Call the base class  
@@ -87,6 +92,9 @@ void ALoryShelterCharacter::BeginPlay()
 void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
+
+	PlayerInputComponent->BindAction("Interaction", EInputEvent::IE_Pressed, this, &ALoryShelterCharacter::BeginInteractItem);
+
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
@@ -139,4 +147,13 @@ void ALoryShelterCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ALoryShelterCharacter::BeginInteractItem()
+{
+	if (!interactionItem)
+		return; //Nothing to Interact With
+
+	//interactionItem->beginInteract(this); (on future)
+	interactionItem->Interact(this);
 }
