@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/InteractionInterface.h"
 #include "Logging/LogMacros.h"
 #include "LoryShelterCharacter.generated.h"
 
@@ -12,6 +13,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class ALoryHUD;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -19,6 +21,8 @@ UCLASS(config=Game)
 class ALoryShelterCharacter : public ACharacter
 {
 	GENERATED_BODY()
+
+	//--Engine Defaults-----------------------------------------------
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -44,9 +48,16 @@ class ALoryShelterCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
-public:
-	ALoryShelterCharacter();
-	
+
+	//--Interaction Interface---------------------------------------------------------------------------
+
+	IInteractionInterface* interactionItem;
+
+	//--UI Components-----------------------------------------------------------------------------------
+
+	//Base HUD for player
+	UPROPERTY()
+	ALoryHUD* baseHUD;
 
 protected:
 
@@ -56,8 +67,6 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			
-
-protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
@@ -65,9 +74,18 @@ protected:
 	virtual void BeginPlay();
 
 public:
-	/** Returns CameraBoom subobject **/
+	//Default Constructor
+	ALoryShelterCharacter();
+
+	//--Getters------------------------------------------------------------------------
+
+	//Returns LoryHud pointer
+	ALoryHUD* getPlayerHUD() const { return baseHUD; };
+
+	// Returns CameraBoom subobject
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
+
+	// Returns FollowCamera subobject 
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
 

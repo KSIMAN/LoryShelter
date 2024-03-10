@@ -7,7 +7,7 @@
 #include "InteractionInterface.generated.h"
 
 // This class does not need to be modified.
-
+class ALoryShelterCharacter;
 
 UINTERFACE(MinimalAPI)
 class UInteractionInterface : public UInterface
@@ -25,14 +25,14 @@ class LORYSHELTER_API IInteractionInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	virtual void beginFocus();
+	virtual void beginFocus(ALoryShelterCharacter* playerPtr);
 
-	virtual void endFocus();
+	virtual void endFocus(ALoryShelterCharacter* playerPtr);
 
-	virtual void beginInteract();
+	virtual void beginInteract(ALoryShelterCharacter* playerPtr);
 
-	virtual void endInteract();
+	virtual void endInteract(ALoryShelterCharacter* playerPtr);
 
-	virtual void Interact();
+	virtual void Interact(ALoryShelterCharacter* playerPtr);
 
 };
