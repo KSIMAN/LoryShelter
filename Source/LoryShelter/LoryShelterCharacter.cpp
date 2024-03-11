@@ -210,12 +210,46 @@ uint8 ALoryShelterCharacter::putDownItem(AActor* item)
 
 uint8 ALoryShelterCharacter::sitDownToItem(const FVector& sittingPoint)
 {
-	return uint8();
+	if (!animInstance)
+		return -1;
+
+	SetActorLocation(sittingPoint);
+	bMovementBlock = true;
+	animInstance->setMovementType(EMovementType::SITTING);
+	return 0;
+
 }
 
-uint8 ALoryShelterCharacter::sitUpFromItem(const FVector& sittingPoint)
+uint8 ALoryShelterCharacter::sitUpFromItem()
 {
-	return uint8();
+	if (!animInstance)
+		return -1;
+
+	//Find point  to put down remove dubbles later
+	FVector groundPoint;
+
+	float putDistance = 20;
+	float bottomMax = 100;
+
+	FVector vTraceStart{ GetActorLocation() + GetActorForwardVector() * putDistance };
+	FVector vTraceEnd{ vTraceStart - FVector(0,0, bottomMax) };
+
+	FCollisionQueryParams queryParams;
+	queryParams.AddIgnoredActor(this);
+	FHitResult traceHit;
+
+	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECollisionChannel::ECC_Visibility, queryParams))
+	{
+		groundPoint = traceHit.ImpactPoint;
+	}
+	else
+		return -1;
+
+	SetActorLocation(groundPoint);
+	bMovementBlock = false;
+	animInstance->setMovementType(EMovementType::DEFAULT);
+
+	return 0;
 }
 
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)

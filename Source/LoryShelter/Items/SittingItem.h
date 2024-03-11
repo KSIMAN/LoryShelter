@@ -39,6 +39,7 @@ protected:
 
 	//-----------------------------------
 
+	//returns center point of sitting item
 	FVector findSeatPoint();
 
 };

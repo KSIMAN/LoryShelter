@@ -123,7 +123,7 @@ public:
 	uint8 sitDownToItem(const FVector& sittingPoint);
 
 	//Sitting Up
-	uint8 sitUpFromItem(const FVector& sittingPoint);
+	uint8 sitUpFromItem();
 
 	//--Setters------------------------------------------------------------------------
 

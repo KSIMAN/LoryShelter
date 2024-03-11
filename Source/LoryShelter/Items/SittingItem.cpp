@@ -29,14 +29,14 @@ void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
 	uint8 interState; //State of interaction 0 - SUCCESS
 	if (isBusy)
 	{
-		if(playerPtr->GetMesh()->)
-		interState = playerPtr->putDownItem(this);
+		interState = playerPtr->sitUpFromItem();
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 	else
 	{
+		FVector pointForSeat = findSeatPoint();
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		interState = playerPtr->pickUpForDragging(this);
+		interState = playerPtr->sitDownToItem(pointForSeat);
 	}
 
 
@@ -46,7 +46,7 @@ void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
 		return;
 	}
 
-	toggleIsRaised();
+	toggleIsBusy();
 
 	//Move to Refocus function
 
@@ -56,5 +56,9 @@ void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
 
 FVector ASittingItem::findSeatPoint()
 {
-	return FVector();
+	FVector seatPoint;
+
+	seatPoint = getMesh()->GetComponentLocation(); // Replace by linetrace on surface center
+
+	return seatPoint;
 }
