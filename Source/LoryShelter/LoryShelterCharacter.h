@@ -16,6 +16,7 @@ struct FInputActionValue;
 class ALoryHUD;
 class UQuestSystemComponent;
 
+
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
@@ -49,6 +50,9 @@ class ALoryShelterCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	//Custom Anim Instance Ptr
+	class ULoryAnimInstance* animInstance;
+
 
 	//--Interaction Interface------------------------------------------------------------------------
 
@@ -65,6 +69,8 @@ class ALoryShelterCharacter : public ACharacter
 	void OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 	UFUNCTION()
 	void OnAnimMontageStarted(UAnimMontage* Montage);
+
+
 
 protected:
 
@@ -104,6 +110,12 @@ protected:
 public:
 	//Default Constructor
 	ALoryShelterCharacter();
+
+	//--Action Logic Callbacks-----------------------------------------------------------------------
+
+	//Picks Up Item To drag return state 
+	uint8 pickUpForDragging(AActor* item);
+
 
 	//--Setters------------------------------------------------------------------------
 

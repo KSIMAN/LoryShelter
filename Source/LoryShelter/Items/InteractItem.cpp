@@ -48,6 +48,7 @@ void AInteractItem::Interact(ALoryShelterCharacter* playerPtr)
 		return;
 	playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
 	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
+	playerPtr->pickUpForDragging(this);
 
 }
 

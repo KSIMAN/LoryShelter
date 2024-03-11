@@ -13,6 +13,7 @@
 #include "Logics/QuestSystemComponent.h" //Move To Components Folder Please
 #include "Logics/QuestItem.h"
 #include "UI/LoryHUD.h"
+#include "Animations/LoryAnimInstance.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -101,6 +102,8 @@ void ALoryShelterCharacter::BeginPlay()
 	GetMesh()->GetAnimInstance()->OnMontageStarted.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageStarted);
 	GetMesh()->GetAnimInstance()->OnMontageEnded.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageEnded);
 	
+	animInstance = Cast<ULoryAnimInstance>(GetMesh()->GetAnimInstance());
+
 }
 
 
@@ -139,6 +142,17 @@ void ALoryShelterCharacter::OnAnimMontageEnded(UAnimMontage* Montage, bool bInte
 void ALoryShelterCharacter::OnAnimMontageStarted(UAnimMontage* Montage)
 {
 	bMovementBlock = true;
+}
+
+uint8 ALoryShelterCharacter::pickUpForDragging(AActor* item)
+{
+	if (!animInstance)
+		return -1;
+
+	animInstance->setMovementType(EMovementType::CARRY);
+	//Change Actor Location
+	item->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	return 0;
 }
 
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)
