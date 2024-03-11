@@ -46,10 +46,24 @@ void AInteractItem::Interact(ALoryShelterCharacter* playerPtr)
 {
 	if (!playerPtr)
 		return;
+	//By default We Watching Item
 	playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
 	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
-	playerPtr->pickUpForDragging(this);
 
+
+}
+
+void AInteractItem::beginInteract(ALoryShelterCharacter* playerPtr)
+{
+	//CreateTimer
+	// 
+	//if elapsed endInteract
+}
+
+void AInteractItem::endInteract(ALoryShelterCharacter* playerPtr)
+{
+	//if isInteracting
+	//Stop Interaction (threadSafe please)
 }
 
 void AInteractItem::beginFocus(ALoryShelterCharacter* playerPtr)

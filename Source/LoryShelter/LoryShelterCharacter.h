@@ -111,11 +111,19 @@ public:
 	//Default Constructor
 	ALoryShelterCharacter();
 
-	//--Action Logic Callbacks-----------------------------------------------------------------------
+	//--Actions Logic Callbacks-----------------------------------------------------------------------
 
 	//Picks Up Item To drag return state 
 	uint8 pickUpForDragging(AActor* item);
 
+	//Puts Down Item  return state 
+	uint8 putDownItem(AActor* item);
+	
+	//Sitting Down
+	uint8 sitDownToItem(const FVector& sittingPoint);
+
+	//Sitting Up
+	uint8 sitUpFromItem(const FVector& sittingPoint);
 
 	//--Setters------------------------------------------------------------------------
 

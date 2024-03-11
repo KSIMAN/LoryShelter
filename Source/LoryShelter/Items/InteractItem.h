@@ -25,8 +25,12 @@ struct FInteractionInfo
 	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
 	FString interactAlias;
 
+	//Key For Interaction. Maybe Deprecated
 	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
 	FString interactKey;
+
+	//Duration of interaction in seconds
+	int interactDuration;
 
 };
 
@@ -43,6 +47,8 @@ public:
 	// 
 	//returns AnimMontage for Interaction
 	UAnimMontage* getInteractMontage() { return interactMontage; };
+
+	UStaticMeshComponent* getMesh() { return itemMesh; };
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,6 +67,10 @@ protected:
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
+
+	virtual void beginInteract(ALoryShelterCharacter* playerPtr) override;
+
+	virtual void endInteract(ALoryShelterCharacter* playerPtr) override;
 
 	virtual void beginFocus(ALoryShelterCharacter* playerPtr) override;
 

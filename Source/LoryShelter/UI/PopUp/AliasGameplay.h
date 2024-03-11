@@ -33,6 +33,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* AliasText;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* NameText;
+
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	//UProgressBar* interactProgBar; On Future
 

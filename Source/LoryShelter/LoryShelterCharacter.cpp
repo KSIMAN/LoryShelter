@@ -14,6 +14,7 @@
 #include "Logics/QuestItem.h"
 #include "UI/LoryHUD.h"
 #include "Animations/LoryAnimInstance.h"
+#include "Engine/SkeletalMeshSocket.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -67,6 +68,8 @@ ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr), bMove
 
 void ALoryShelterCharacter::setFocusItem(IInteractionInterface* itemPointer)
 {
+	if (interactionItem && itemPointer) //if has focus item 
+		return;
 	interactionItem = itemPointer; //We don't mind if its nullptr
 }
 
@@ -150,9 +153,69 @@ uint8 ALoryShelterCharacter::pickUpForDragging(AActor* item)
 		return -1;
 
 	animInstance->setMovementType(EMovementType::CARRY);
+
+	//Move to class Members later
+	const USkeletalMeshSocket* rhSocket = GetMesh()->GetSocketByName(FName("RHSocket"));
+	const USkeletalMeshSocket* lhSocket = GetMesh()->GetSocketByName(FName("LHSocket"));
+
+	if (!rhSocket || !lhSocket)
+		return -1;
+
+	FVector lhLoc = lhSocket->GetSocketLocation(GetMesh()); 
+	FVector rhLoc = rhSocket->GetSocketLocation(GetMesh());
+
+	FVector betwHandsLoc = lhLoc + GetActorRightVector() * FVector::DistXY(rhLoc, rhLoc) / 2; //Center Location between hands
+	item->SetActorLocation(betwHandsLoc);
+	item->SetActorRotation(GetControlRotation());
+	item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("RHSocket"));
 	//Change Actor Location
-	item->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	//item->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	return 0;
+}
+
+uint8 ALoryShelterCharacter::putDownItem(AActor* item)
+{
+	if (!animInstance)
+		return -1;
+
+	//Find point  to put down
+	FVector groundPoint;
+
+	float putDistance = 5;
+	float bottomMax = 100;
+
+	FVector vTraceStart{ GetActorLocation() + GetActorForwardVector() * putDistance };
+	FVector vTraceEnd{ vTraceStart - FVector(0,0, bottomMax)};
+
+	FCollisionQueryParams queryParams;
+	queryParams.AddIgnoredActor(this);
+	FHitResult traceHit;
+
+	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECollisionChannel::ECC_Visibility, queryParams))
+	{
+		groundPoint = traceHit.ImpactPoint;
+	}
+	else
+		return -1;
+
+	animInstance->setMovementType(EMovementType::DEFAULT);
+	//Change Actor Location
+	item->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+	//Change actor location
+	item->SetActorLocation(groundPoint);
+
+	return 0;
+}
+
+uint8 ALoryShelterCharacter::sitDownToItem(const FVector& sittingPoint)
+{
+	return uint8();
+}
+
+uint8 ALoryShelterCharacter::sitUpFromItem(const FVector& sittingPoint)
+{
+	return uint8();
 }
 
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)

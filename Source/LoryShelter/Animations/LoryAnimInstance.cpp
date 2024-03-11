@@ -3,4 +3,8 @@
 
 #include "LoryAnimInstance.h"
 
-
+void ULoryAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeUpdateAnimation(DeltaSeconds);
+	velocity = GetOwningActor()->GetVelocity().Length();
+}
