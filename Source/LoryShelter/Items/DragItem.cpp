@@ -4,7 +4,7 @@
 #include "DragItem.h"
 #include "../LoryShelterCharacter.h"
 
-ADragItem::ADragItem() : AInteractItem(), isRaised(false)
+ADragItem::ADragItem() : AInteractItem()
 {
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("BOX"));
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP"));
@@ -12,20 +12,10 @@ ADragItem::ADragItem() : AInteractItem(), isRaised(false)
 	
 }
 
-void ADragItem::toggleIsRaised()
-{
-	isRaised = !isRaised;
-
-	if(isRaised)
-		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_DOWN"));
-	else 
-		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP"));
-}
-
 void ADragItem::Interact(ALoryShelterCharacter* playerPtr)
 {
 	uint8 interState; //State of interaction 0 - SUCCESS
-	if (isRaised)
+	if (bItemUsed)
 	{
 		interState = playerPtr->putDownItem(this);
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
@@ -43,7 +33,7 @@ void ADragItem::Interact(ALoryShelterCharacter* playerPtr)
 		return;
 	}
 
-	toggleIsRaised();
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("PUT_DOWN")), FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP")));
 	
 	//Move to Refocus function
 

@@ -4,30 +4,19 @@
 #include "SittingItem.h"
 #include "../LoryShelterCharacter.h"
 
-ASittingItem::ASittingItem() : isBusy(false)
+ASittingItem::ASittingItem()
 {
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("STOOL"));
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN"));
 	itemInfo.interactDuration = 1;
 }
 
-//Remove Code Dubble  with Drag Item later
-void ASittingItem::toggleIsBusy()
-{
-	
-	isBusy = !isBusy;
-
-	if (isBusy)
-		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_UP"));
-	else
-		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN"));
-}
 
 //Remove Code Dubble  with Drag Item Item later
 void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
 {
 	uint8 interState; //State of interaction 0 - SUCCESS
-	if (isBusy)
+	if (bItemUsed)
 	{
 		interState = playerPtr->sitUpFromItem();
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
@@ -46,7 +35,7 @@ void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
 		return;
 	}
 
-	toggleIsBusy();
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("SIT_UP")), FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN")));
 
 	//Move to Refocus function
 

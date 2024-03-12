@@ -17,25 +17,12 @@ public:
 
 	ASittingItem();
 
-	//--Getters------------------------------------------
-
-	bool getIsBusy() const { return isBusy; };
-
-	//--Setters------------------------------------------
-
-	void toggleIsBusy();
-
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
 
 
 protected:
-
-	//--Variables----------------------------------------
-
-	//is Raised
-	bool isBusy;
 
 	//-----------------------------------
 

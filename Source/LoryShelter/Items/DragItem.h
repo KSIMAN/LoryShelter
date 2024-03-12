@@ -17,24 +17,8 @@ public:
 
 	ADragItem();
 
-	//--Getters------------------------------------------
-
-	bool getIsRaised() const { return isRaised; };
-
-	//--Setters------------------------------------------
-
-	void toggleIsRaised();
-
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
 
-
-protected:
-
-	//--Variables----------------------------------------
-
-
-	//is Raised
-	bool isRaised;
 };

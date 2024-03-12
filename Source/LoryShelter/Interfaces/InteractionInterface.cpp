@@ -5,6 +5,15 @@
 
 // Add default functionality here for any IInteractionInterface functions that are not pure virtual.
 
+void IInteractionInterface::ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias)
+{
+	bItemUsed = !bItemUsed;
+	if (bItemUsed)
+		itemInfo.interactAlias = itemUsedAlias;
+	else
+		itemInfo.interactAlias = itemNotUsedAlias;
+}
+
 void IInteractionInterface::beginFocus(ALoryShelterCharacter* playerPtr)
 {
 	//When player is near

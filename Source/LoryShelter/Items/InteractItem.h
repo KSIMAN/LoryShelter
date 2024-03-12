@@ -12,27 +12,6 @@
 #include "InteractItem.generated.h"
 
 
-USTRUCT(BlueprintType)
-struct FInteractionInfo
-{
-	GENERATED_USTRUCT_BODY()
-
-	//Item name
-	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
-	FText itemName;
-
-	//Alias to show before interacting
-	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
-	FText interactAlias;
-
-	//Key For Interaction. Maybe Deprecated
-	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
-	FText interactKey;
-
-	//Duration of interaction in seconds
-	int interactDuration;
-
-};
 
 UCLASS()
 class LORYSHELTER_API AInteractItem : public AActor, public IInteractionInterface
@@ -84,9 +63,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UCapsuleComponent* itemCollider;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FInteractionInfo itemInfo;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Interaction Content")
 	UAnimMontage* interactMontage;
