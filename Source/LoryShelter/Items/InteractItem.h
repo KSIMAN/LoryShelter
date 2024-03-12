@@ -19,15 +19,15 @@ struct FInteractionInfo
 
 	//Item name
 	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
-	FName itemName;
+	FText itemName;
 
 	//Alias to show before interacting
 	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
-	FString interactAlias;
+	FText interactAlias;
 
 	//Key For Interaction. Maybe Deprecated
 	UPROPERTY(EditDefaultsOnly, Category = "Item Info")
-	FString interactKey;
+	FText interactKey;
 
 	//Duration of interaction in seconds
 	int interactDuration;

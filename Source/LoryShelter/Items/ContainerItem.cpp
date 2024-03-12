@@ -5,9 +5,8 @@
 
 AContainerItem::AContainerItem() : AInteractItem(), isEmpty(true)
 {
-	itemInfo.interactAlias = FString(TEXT("Check Item"));
-	itemInfo.interactKey = FString(TEXT("F"));
-	itemInfo.itemName = FName(TEXT("Box"));
+	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("CHECK"));;
+	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("BOX"));;
 }
 
 void AContainerItem::BeginPlay()

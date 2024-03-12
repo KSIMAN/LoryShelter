@@ -1,0 +1,141 @@
+﻿# Game Russian translation.
+# Fill out your copyright notice in the Description page of Project Settings.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Game\n"
+"POT-Creation-Date: 2024-03-12 10:43\n"
+"PO-Revision-Date: 2024-03-12 10:43\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Key:	HARVEST
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,HARVEST"
+msgid "Harvest"
+msgstr "Собрать Урожай"
+
+#. Key:	INSPECT
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,INSPECT"
+msgid "Inspect"
+msgstr "Осмотреть"
+
+#. Key:	PLANT
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,PLANT"
+msgid "Plant"
+msgstr "Засеять"
+
+#. Key:	PUT_DOWN
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,PUT_DOWN"
+msgid "Put Down"
+msgstr "Положить"
+
+#. Key:	PUT_UP
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,PUT_UP"
+msgid "Put up"
+msgstr "Поднять"
+
+#. Key:	SIT_DOWN
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,SIT_DOWN"
+msgid "Sit Down"
+msgstr "Присесть"
+
+#. Key:	SIT_UP
+#. SourceLocation:	/Game/UI/StringTables/ActionsST.ActionsST
+#: /Game/UI/StringTables/ActionsST.ActionsST
+msgctxt "ActionsST,SIT_UP"
+msgid "Sit Up"
+msgstr "Встать"
+
+#. Key:	ACTIONPRESS
+#. SourceLocation:	/Game/UI/StringTables/GameplayST.GameplayST
+#: /Game/UI/StringTables/GameplayST.GameplayST
+msgctxt "Gameplay,ACTIONPRESS"
+msgid "Press [F] to"
+msgstr "Нажмите [F] чтобы "
+
+#. Key:	CONTINUE
+#. SourceLocation:	/Game/UI/StringTables/GameplayST.GameplayST
+#: /Game/UI/StringTables/GameplayST.GameplayST
+msgctxt "Gameplay,CONTINUE"
+msgid "Continue"
+msgstr "Продолжить"
+
+#. Key:	PLAY
+#. SourceLocation:	/Game/UI/StringTables/GameplayST.GameplayST
+#: /Game/UI/StringTables/GameplayST.GameplayST
+msgctxt "Gameplay,PLAY"
+msgid "Play"
+msgstr "Играть"
+
+#. Key:	QUEST_PANEL
+#. SourceLocation:	/Game/UI/StringTables/GameplayST.GameplayST
+#: /Game/UI/StringTables/GameplayST.GameplayST
+msgctxt "Gameplay,QUEST_PANEL"
+msgid "Quest Panel"
+msgstr "Задания"
+
+#. Key:	QUIT
+#. SourceLocation:	/Game/UI/StringTables/GameplayST.GameplayST
+#: /Game/UI/StringTables/GameplayST.GameplayST
+msgctxt "Gameplay,QUIT"
+msgid "Quit"
+msgstr "Выйти из игры"
+
+#. Key:	SETTINGS
+#. SourceLocation:	/Game/UI/StringTables/GameplayST.GameplayST
+#: /Game/UI/StringTables/GameplayST.GameplayST
+msgctxt "Gameplay,SETTINGS"
+msgid "Settings"
+msgstr "Настройки"
+
+#. Key:	BOX
+#. SourceLocation:	/Game/UI/StringTables/ItemsST.ItemsST
+#: /Game/UI/StringTables/ItemsST.ItemsST
+msgctxt "ItemsST,BOX"
+msgid "Box"
+msgstr "Ящик"
+
+#. Key:	SEEDBED
+#. SourceLocation:	/Game/UI/StringTables/ItemsST.ItemsST
+#: /Game/UI/StringTables/ItemsST.ItemsST
+msgctxt "ItemsST,SEEDBED"
+msgid "Seed Bed"
+msgstr "Грядка"
+
+#. Key:	SEEDS
+#. SourceLocation:	/Game/UI/StringTables/ItemsST.ItemsST
+#: /Game/UI/StringTables/ItemsST.ItemsST
+msgctxt "ItemsST,SEEDS"
+msgid "Seeds"
+msgstr "Семена"
+
+#. Key:	STOOL
+#. SourceLocation:	/Game/UI/StringTables/ItemsST.ItemsST
+#: /Game/UI/StringTables/ItemsST.ItemsST
+msgctxt "ItemsST,STOOL"
+msgid "Stool"
+msgstr "Табуретка"
+
+#. Key:	WHEEL
+#. SourceLocation:	/Game/UI/StringTables/ItemsST.ItemsST
+#: /Game/UI/StringTables/ItemsST.ItemsST
+msgctxt "ItemsST,WHEEL"
+msgid "Wheel"
+msgstr "Колесо"
+

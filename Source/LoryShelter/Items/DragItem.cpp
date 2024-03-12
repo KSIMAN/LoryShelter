@@ -6,8 +6,8 @@
 
 ADragItem::ADragItem() : AInteractItem(), isRaised(false)
 {
-	itemInfo.itemName = FName(TEXT("Drag Item"));
-	itemInfo.interactAlias = FString(TEXT("Raise"));
+	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("BOX"));
+	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP"));
 	itemInfo.interactDuration = 1;
 	
 }
@@ -17,9 +17,9 @@ void ADragItem::toggleIsRaised()
 	isRaised = !isRaised;
 
 	if(isRaised)
-		itemInfo.interactAlias = FString(TEXT("Put Down"));
+		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_DOWN"));
 	else 
-		itemInfo.interactAlias = FString(TEXT("Raise"));
+		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP"));
 }
 
 void ADragItem::Interact(ALoryShelterCharacter* playerPtr)

@@ -6,8 +6,8 @@
 
 ASittingItem::ASittingItem() : isBusy(false)
 {
-	itemInfo.itemName = FName(TEXT("Sitting Item"));
-	itemInfo.interactAlias = FString(TEXT("Sit Down"));
+	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("STOOL"));
+	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN"));
 	itemInfo.interactDuration = 1;
 }
 
@@ -18,9 +18,9 @@ void ASittingItem::toggleIsBusy()
 	isBusy = !isBusy;
 
 	if (isBusy)
-		itemInfo.interactAlias = FString(TEXT("Get Up"));
+		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_UP"));
 	else
-		itemInfo.interactAlias = FString(TEXT("Sit Down"));
+		itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN"));
 }
 
 //Remove Code Dubble  with Drag Item Item later
