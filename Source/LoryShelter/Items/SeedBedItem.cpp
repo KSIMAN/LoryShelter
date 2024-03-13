@@ -2,6 +2,7 @@
 
 
 #include "SeedBedItem.h"
+#include "../UI/PlantWidgets/SeedbedSelectorWidget.h"
 #include "Plant.h"
 
 
@@ -25,11 +26,15 @@ void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
 {
 	Super::Interact(playerPtr);
 
+
+	//USeedbedSelectorWidget* selectorWidget = CreateWidget<USeedbedSelectorWidget>(GetWorld(), selectorWidSubclass);
+	//aliasWidget->AddToViewport(999);
+	//aliasWidget->SetVisibility(ESlateVisibility::Visible);
 	//While SeedBed Selector not ready
-	if (!plantType) return;
-	plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
+	//if (!plantType) return;
+	//plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
 	
-	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
+	//ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
 	//
 	if (!plantSlot)
 		return;
