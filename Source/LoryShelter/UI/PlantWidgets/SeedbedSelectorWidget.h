@@ -9,15 +9,29 @@
 /**
  * 
  */
+class USeedCardWidget;
+class ASeedBedItem;
+class APlant;
+
+
 UCLASS()
 class LORYSHELTER_API USeedbedSelectorWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
-	//TArray<SeedCardWidget>
+protected:
 
-	//SeedBedItemPtr
+	//Seedcards that will be shown 
+	UPROPERTY(EditAnywhere, BlueprintReadwrite)
+	TArray<USeedCardWidget*> itemsToShow;
 
-	//TSubclassOf<APlant>
-	
+	//Ownet item Ptr
+	ASeedBedItem* ownerItem;
+
+public:
+
+	void setSeedBedOwner(ASeedBedItem* selectorItem);
+
+	void OnItemSelected(const TSubclassOf<APlant>& selectedPlant);
+
 };

@@ -17,7 +17,7 @@ class APlant;
 
 
 USTRUCT(BlueprintType)
-struct FSeedCardInfo
+struct FSeedCardInfo : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -54,8 +54,11 @@ public:
 
 protected:
 
+
+	//--UI Components-----------------------------------------------
+	
 	//Properties of seed
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FSeedCardInfo itemInfo;
 
 	//Button of trying to plant seed
@@ -79,6 +82,16 @@ protected:
 
 	//
 	FColor errorColor;
+
+	//--Pointers on owners----------------------
+
+
+
+	//--Dynamic Delegates------------------------
+	
+	//
+	UFUNCTION()
+	void onClickPlantSeedButton();
 
 	//--Native Events----------------------------
 

@@ -7,13 +7,41 @@
 
 
 
+
 ASeedBedItem::ASeedBedItem() : AInteractItem()
 {
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("SEEDBED"));
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PLANT"));
 	itemInfo.interactDuration = 3;
+}
 
-	
+bool ASeedBedItem::addPlantToSlot(APlant* newPlant)
+{
+	if (plantSlot)
+		return false; //Slot is Busy
+
+	plantSlot = newPlant;
+
+	return true;
+}
+
+bool ASeedBedItem::addPlantToSlot(const TSubclassOf<APlant>& newPlantClass)
+{
+	if (plantSlot)
+		return false; //Slot is Busy
+
+	return addPlantToSlot(Cast<APlant>(GetWorld()->SpawnActor(newPlantClass.Get(), &GetActorTransform())));
+}
+
+APlant* ASeedBedItem::freePlantSlot()
+{
+	//need to throw exeption if plantSlot == nullptr on func entry
+
+	APlant* returnVal = nullptr;
+
+	Swap(plantSlot, returnVal);
+
+	return returnVal;
 }
 
 void ASeedBedItem::beginInteract(ALoryShelterCharacter* playerPtr)
@@ -26,10 +54,14 @@ void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
 {
 	Super::Interact(playerPtr);
 
+	if (!selectorWidgetClass)
+		return;
 
-	//USeedbedSelectorWidget* selectorWidget = CreateWidget<USeedbedSelectorWidget>(GetWorld(), selectorWidSubclass);
-	//aliasWidget->AddToViewport(999);
-	//aliasWidget->SetVisibility(ESlateVisibility::Visible);
+	USeedbedSelectorWidget* selectorWidget = CreateWidget<USeedbedSelectorWidget>(GetWorld(), selectorWidgetClass);
+	selectorWidget->AddToViewport(1000);
+	selectorWidget->SetVisibility(ESlateVisibility::Visible);
+	selectorWidget->setSeedBedOwner(this);
+
 	//While SeedBed Selector not ready
 	//if (!plantType) return;
 	//plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
