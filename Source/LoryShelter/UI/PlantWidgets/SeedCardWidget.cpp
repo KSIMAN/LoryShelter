@@ -3,29 +3,33 @@
 
 #include "SeedCardWidget.h"
 #include "../../Items/Plant.h"
+#include "Blueprint/WidgetTree.h"
+#include "SeedbedSelectorWidget.h"
+#include "SeedbedSelectorWidget.h"
 
+
+void USeedCardWidget::setSelectorOwner(USeedbedSelectorWidget* owner)
+{
+	ownerSelector = owner; 
+}
 
 USeedCardWidget::USeedCardWidget(const FObjectInitializer& ObjectInitializer) : UUserWidget(ObjectInitializer)
 {
-}
-void USeedCardWidget::refreshReference(const FSeedCardInfo& newInfo)
-{
-	//itemInfo = newInfo;
-
 }
 
 void USeedCardWidget::refreshWidgetInfo()
 {
 	seedPriceText->SetText(FText::AsNumber(itemInfo.seedPrice));
 	seedNameText->SetText(itemInfo.seedName);
+	seedDescText->SetText(itemInfo.seedDesc);
 }
 
 void USeedCardWidget::onClickPlantSeedButton()
 {
-	if (!itemInfo.plantClass)
+	if (!itemInfo.plantClass || !ownerSelector)
 		return;
 
-
+	ownerSelector->OnItemSelected(itemInfo.plantClass);
 
 }
 
@@ -33,7 +37,7 @@ void USeedCardWidget::NativeOnInitialized()
 {
 	UUserWidget::NativeOnInitialized();
 	plantSeedButton->OnClicked.AddDynamic(this, &USeedCardWidget::onClickPlantSeedButton);
-	
+	refreshWidgetInfo();
 }
 
 

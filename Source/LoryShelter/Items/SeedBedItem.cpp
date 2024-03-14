@@ -22,6 +22,8 @@ bool ASeedBedItem::addPlantToSlot(APlant* newPlant)
 
 	plantSlot = newPlant;
 
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
+
 	return true;
 }
 
@@ -40,6 +42,8 @@ APlant* ASeedBedItem::freePlantSlot()
 	APlant* returnVal = nullptr;
 
 	Swap(plantSlot, returnVal);
+
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
 
 	return returnVal;
 }
@@ -66,7 +70,7 @@ void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
 	//if (!plantType) return;
 	//plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
 	
-	//ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
+	//
 	//
 	if (!plantSlot)
 		return;

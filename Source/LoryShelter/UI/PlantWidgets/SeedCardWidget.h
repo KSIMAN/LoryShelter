@@ -14,7 +14,7 @@
  * 
  */
 class APlant;
-
+class USeedbedSelectorWidget;
 
 USTRUCT(BlueprintType)
 struct FSeedCardInfo : public FTableRowBase
@@ -22,19 +22,24 @@ struct FSeedCardInfo : public FTableRowBase
 	GENERATED_USTRUCT_BODY()
 
 	FSeedCardInfo() {};
+
 	//Name of plant
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FText seedName;
 
 	//Plant description 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FText seedDesc;
 
 	//Price to plant this seed in coins
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	int seedPrice; 
 
 	//
 	//UTexture2D seedImage;
 
 	//
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	TSubclassOf<APlant> plantClass;
 };
 
@@ -42,13 +47,13 @@ UCLASS()
 class LORYSHELTER_API USeedCardWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
-	//Maybe deprecated. 
-	void refreshReference(const FSeedCardInfo& newInfo);
 
 public:
 	//Refresh by class member reference
 	void refreshWidgetInfo();
+
+	//Setting up widget selector
+	void setSelectorOwner(USeedbedSelectorWidget* owner);
 
 	USeedCardWidget(const FObjectInitializer& ObjectInitializer);
 
@@ -83,9 +88,10 @@ protected:
 	//
 	FColor errorColor;
 
-	//--Pointers on owners----------------------
+	//---------------------------------------------
 
-
+	//Owmer Selector Pointer
+	USeedbedSelectorWidget* ownerSelector;
 
 	//--Dynamic Delegates------------------------
 	

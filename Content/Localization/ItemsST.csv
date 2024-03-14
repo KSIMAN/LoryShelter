@@ -1,6 +1,19 @@
 Key,SourceString
-"SEEDBED","Seed Bed"
-"SEEDS","Seeds"
+
+##FURNITURE###########
+
 "STOOL","Stool"
 "BOX","Box"
 "WHEEL","Wheel"
+"BED", "Bed"
+
+##Planting############
+
+"SEEDBED","Seed Bed"
+"SEEDS","Seeds"
+
+######Plants##########
+
+"CARROT","Carrot"
+"BEET","Beetroot"
+"RYE","Rye"

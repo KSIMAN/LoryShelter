@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/WrapBox.h"
 #include "SeedbedSelectorWidget.generated.h"
 
 /**
@@ -23,10 +24,24 @@ protected:
 
 	//Seedcards that will be shown 
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
-	TArray<USeedCardWidget*> itemsToShow;
+	TArray<TSubclassOf<USeedCardWidget>> itemsToShowClasses;
+
+	//Seed cards Wrap Box
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	UWrapBox* seedCardsHolder;
 
 	//Ownet item Ptr
 	ASeedBedItem* ownerItem;
+	
+	void refreshSeedCards();
+
+	//
+	virtual void NativeOnInitialized() override;
+	
+	//When widget closes
+	virtual void BeginDestroy() override;
+
+
 
 public:
 
