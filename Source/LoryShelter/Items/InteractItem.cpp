@@ -68,18 +68,20 @@ void AInteractItem::endInteract(ALoryShelterCharacter* playerPtr)
 
 void AInteractItem::beginFocus(ALoryShelterCharacter* playerPtr)
 {
-	if (!playerPtr)
+	if (!playerPtr || playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
 		return;
 
+	bItemCaptured = true;
 	playerPtr->setFocusItem(this);
 	playerPtr->getPlayerHUD()->showAliasInteract(itemInfo);
 }
 
 void AInteractItem::endFocus(ALoryShelterCharacter* playerPtr)
 {
-	if (!playerPtr)
+	if (!playerPtr || !bItemCaptured)
 		return;
 
+	bItemCaptured = false;
 	playerPtr->setFocusItem(nullptr);
 	playerPtr->getPlayerHUD()->hideAliasInteract();
 }

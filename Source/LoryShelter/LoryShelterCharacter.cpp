@@ -167,7 +167,7 @@ uint8 ALoryShelterCharacter::pickUpForDragging(AActor* item)
 	FVector betwHandsLoc = lhLoc + GetActorRightVector() * FVector::DistXY(rhLoc, rhLoc) / 2; //Center Location between hands
 	item->SetActorLocation(betwHandsLoc);
 	item->SetActorRotation(GetControlRotation());
-	item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("RHSocket"));
+	item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("RHSocket"));
 	//Change Actor Location
 	//item->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	return 0;

@@ -37,10 +37,6 @@ void USeedbedSelectorWidget::NativeOnInitialized()
 void USeedbedSelectorWidget::BeginDestroy()
 {
 	Super::BeginDestroy();
-
-
-
-
 }
 
 void USeedbedSelectorWidget::setSeedBedOwner(ASeedBedItem* selectorItem)

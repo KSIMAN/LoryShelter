@@ -136,6 +136,8 @@ public:
 	//Returns LoryHud pointer
 	ALoryHUD* getPlayerHUD() const { return baseHUD; };
 
+	IInteractionInterface* getFocusItem(){ return interactionItem; };
+
 	// Returns CameraBoom subobject
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 

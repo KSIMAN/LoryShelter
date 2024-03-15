@@ -70,7 +70,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Interaction Content")
 	USoundCue* interactSound;
 
-
+	bool bItemCaptured;
 
 
 
