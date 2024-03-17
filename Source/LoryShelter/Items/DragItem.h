@@ -20,5 +20,5 @@ public:
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
-
+	
 };

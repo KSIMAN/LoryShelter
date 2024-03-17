@@ -2,6 +2,7 @@
 
 
 #include "Plant.h"
+#include "CoreFwd.h"
 
 // Sets default values
 APlant::APlant()
@@ -12,6 +13,7 @@ APlant::APlant()
 
 	timerText = CreateDefaultSubobject<UTextRenderComponent>("Text Render Component");
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("PlantMesh");
+	timerWidget = CreateDefaultSubobject<UWidgetComponent>("Timer Widget");
 
 	timerText->AddLocalOffset(FVector(0, 0, 60)); //
 	itemMesh->SetupAttachment(timerText);
@@ -22,8 +24,6 @@ APlant::APlant()
 	maxPhase = 5;
 	currGrowPhase = 0;
 
-	//
-	itemMesh->AddLocalOffset(FVector(0, 0, -10 * maxPhase)); //Move 10 to growConst
 }
 
 void APlant::refreshTimeInfoText()
@@ -42,18 +42,37 @@ void APlant::increaseGrowPhase()
 {
 	plantTimeRemained = plantTime;
 	currGrowPhase++;
-	itemMesh->AddLocalOffset(FVector(0, 0, 10));
-	itemMesh->SetRelativeScale3D(itemMesh->GetRelativeScale3D() + FVector(1, 1, 1) * 0.1 * currGrowPhase);
+	itemMesh->AddWorldOffset(FVector(0, 0, growOffset));
 	if (currGrowPhase == maxPhase)
 		timerText->SetText(FText::FromString("Ready to harvest"));
 	//Progress Visualisation Later
+}
+
+float APlant::calcGrowOffset()
+{
+	float meshHeight = getPlantHeight(itemMesh->GetStaticMesh().Get());
+	return calcGrowOffset(meshHeight, maxPhase);
+}
+
+float APlant::calcGrowOffset(float meshHeight, int PhasesNum)
+{
+	return meshHeight/PhasesNum;
+}
+
+float APlant::getPlantHeight(UStaticMesh* plantMesh)
+{
+	return static_cast<double>(plantMesh->GetBoundingBox().GetSize().Z * 4);
 }
 
 // Called when the game starts or when spawned
 void APlant::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//Set up plant start position
+	growOffset = calcGrowOffset();
+	float groundedHeight = growOffset * maxPhase * 2;
+	itemMesh->AddWorldOffset(FVector(0, 0, -groundedHeight));
 }
 
 // Called every frame
@@ -67,9 +86,5 @@ void APlant::Tick(float DeltaTime)
 		checkGrowPhase();
 		plantTimeRemained--;
 	}
-	else 
-		PrimaryActorTick.bCanEverTick = false;
-	
-
 }
 

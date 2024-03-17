@@ -13,6 +13,7 @@ UINTERFACE(MinimalAPI)
 class UInteractionInterface : public UInterface
 {
 	GENERATED_BODY()
+
 };
 
 /**
