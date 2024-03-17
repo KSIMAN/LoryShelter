@@ -6,6 +6,9 @@ Key,SourceString
 "BOX","Box"
 "WHEEL","Wheel"
 "BED", "Bed"
+"BENCH","Bench"
+"SHELF","Shelf"
+"TABLE","Table"
 
 ##Planting############
 
@@ -17,3 +20,12 @@ Key,SourceString
 "CARROT","Carrot"
 "BEET","Beetroot"
 "RYE","Rye"
+"CABBAGE","Cabbage"
+"RADISH","Radish"
+"CAULIFLOWER","Cauliflower"
+"RYE","Rye"
+
+
+##Dragging############
+
+"FLOUR","Sack of flour"
