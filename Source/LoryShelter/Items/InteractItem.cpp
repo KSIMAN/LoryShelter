@@ -86,6 +86,16 @@ void AInteractItem::endFocus(ALoryShelterCharacter* playerPtr)
 	playerPtr->getPlayerHUD()->hideAliasInteract();
 }
 
+void AInteractItem::ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias)
+{
+	bItemUsed = !bItemUsed;
+	if (bItemUsed)
+		itemInfo.interactAlias = itemUsedAlias;
+	else
+		itemInfo.interactAlias = itemNotUsedAlias;
+}
+
+
 // Called every frame
 void AInteractItem::Tick(float DeltaTime)
 {

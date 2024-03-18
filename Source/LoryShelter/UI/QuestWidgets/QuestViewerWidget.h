@@ -35,6 +35,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UVerticalBox* StepsVerticalBox;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class UQuestTaskWidget> taskViewerClass;
 
 	//Quest Item Reference
 	UQuestItem* questRef;

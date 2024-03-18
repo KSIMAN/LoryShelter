@@ -55,6 +55,19 @@ protected:
 
 	virtual void endFocus(ALoryShelterCharacter* playerPtr) override;
 
+	//Toggle type interaction handler
+	virtual void ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias);
+
+	//--Variables------------------------------------------------------------------------------------------------
+	
+	//Indicates that player used this item. Uses for toggle-type interaction
+	bool bItemUsed;
+
+	//Info about item for Interaction
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FInteractionInfo itemInfo;
+
+
 	//--SubObjects-----------------------------------------------------------------------------------------------
 	
 	//Item Mesh

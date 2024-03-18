@@ -100,6 +100,8 @@ void ALoryShelterCharacter::BeginPlay()
 	UQuestItem* testQuest2 = NewObject<UQuestItem>(this);
 	testQuest->questName = FName("Barn work");
 	testQuest->questDecr = FText(FText::FromString(TEXT("Load sacks of flour form the barn into the truck at the entrance")));
+	testQuest->addQuestStep(FText::FromString(TEXT("Sacks loaded ")), 10);
+	testQuest->addQuestStep(FText::FromString(TEXT("Sacks finded ")), 10);
 	questSystemComp->addQuest(testQuest2);
 
 	GetMesh()->GetAnimInstance()->OnMontageStarted.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageStarted);

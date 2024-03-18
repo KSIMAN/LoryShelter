@@ -1,8 +1,24 @@
 Key,SourceString
+
+"INSPECT","Inspect"
+
+##Drag Item Actions#############
+
 "PUT_UP","Put up"
 "PUT_DOWN","Put Down"
+
+##Furniture Item Actions########
+
 "SIT_UP","Sit Up"
 "SIT_DOWN","Sit Down"
-"INSPECT","Inspect"
+
+##Plant Actions###########
 "PLANT","Plant"
 "HARVEST","Harvest"
+
+##Quest Actions###########
+
+"BOARD_LOOK", "Look at the board"
+"TAKE_TASK", "Take on execution"
+
+

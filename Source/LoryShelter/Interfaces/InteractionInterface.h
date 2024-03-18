@@ -48,15 +48,6 @@ class LORYSHELTER_API IInteractionInterface
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
-protected:
-
-	//Indicates that player used this item. Uses for toggle-type interaction
-	bool bItemUsed;
-
-	//Toggle type interaction handler
-	virtual void ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias);
-
-	FInteractionInfo itemInfo;
 
 public:
 
