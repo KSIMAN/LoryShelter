@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "../Items/InteractItem.h"
 #include "QuestSystemComponent.generated.h"
 
 class UQuestItem;
 class UQuestPanel;
-
+class AInteractionItem;
 class ALoryShelterCharacter; //On Future
 
 
@@ -17,12 +18,15 @@ class LORYSHELTER_API UQuestSystemComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FInteractionHappened, AInteractItem*, int);
+
 public:	
 	// Sets default values for this component's properties
 	UQuestSystemComponent();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	FInteractionHappened testDelegate;
 
 	//--Getters--------------------------
 
