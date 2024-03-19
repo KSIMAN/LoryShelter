@@ -4,6 +4,8 @@
 #include "InteractItem.h"
 #include "../LoryShelterCharacter.h"
 #include "Kismet/GameplayStatics.h"
+
+
 #include "../UI/LoryHUD.h" //Bad idea, need to be removed later
 
 // Sets default values
@@ -30,6 +32,8 @@ void AInteractItem::BeginPlay()
 
 void AInteractItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+
+
 	//Handling here, cause overlap event for Item not so often, as for Player Character
 	
 	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
@@ -49,7 +53,6 @@ void AInteractItem::Interact(ALoryShelterCharacter* playerPtr)
 	//By default We Watching Item
 	playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
 	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
-
 
 }
 

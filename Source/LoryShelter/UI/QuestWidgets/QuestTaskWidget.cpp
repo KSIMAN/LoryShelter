@@ -8,7 +8,7 @@ void UQuestTaskWidget::updateStepInfo(FQuestStep* stepInfo)
 {
 	if (!stepInfo)
 		return;
-	FString stepInfoStr = stepInfo->stepText.ToString() + FString("  ") +  FString::FormatAsNumber(stepInfo->doneCounterCurrent) + FString("/") + FString::FormatAsNumber(stepInfo->doneCounterMax);
+	FString stepInfoStr = /*stepInfo->stepText.ToString() + FString("  ") + */ FString::FormatAsNumber(stepInfo->doneCounterCurrent) + FString(" / ") + FString::FormatAsNumber(stepInfo->doneCounterMax);
 
 	stepText->SetText(FText::FromString(stepInfoStr));
 

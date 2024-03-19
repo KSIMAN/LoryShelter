@@ -16,6 +16,8 @@
 #include "Animations/LoryAnimInstance.h"
 #include "Engine/SkeletalMeshSocket.h"
 
+#include "Logics/NotifyDispatcher.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -206,6 +208,8 @@ uint8 ALoryShelterCharacter::putDownItem(AActor* item)
 
 	//Change actor location
 	item->SetActorLocation(groundPoint);
+	if(Cast<AInteractItem>(item))
+		UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.Broadcast(Cast<AInteractItem>(item), EItemNotifyType::LOCATIONCHANGED);
 
 	return 0;
 }
