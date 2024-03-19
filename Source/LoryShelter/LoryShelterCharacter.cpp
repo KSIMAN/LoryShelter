@@ -208,6 +208,7 @@ uint8 ALoryShelterCharacter::putDownItem(AActor* item)
 
 	//Change actor location
 	item->SetActorLocation(groundPoint);
+	item->SetActorRotation(FRotator::ZeroRotator);
 	if(Cast<AInteractItem>(item))
 		UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.Broadcast(Cast<AInteractItem>(item), EItemNotifyType::LOCATIONCHANGED);
 
