@@ -16,6 +16,7 @@
 #include "Animations/LoryAnimInstance.h"
 #include "Engine/SkeletalMeshSocket.h"
 
+#include "Logics/QuestObjectCreator.h"
 #include "Logics/NotifyDispatcher.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -99,12 +100,8 @@ void ALoryShelterCharacter::BeginPlay()
 	testQuest->questDecr = FText(FText::FromString(TEXT("Return escaped rabbits to the aviary")));
 	questSystemComp->addQuest(testQuest);
 
-	UQuestItem* testQuest2 = NewObject<UQuestItem>(this);
-	testQuest->questName = FName("Barn work");
-	testQuest->questDecr = FText(FText::FromString(TEXT("Load sacks of flour form the barn into the truck at the entrance")));
-	testQuest->addQuestStep(FText::FromString(TEXT("Sacks loaded ")), 10);
-	testQuest->addQuestStep(FText::FromString(TEXT("Sacks finded ")), 10);
-	questSystemComp->addQuest(testQuest2);
+	//For test here
+	QuestObjectCreator::initFlourSucksQuest(questSystemComp);
 
 	GetMesh()->GetAnimInstance()->OnMontageStarted.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageStarted);
 	GetMesh()->GetAnimInstance()->OnMontageEnded.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageEnded);

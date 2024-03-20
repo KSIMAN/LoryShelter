@@ -33,7 +33,7 @@ class LORYSHELTER_API UNotifyDispatcher : public UObject
 
 	//--Defaults -------------------------------------
 	UNotifyDispatcher();
-	~UNotifyDispatcher();
+	virtual ~UNotifyDispatcher();
 	UNotifyDispatcher& operator= (UNotifyDispatcher& another) = delete;
 	//UNotifyDispatcher& operator= (const UNotifyDispatcher& another) {}; cannot redeclare this by uobject child class. Singleton sucks
 

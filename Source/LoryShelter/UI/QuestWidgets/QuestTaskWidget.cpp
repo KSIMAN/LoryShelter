@@ -8,9 +8,10 @@ void UQuestTaskWidget::updateStepInfo(FQuestStep* stepInfo)
 {
 	if (!stepInfo)
 		return;
-	FString stepInfoStr = /*stepInfo->stepText.ToString() + FString("  ") + */ FString::FormatAsNumber(stepInfo->doneCounterCurrent) + FString(" / ") + FString::FormatAsNumber(stepInfo->doneCounterMax);
+	FText stepFormatted = FText::Format(NSLOCTEXT("QuestSpace", "StepInfoText", "{0} {1}/{2}"),
+		stepInfo->stepText, stepInfo->doneCounterCurrent, stepInfo->doneCounterMax);
 
-	stepText->SetText(FText::FromString(stepInfoStr));
+	stepText->SetText(stepFormatted);
 
 	if (stepInfo->bDone)
 	{
