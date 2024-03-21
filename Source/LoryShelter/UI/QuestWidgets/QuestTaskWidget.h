@@ -11,12 +11,13 @@
 /**
  * 
  */
+struct FQuestStep;
 UCLASS()
 class LORYSHELTER_API UQuestTaskWidget : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void updateStepInfo(struct FQuestStep* stepInfo);
+	void updateStepInfo( FQuestStep stepInfo);
 
 
 protected:

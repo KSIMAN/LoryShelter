@@ -4,16 +4,15 @@
 #include "QuestTaskWidget.h"
 #include "../../Logics/QuestItem.h"
 
-void UQuestTaskWidget::updateStepInfo(FQuestStep* stepInfo)
+void UQuestTaskWidget::updateStepInfo(FQuestStep stepInfo)
 {
-	if (!stepInfo)
-		return;
+
 	FText stepFormatted = FText::Format(NSLOCTEXT("QuestSpace", "StepInfoText", "{0} {1}/{2}"),
-		stepInfo->stepText, stepInfo->doneCounterCurrent, stepInfo->doneCounterMax);
+		stepInfo.stepText, stepInfo.doneCounterCurrent, stepInfo.doneCounterMax);
 
 	stepText->SetText(stepFormatted);
 
-	if (stepInfo->bDone)
+	if (stepInfo.bDone)
 	{
 		//Change TextBlockStyle here
 		stepText->SetDefaultColorAndOpacity(FSlateColor(FColor(100, 100, 100, 100)));

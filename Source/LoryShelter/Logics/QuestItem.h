@@ -10,6 +10,8 @@
 /**
  * 
  */
+class UQuestTaskWidget;
+
 USTRUCT(BlueprintType)
 struct FQuestStep
 {
@@ -18,6 +20,11 @@ struct FQuestStep
 	//Default Constructor
 	FQuestStep() : bDone(false), doneCounterCurrent(0), doneCounterMax(1), questImpl(nullptr) {};
 	
+	//--Setters-------------------------
+
+	//Current Task Viewer Widget Pointer. Need for UI data update
+	void setTaskViewerRef(UQuestTaskWidget* viewerWidget);
+
 	//Increases step progress to 1
 	void stepUnitDone();
 	
@@ -38,6 +45,9 @@ struct FQuestStep
 
 	//Step ready flag
 	bool bDone;
+	
+	//
+	UQuestTaskWidget* viewerPtr; //Im so sorry, Ksush
 };
 UCLASS()
 class LORYSHELTER_API UQuestItem : public UObject
@@ -66,6 +76,6 @@ public:
 	//Description
 	FText questDecr;
 
-	TArray<TWeakPtr<FQuestStep>> questSteps;
+	TArray<TSharedRef<FQuestStep>> questSteps;
 
 };
