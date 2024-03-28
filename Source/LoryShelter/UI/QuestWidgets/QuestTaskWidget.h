@@ -18,7 +18,7 @@ class LORYSHELTER_API UQuestTaskWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	void updateStepInfo( FQuestStep stepInfo);
-
+	void updateStepInfo(const FText&, int doneCounter, int doneMax);
 
 protected:
 	//--Widget Construct-------------------------------------

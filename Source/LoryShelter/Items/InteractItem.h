@@ -21,7 +21,7 @@ class LORYSHELTER_API AInteractItem : public AActor, public IInteractionInterfac
 public:
 	// Sets default values for this actor's properties
 	AInteractItem();
-
+	virtual ~AInteractItem() {};
 	//--Getters----------------------------------------
 	// 
 	//returns AnimMontage for Interaction

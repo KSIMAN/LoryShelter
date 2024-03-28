@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "InteractItem.h"
-
 #include "SeedBedItem.generated.h"
 
 /**
@@ -39,7 +38,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<class USeedbedSelectorWidget> selectorWidgetClass; //maybe put this int HUD for player
 
-
+	
 	
 
 public:

@@ -55,6 +55,7 @@ class LORYSHELTER_API UChangeLocationQuestObject : public UQuestObject
 
 public:
 
+	virtual ~UChangeLocationQuestObject() {};
 	//For Test
 	virtual void OnInteractionNotify(AInteractItem* item, EItemNotifyType type);
 

@@ -18,6 +18,19 @@ void UQuestTaskWidget::updateStepInfo(FQuestStep stepInfo)
 		stepText->SetDefaultColorAndOpacity(FSlateColor(FColor(100, 100, 100, 100)));
 	}
 }
+void UQuestTaskWidget::updateStepInfo(const FText& stepActionText, int doneCounter, int doneMax)
+{
+	FText stepFormatted = FText::Format(NSLOCTEXT("QuestSpace", "StepInfoText", "{0} {1}/{2}"),
+		stepActionText, doneCounter, doneMax);
+
+	stepText->SetText(stepFormatted);
+
+	if (doneCounter >= doneMax)
+	{
+		//Change TextBlockStyle here
+		stepText->SetDefaultColorAndOpacity(FSlateColor(FColor(100, 100, 100, 100)));
+	}
+}
 void UQuestTaskWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();

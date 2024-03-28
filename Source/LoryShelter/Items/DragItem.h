@@ -16,7 +16,7 @@ class LORYSHELTER_API ADragItem : public AInteractItem
 public:
 
 	ADragItem();
-
+	virtual ~ADragItem() {};
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	virtual void Interact(ALoryShelterCharacter* playerPtr)override;

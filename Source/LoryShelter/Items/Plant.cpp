@@ -2,6 +2,7 @@
 
 
 #include "Plant.h"
+#include "../UI/PlantWidgets/PlantTimerWidget.h"
 #include "CoreFwd.h"
 
 // Sets default values
@@ -11,14 +12,14 @@ APlant::APlant()
 	PrimaryActorTick.bCanEverTick = true;
 	SetActorTickInterval(1.);
 
-	timerText = CreateDefaultSubobject<UTextRenderComponent>("Text Render Component");
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("PlantMesh");
-	timerWidget = CreateDefaultSubobject<UWidgetComponent>("Timer Widget");
+	timerWidgetComp = CreateDefaultSubobject<UWidgetComponent>("Timer Widget");
+	rootNode = CreateDefaultSubobject<USceneComponent>("Scene Component");
+	
+	RootComponent = rootNode;
 
-	timerText->AddLocalOffset(FVector(0, 0, 60)); //
-	itemMesh->SetupAttachment(timerText);
-
-
+	itemMesh->SetupAttachment(RootComponent);
+	timerWidgetComp->SetupAttachment(RootComponent);
 	plantTime = 10.;
 	plantTimeRemained = plantTime;
 	maxPhase = 5;
@@ -28,8 +29,11 @@ APlant::APlant()
 
 void APlant::refreshTimeInfoText()
 {
-	//Add  00:00:00 format function later
-	timerText->SetText(FText::AsNumber(plantTime * (maxPhase - currGrowPhase) + plantTimeRemained));
+	if (timerWidgetPtr)
+	{
+		int timeInSeconds = plantTime * (maxPhase - currGrowPhase) + plantTimeRemained;
+		timerWidgetPtr->setTimeRemained(timeInSeconds);
+	}
 }
 
 void APlant::checkGrowPhase()
@@ -43,8 +47,8 @@ void APlant::increaseGrowPhase()
 	plantTimeRemained = plantTime;
 	currGrowPhase++;
 	itemMesh->AddWorldOffset(FVector(0, 0, growOffset));
-	if (currGrowPhase == maxPhase)
-		timerText->SetText(FText::FromString("Ready to harvest"));
+	/*if (currGrowPhase == maxPhase)
+		timerText->SetText(FText::FromString("Ready to harvest"));*/
 	//Progress Visualisation Later
 }
 
@@ -73,6 +77,25 @@ void APlant::BeginPlay()
 	growOffset = calcGrowOffset();
 	float groundedHeight = growOffset * maxPhase * 2;
 	itemMesh->AddWorldOffset(FVector(0, 0, -groundedHeight));
+
+	
+	
+	// Move to setUpItem func ----------------------------------------------------------------------------
+	FSoftClassPath timerClassRef(TEXT("/Game/UI/Widgets/PlantTimerWidgetBP.PlantTimerWidgetBP_C"));
+
+	UClass* timerWidgetClass = timerClassRef.TryLoadClass<UWidget>();
+	
+	if (timerWidgetClass)
+	{
+		timerWidgetComp->SetWidgetClass(timerWidgetClass);
+		timerWidgetPtr = Cast<UPlantTimerWidget>(timerWidgetComp->GetWidget());
+	}
+		
+	if (timerWidgetPtr)
+		timerWidgetPtr->setItemName(FText(FText::FromString("Plant")));
+
+	//---------------------------------------------------------------------------------------------------
+
 }
 
 // Called every frame

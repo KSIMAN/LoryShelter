@@ -11,12 +11,12 @@ UNotifyDispatcher* UNotifyDispatcher::notifyDispatcherInstance = nullptr;
 UNotifyDispatcher::UNotifyDispatcher()
 {
 	notifyDispatcherInstance = this;
-	bindNotificationDispatchers();
+//	bindNotificationDispatchers();
 }
 UNotifyDispatcher::~UNotifyDispatcher()
 {
 	notifyDispatcherInstance = nullptr;
-	unbindNotificationDispatchers();
+//	unbindNotificationDispatchers();
 }
 
 UNotifyDispatcher* UNotifyDispatcher::getNotifyDispatcherInstance()

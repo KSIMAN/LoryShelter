@@ -206,6 +206,8 @@ uint8 ALoryShelterCharacter::putDownItem(AActor* item)
 	//Change actor location
 	item->SetActorLocation(groundPoint);
 	item->SetActorRotation(FRotator::ZeroRotator);
+
+
 	if(Cast<AInteractItem>(item))
 		UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.Broadcast(Cast<AInteractItem>(item), EItemNotifyType::LOCATIONCHANGED);
 
@@ -301,5 +303,7 @@ void ALoryShelterCharacter::BeginInteractItem()
 		return; //Nothing to Interact With
 
 	//interactionItem->beginInteract(this); (on future)
+	TArray<UObject*> objs = UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.GetAllObjects();
+
 	interactionItem->Interact(this);
 }

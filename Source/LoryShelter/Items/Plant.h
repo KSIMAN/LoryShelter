@@ -45,16 +45,18 @@ protected:
 
 	//--Components------------------------------------------
 
-	//To show info about plant and time of growing
+	//Root Scene Node
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
-	UTextRenderComponent* timerText;
+	USceneComponent* rootNode;
 
+	//Timeer
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
-	UWidgetComponent* timerWidget;
+	UWidgetComponent* timerWidgetComp;
 
 	//Plant Mesh
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UStaticMeshComponent* itemMesh;
+
 
 	//--Variables------------------------------------------
 	
@@ -76,7 +78,8 @@ protected:
 	//Grow Z offset for one phase
 	float growOffset; 
 
-
+	//Plant Timer Widget
+	class UPlantTimerWidget* timerWidgetPtr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

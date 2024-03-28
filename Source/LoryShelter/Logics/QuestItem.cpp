@@ -45,6 +45,7 @@ void FQuestStep::stepUnitDone()
 	//Update UI info
 	if (viewerPtr)
 	{
+		//viewerPtr->updateStepInfo(stepText, doneCounterCurrent, doneCounterMax);
 		viewerPtr->updateStepInfo(*this);
 	}
 }
