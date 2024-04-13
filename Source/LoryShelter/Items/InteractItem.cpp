@@ -18,6 +18,7 @@ AInteractItem::AInteractItem()
 	interactMontage = CreateDefaultSubobject<UAnimMontage>("Interaction Anim Montage");
 	interactSound = CreateDefaultSubobject<USoundCue>("Interaction Sound Cue");
 
+	
 	itemCollider->SetupAttachment(itemMesh);
 }
 
