@@ -2,13 +2,17 @@
 
 
 #include "Animal.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
-AAnimal::AAnimal()
+AAnimal::AAnimal() : mindState(EAnimalMindState::NORMAL), 
+satisfaction(maxSatisfaction), satisfactCoeff(0.01),
+hunger(maxHunger), hungerCoeff(0.05)
 {
+	interactCollider = CreateDefaultSubobject<UCapsuleComponent>("InteractCollider");
+	//btAsset = CreateDefaultSubobject<UBehaviorTree>("Behavior Tree");
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	SetActorTickInterval(180);
 
 }

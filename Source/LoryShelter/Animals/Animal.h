@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "../Interfaces/InteractionInterface.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "Animal.generated.h"
 
 UENUM(BlueprintType)
@@ -28,15 +29,20 @@ public:
 	// Sets default values for this character's properties
 	AAnimal();
 
+	UBehaviorTree* getBTAsset() { return btAsset; }
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	//--SubObjects--------------------------------------
 
-	//
+	//Interaction Collider
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UCapsuleComponent* interactCollider;
+
+	//BT asset
+	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "AI")
+	class UBehaviorTree* btAsset;
 
 	//--Variables---------------------------------------
 
