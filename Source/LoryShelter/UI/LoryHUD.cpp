@@ -5,18 +5,20 @@
 #include "PopUp/AliasGameplay.h"
 
 
-void ALoryHUD::showAliasInteract(const FInteractionInfo& interactInfo)
+void ALoryHUD::showAliasInteract(const FInteractionInfo& interactInfo, EAliasIndex aliasType)
 {
-	if (!aliasWidget)
+	if (!aliasHolderWidget)
 		return;
 
-	aliasWidget->refreshItemAlias(interactInfo);
-	aliasWidget->SetVisibility(ESlateVisibility::Visible);
+	check(aliasHolderWidget->showAlias(aliasType, interactInfo));
 }
 
-void ALoryHUD::hideAliasInteract()
+void ALoryHUD::hideAliasInteract(EAliasIndex aliasType)
 {
-	aliasWidget->SetVisibility(ESlateVisibility::Collapsed);
+	if (!aliasHolderWidget)
+		return;
+	
+	check(aliasHolderWidget->hideAlias(aliasType));
 }
 
 void ALoryHUD::BeginPlay()
@@ -25,8 +27,11 @@ void ALoryHUD::BeginPlay()
 	
 	if (AliasWidgetClass)
 	{
-		aliasWidget = CreateWidget<UAliasGameplay>(GetWorld(), AliasWidgetClass);
-		aliasWidget->AddToViewport(999);
-		aliasWidget->SetVisibility(ESlateVisibility::Collapsed);
+		aliasHolderWidget = CreateWidget<UAliasHolderWidget>(GetWorld(), AliasWidgetClass);
+		aliasHolderWidget->AddToViewport(999);
+		aliasHolderWidget->SetVisibility(ESlateVisibility::Visible);
+
+		aliasHolderWidget->createAlias(EAliasIndex::ITEM);
+		aliasHolderWidget->createAlias(EAliasIndex::PET);
 	}
 }

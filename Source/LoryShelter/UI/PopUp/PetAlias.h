@@ -3,15 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "AliasGameplay.h"
 #include "PetAlias.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class LORYSHELTER_API UPetAlias : public UUserWidget
+class LORYSHELTER_API UPetAlias : public UAliasGameplay
 {
 	GENERATED_BODY()
+
 	
 };

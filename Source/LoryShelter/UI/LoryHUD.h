@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "PopUp/AliasHolderWidget.h"
 #include "LoryHUD.generated.h"
 
-class UAliasGameplay;
 struct FInteractionInfo;
 /**
  * 
@@ -18,21 +18,21 @@ class LORYSHELTER_API ALoryHUD : public AHUD
 
 public:
 
-	void showAliasInteract(const FInteractionInfo& interactInfo);
-	void hideAliasInteract();
+	void showAliasInteract(const FInteractionInfo& interactInfo, EAliasIndex aliasType);
+	void hideAliasInteract(EAliasIndex aliasType);
 protected:
 
 	//--Subclasses----------------------------------------------
 
 	//Subclass for alias widget
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UAliasGameplay> AliasWidgetClass;
+	TSubclassOf<UAliasHolderWidget> AliasWidgetClass;
 
 	//--Widget Pointers-----------------------------------------
 
 	//Alias Widget Pointer
 	UPROPERTY()
-	UAliasGameplay* aliasWidget;
+	UAliasHolderWidget* aliasHolderWidget;
 
 	virtual void BeginPlay() override;
 

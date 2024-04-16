@@ -9,7 +9,6 @@
 
 void UAliasGameplay::refreshItemAlias(const FInteractionInfo& interactInfo)
 {
-	//AliasText->SetText(FText::Format(NSLOCTEXT("AliasGameplay", "AliasText", "Press F to {0}"), interactInfo.interactAlias));
 	AliasText->SetText(interactInfo.interactAlias);
 	NameText->SetText(interactInfo.itemName);
 }

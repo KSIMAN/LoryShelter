@@ -2,6 +2,8 @@
 
 
 #include "Animal.h"
+#include "../LoryShelterCharacter.h"
+#include "../UI/LoryHUD.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -10,8 +12,7 @@ satisfaction(maxSatisfaction), satisfactCoeff(0.01),
 hunger(maxHunger), hungerCoeff(0.05)
 {
 	interactCollider = CreateDefaultSubobject<UCapsuleComponent>("InteractCollider");
-	//btAsset = CreateDefaultSubobject<UBehaviorTree>("Behavior Tree");
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	interactCollider->SetupAttachment(GetMesh());
 	PrimaryActorTick.bCanEverTick = true;
 	SetActorTickInterval(180);
 
@@ -21,7 +22,8 @@ hunger(maxHunger), hungerCoeff(0.05)
 void AAnimal::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	interactCollider->OnComponentBeginOverlap.AddDynamic(this, &AAnimal::OnOverlapBegin);
+	interactCollider->OnComponentEndOverlap.AddDynamic(this, &AAnimal::OnOverlapEnd);
 }
 
 
@@ -53,6 +55,46 @@ void AAnimal::OnIndicatorsUpdate()
 {
 	mindState = recalcMindState();
 
+}
+void AAnimal::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//Handling here, cause overlap event for Item not so often, as for Player Character
+
+	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
+		beginFocus(loryPlayer);
+}
+
+void AAnimal::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
+		endFocus(loryPlayer);
+}
+
+void AAnimal::beginInteract(ALoryShelterCharacter* playerPtr)
+{
+	
+}
+
+void AAnimal::endInteract(ALoryShelterCharacter* playerPtr)
+{
+}
+
+void AAnimal::beginFocus(ALoryShelterCharacter* playerPtr)
+{
+	if (!playerPtr || playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
+		return;
+
+	playerPtr->setFocusItem(this);
+	playerPtr->getPlayerHUD()->showAliasInteract(petInteractInfo, static_cast<EAliasIndex>(0));
+}
+
+void AAnimal::endFocus(ALoryShelterCharacter* playerPtr)
+{
+	if (!playerPtr )
+		return;
+
+	playerPtr->setFocusItem(nullptr);
+	playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
 }
 
 // Called every frame

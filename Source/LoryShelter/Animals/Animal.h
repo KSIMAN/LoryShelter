@@ -77,6 +77,11 @@ protected:
 	//Refreshes info about hunger and satisfaction
 	virtual void OnIndicatorsUpdate();
 
+	//--Overlap events-----------------------------------
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:	
 
@@ -84,21 +89,23 @@ public:
 
 	//virtual void Interact(ALoryShelterCharacter* playerPtr)override;
 
-	//virtual void beginInteract(ALoryShelterCharacter* playerPtr) override;
+	virtual void beginInteract(ALoryShelterCharacter* playerPtr) override;
 
-	//virtual void endInteract(ALoryShelterCharacter* playerPtr) override;
+	virtual void endInteract(ALoryShelterCharacter* playerPtr) override;
 
-	//virtual void beginFocus(ALoryShelterCharacter* playerPtr) override;
+	virtual void beginFocus(ALoryShelterCharacter* playerPtr) override;
 
-	//virtual void endFocus(ALoryShelterCharacter* playerPtr) override;
+	virtual void endFocus(ALoryShelterCharacter* playerPtr) override;
 
-	//UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	//FInteractionInfo petInteractInfo;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FInteractionInfo petInteractInfo;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	
 
 };

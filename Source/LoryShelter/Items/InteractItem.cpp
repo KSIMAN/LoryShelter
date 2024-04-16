@@ -33,8 +33,6 @@ void AInteractItem::BeginPlay()
 
 void AInteractItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
-
 	//Handling here, cause overlap event for Item not so often, as for Player Character
 	
 	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
@@ -77,7 +75,7 @@ void AInteractItem::beginFocus(ALoryShelterCharacter* playerPtr)
 
 	bItemCaptured = true;
 	playerPtr->setFocusItem(this);
-	playerPtr->getPlayerHUD()->showAliasInteract(itemInfo);
+	playerPtr->getPlayerHUD()->showAliasInteract(itemInfo, static_cast<EAliasIndex>(0));
 }
 
 void AInteractItem::endFocus(ALoryShelterCharacter* playerPtr)
@@ -87,7 +85,7 @@ void AInteractItem::endFocus(ALoryShelterCharacter* playerPtr)
 
 	bItemCaptured = false;
 	playerPtr->setFocusItem(nullptr);
-	playerPtr->getPlayerHUD()->hideAliasInteract();
+	playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
 }
 
 void AInteractItem::ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias)
