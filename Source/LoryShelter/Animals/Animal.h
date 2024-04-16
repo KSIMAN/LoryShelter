@@ -52,7 +52,7 @@ protected:
 
 	//diff Hunger coeff
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	int hungerCoeff;
+	double hungerCoeff;
 
 	//Pet's happines
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
@@ -64,7 +64,7 @@ protected:
 
 	//Happiness down coeff
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	int satisfactCoeff;
+	double satisfactCoeff;
 
 
 	//--Helper functions----------------------------

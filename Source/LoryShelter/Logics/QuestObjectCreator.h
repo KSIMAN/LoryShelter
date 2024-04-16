@@ -9,7 +9,7 @@
  */
 class UQuestSystemComponent;
 
-static class LORYSHELTER_API QuestObjectCreator
+class LORYSHELTER_API QuestObjectCreator
 {
 public:
 
