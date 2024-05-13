@@ -51,13 +51,6 @@ APlant* ASeedBedItem::freePlantSlot()
 void ASeedBedItem::beginInteract(ALoryShelterCharacter* playerPtr)
 {
 	//Create Plant Widget Here
-
-}
-
-void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
-{
-	Super::Interact(playerPtr);
-
 	if (!selectorWidgetClass)
 		return;
 
@@ -66,14 +59,13 @@ void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
 	selectorWidget->SetVisibility(ESlateVisibility::Visible);
 	selectorWidget->setSeedBedOwner(this);
 
-	//While SeedBed Selector not ready
-	//if (!plantType) return;
-	//plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
-	
-	//
-	//
-	if (!plantSlot)
-		return;
+}
+
+void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
+{
+	//Play custom anims and sounds
+	AInteractItem::Interact(playerPtr);
+
 
 
 }

@@ -12,6 +12,7 @@
 class APlant;
 
 UCLASS()
+//Seedbed interactable item. Can store Plants, that can be transfomed to pick-up harvest
 class LORYSHELTER_API ASeedBedItem : public AInteractItem
 {
 	GENERATED_BODY()

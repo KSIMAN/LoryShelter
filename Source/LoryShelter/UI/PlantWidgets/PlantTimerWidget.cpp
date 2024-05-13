@@ -22,7 +22,7 @@ FText UPlantTimerWidget::secondsToLineText(int seconds)
 	int hours = minutes / 60;
 
 	seconds -= minutes * 60;
-	hours -= minutes * 60;
+	hours -= minutes * 60; //Are you crazy??
 
 	return FText::Format(NSLOCTEXT("QuestSpace", "StepInfoText", " {0}:{1}:{2} "), hours, minutes, seconds);
 }
