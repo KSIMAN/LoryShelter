@@ -2,7 +2,7 @@
 
 
 #include "QuestItem.h"
-#include "../UI/QuestWidgets/QuestTaskWidget.h"
+#include "QuestWidgets/QuestTaskWidget.h"
 #include "NotifyDispatcher.h"
 
 

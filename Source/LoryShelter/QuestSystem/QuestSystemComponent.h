@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "../Items/InteractItem.h"
+#include "../Interactions/InteractItem.h"
 #include "QuestSystemComponent.generated.h"
 
 class UQuestItem;

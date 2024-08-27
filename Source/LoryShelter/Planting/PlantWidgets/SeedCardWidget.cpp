@@ -2,7 +2,7 @@
 
 
 #include "SeedCardWidget.h"
-#include "../../Items/Plant.h"
+#include "../Plant.h"
 #include "Blueprint/WidgetTree.h"
 #include "SeedbedSelectorWidget.h"
 #include "SeedbedSelectorWidget.h"

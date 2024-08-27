@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "../Interfaces/InteractionInterface.h"
+#include "../Interactions/IInteractable.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Animal.generated.h"
 
@@ -21,7 +21,7 @@ constexpr int maxHunger = 100;
 constexpr int maxSatisfaction = 100;
 
 UCLASS()
-class LORYSHELTER_API AAnimal : public ACharacter, public IInteractionInterface
+class LORYSHELTER_API AAnimal : public ACharacter, public IInteractable
 {
 	GENERATED_BODY()
 
@@ -89,13 +89,13 @@ public:
 
 	//virtual void Interact(ALoryShelterCharacter* playerPtr)override;
 
-	virtual void beginInteract(ALoryShelterCharacter* playerPtr) override;
+	virtual void OnBeginInteract(IInteractor* playerPtr) override;
 
-	virtual void endInteract(ALoryShelterCharacter* playerPtr) override;
+	virtual void OnEndInteract(IInteractor* playerPtr) override;
 
-	virtual void beginFocus(ALoryShelterCharacter* playerPtr) override;
+	virtual void OnStartFocus(IInteractor* playerPtr) override;
 
-	virtual void endFocus(ALoryShelterCharacter* playerPtr) override;
+	virtual void OnEndFocus(IInteractor* playerPtr) override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FInteractionInfo petInteractInfo;

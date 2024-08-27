@@ -1,6 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "DragItem.h"
 #include "../LoryShelterCharacter.h"
 
@@ -12,18 +10,18 @@ ADragItem::ADragItem() : AInteractItem()
 	
 }
 
-void ADragItem::Interact(ALoryShelterCharacter* playerPtr)
+void ADragItem::OnInteract(IInteractor* playerPtr)
 {
-	uint8 interState; //State of interaction 0 - SUCCESS
+	uint8 interState = 0; //State of interaction 0 - SUCCESS
 	if (bItemUsed)
 	{
-		interState = playerPtr->putDownItem(this);
+		//*interState = playerPtr->putDownItem(this);
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 	else
 	{
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		interState = playerPtr->pickUpForDragging(this);
+		//*interState = playerPtr->pickUpForDragging(this);
 	}
 		
 
@@ -37,8 +35,8 @@ void ADragItem::Interact(ALoryShelterCharacter* playerPtr)
 	
 	//Move to Refocus function
 
-	endFocus(playerPtr);
-	beginFocus(playerPtr);
+	OnEndFocus(playerPtr);
+	OnStartFocus(playerPtr);
 
 }
 

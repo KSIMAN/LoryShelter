@@ -2,7 +2,7 @@
 
 
 #include "QuestObject.h"
-#include "../Items/InteractItem.h"
+#include "../Interactions/InteractItem.h"
 #include "QuestItem.h"
 #include "../Primitives/WorldArea.h"
 

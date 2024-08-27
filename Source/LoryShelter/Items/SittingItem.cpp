@@ -13,19 +13,19 @@ ASittingItem::ASittingItem()
 
 
 //Remove Code Dubble  with Drag Item Item later
-void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
+void ASittingItem::OnInteract(IInteractor* playerPtr)
 {
-	uint8 interState; //State of interaction 0 - SUCCESS
+	uint8 interState = 0; //State of interaction 0 - SUCCESS
 	if (bItemUsed)
 	{
-		interState = playerPtr->sitUpFromItem();
+		//*interState = playerPtr->sitUpFromItem();
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 	else
 	{
 		FVector pointForSeat = findSeatPoint();
 		getMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		interState = playerPtr->sitDownToItem(pointForSeat);
+		//*interState = playerPtr->sitDownToItem(pointForSeat);
 	}
 
 
@@ -39,8 +39,8 @@ void ASittingItem::Interact(ALoryShelterCharacter* playerPtr)
 
 	//Move to Refocus function
 
-	endFocus(playerPtr);
-	beginFocus(playerPtr);
+	OnEndFocus(playerPtr);
+	OnStartFocus(playerPtr);
 }
 
 FVector ASittingItem::findSeatPoint()

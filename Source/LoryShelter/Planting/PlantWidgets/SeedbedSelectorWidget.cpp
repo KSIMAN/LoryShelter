@@ -4,9 +4,7 @@
 #include "SeedbedSelectorWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "SeedCardWidget.h"
-#include "Kismet/GameplayStatics.h"
-#include "../../Items/SeedBedItem.h"
-
+#include "../SeedBedItem.h"
 
 void USeedbedSelectorWidget::refreshSeedCards()
 {

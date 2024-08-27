@@ -3,7 +3,7 @@
 
 #include "QuestViewerWidget.h"
 #include "QuestTaskWidget.h"
-#include "../../Logics/QuestItem.h"
+#include "../QuestItem.h"
 
 void UQuestViewerWidget::NativeOnInitialized()
 {

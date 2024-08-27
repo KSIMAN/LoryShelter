@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AliasGameplay.h"
+#include "../UI/PopUp/AliasGameplay.h"
 #include "PetAlias.generated.h"
 
 /**

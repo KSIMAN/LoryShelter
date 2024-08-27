@@ -2,7 +2,7 @@
 
 
 #include "NotifyDispatcher.h"
-#include "../Items/InteractItem.h"
+#include "../Interactions/InteractItem.h"
 
 
 

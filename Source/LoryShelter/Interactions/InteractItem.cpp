@@ -2,7 +2,7 @@
 
 
 #include "InteractItem.h"
-#include "../LoryShelterCharacter.h"
+#include "IInteractor.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -35,57 +35,57 @@ void AInteractItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AAc
 {
 	//Handling here, cause overlap event for Item not so often, as for Player Character
 	
-	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
-		beginFocus(loryPlayer);
+	if (IInteractor* loryPlayer = Cast<IInteractor>(OtherActor))
+		OnStartFocus(loryPlayer);
 }
 
 void AInteractItem::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
-		endFocus(loryPlayer);
+	if (IInteractor* loryPlayer = Cast<IInteractor>(OtherActor))
+		OnEndFocus(loryPlayer);
 }
 
-void AInteractItem::Interact(ALoryShelterCharacter* playerPtr)
+void AInteractItem::OnInteract(IInteractor* playerPtr)
 {
 	if (!playerPtr)
 		return;
 	//By default We Watching Item
-	playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
+	//*playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
 	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
 
 }
 
-void AInteractItem::beginInteract(ALoryShelterCharacter* playerPtr)
+void AInteractItem::OnBeginInteract(IInteractor* playerPtr)
 {
 	//CreateTimer
 	// 
 	//if elapsed endInteract
 }
 
-void AInteractItem::endInteract(ALoryShelterCharacter* playerPtr)
+void AInteractItem::OnEndInteract(IInteractor* playerPtr)
 {
 	//if isInteracting
 	//Stop Interaction (threadSafe please)
 }
 
-void AInteractItem::beginFocus(ALoryShelterCharacter* playerPtr)
+void AInteractItem::OnStartFocus(IInteractor* playerPtr)
 {
-	if (!playerPtr || playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
+	if (!playerPtr) //*|| //*playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
 		return;
 
 	bItemCaptured = true;
-	playerPtr->setFocusItem(this);
-	playerPtr->getPlayerHUD()->showAliasInteract(itemInfo, static_cast<EAliasIndex>(0));
+	//*playerPtr->setFocusItem(this);
+	//*playerPtr->getPlayerHUD()->showAliasInteract(itemInfo, static_cast<EAliasIndex>(0));
 }
 
-void AInteractItem::endFocus(ALoryShelterCharacter* playerPtr)
+void AInteractItem::OnEndFocus(IInteractor* playerPtr)
 {
 	if (!playerPtr || !bItemCaptured)
 		return;
 
 	bItemCaptured = false;
-	playerPtr->setFocusItem(nullptr);
-	playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
+	//*playerPtr->setFocusItem(nullptr);
+	//*playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
 }
 
 void AInteractItem::ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias)

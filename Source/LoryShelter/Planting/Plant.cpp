@@ -2,7 +2,7 @@
 
 
 #include "Plant.h"
-#include "../UI/PlantWidgets/PlantTimerWidget.h"
+#include "PlantWidgets/PlantTimerWidget.h"
 #include "CoreFwd.h"
 
 // Sets default values

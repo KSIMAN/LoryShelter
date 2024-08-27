@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "InteractionInterface.generated.h"
+#include "IInteractable.generated.h"
 
 // This class does not need to be modified.
 class ALoryShelterCharacter;
 
 UINTERFACE(MinimalAPI)
-class UInteractionInterface : public UInterface
+class UInteractable : public UInterface
 {
 	GENERATED_BODY()
 
@@ -42,8 +42,8 @@ struct FInteractionInfo
 	int interactDuration;
 
 };
-
-class LORYSHELTER_API IInteractionInterface
+class IInteractor;
+class LORYSHELTER_API IInteractable
 {
 	GENERATED_BODY()
 
@@ -52,18 +52,18 @@ class LORYSHELTER_API IInteractionInterface
 public:
 
 	//Player is near item and can begin interact if he wants
-	virtual void beginFocus(ALoryShelterCharacter* playerPtr);
+	virtual void OnStartFocus(IInteractor* playerPtr);
 
 	//Player not near item yet. 
-	virtual void endFocus(ALoryShelterCharacter* playerPtr);
+	virtual void OnEndFocus(IInteractor* playerPtr);
 
 	//Player begin interaction
-	virtual void beginInteract(ALoryShelterCharacter* playerPtr);
+	virtual void OnBeginInteract(IInteractor* playerPtr);
 
 	//Interaction is over
-	virtual void endInteract(ALoryShelterCharacter* playerPtr);
+	virtual void OnEndInteract(IInteractor* playerPtr);
 
 	//Interaction process
-	virtual void Interact(ALoryShelterCharacter* playerPtr);
+	virtual void OnInteract(IInteractor* playerPtr);
 
 };

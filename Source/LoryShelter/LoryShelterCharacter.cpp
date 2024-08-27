@@ -10,14 +10,14 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "Logics/QuestSystemComponent.h" //Move To Components Folder Please
-#include "Logics/QuestItem.h"
+#include "QuestSystem/QuestSystemComponent.h" //Move To Components Folder Please
+#include "QuestSystem/QuestItem.h"
 #include "UI/LoryHUD.h"
 #include "Animations/LoryAnimInstance.h"
 #include "Engine/SkeletalMeshSocket.h"
 
-#include "Logics/QuestObjectCreator.h"
-#include "Logics/NotifyDispatcher.h"
+#include "QuestSystem/QuestObjectCreator.h"
+#include "QuestSystem/NotifyDispatcher.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -69,7 +69,7 @@ ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr), bMove
 
 }
 
-void ALoryShelterCharacter::setFocusItem(IInteractionInterface* itemPointer)
+void ALoryShelterCharacter::setFocusItem(IInteractable* itemPointer)
 {
 	if (interactionItem && itemPointer) //if has focus item 
 		return;
@@ -305,5 +305,5 @@ void ALoryShelterCharacter::BeginInteractItem()
 	//interactionItem->beginInteract(this); (on future)
 	TArray<UObject*> objs = UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.GetAllObjects();
 
-	interactionItem->Interact(this);
+	interactionItem->OnInteract(this);
 }

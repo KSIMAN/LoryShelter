@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Interfaces/InteractionInterface.h"
+#include "Interactions/IInteractable.h"
+#include "Interactions/IInteractor.h"
 #include "Logging/LogMacros.h"
 #include "LoryShelterCharacter.generated.h"
 
@@ -20,7 +21,7 @@ class UQuestSystemComponent;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ALoryShelterCharacter : public ACharacter
+class ALoryShelterCharacter : public ACharacter, public IInteractor
 {
 	GENERATED_BODY()
 
@@ -53,10 +54,26 @@ class ALoryShelterCharacter : public ACharacter
 	//Custom Anim Instance Ptr
 	class ULoryAnimInstance* animInstance;
 
+	//--Interaction Interface------------------------------------------------------------------------
+
+	//Player is near item and can begin interact if he wants
+	virtual void StartFocus(IInteractable* itemPtr) override{};
+
+	//Player not near item yet. 
+	virtual void EndFocus(IInteractable* itemPtr)override {};
+
+	//Player begin interaction
+	virtual void BeginInteract(IInteractable* itemPtr)override{};
+
+	//Interaction is over
+	virtual void EndInteract(IInteractable* itemPtr)override{};
+
+	//Interaction process
+	virtual void Interact(IInteractable* itemPtr)override{};
 
 	//--Interaction Interface------------------------------------------------------------------------
 
-	IInteractionInterface* interactionItem;
+	IInteractable* interactionItem;
 
 	//--UI Components--------------------------------------------------------------------------------
 
@@ -128,7 +145,7 @@ public:
 	//--Setters------------------------------------------------------------------------
 
 	//Setting up Pointer on Item, that can be Interacted
-	void setFocusItem(IInteractionInterface* itemPointer);
+	void setFocusItem(IInteractable* itemPointer);
 
 
 	//--Getters------------------------------------------------------------------------
@@ -136,7 +153,7 @@ public:
 	//Returns LoryHud pointer
 	ALoryHUD* getPlayerHUD() const { return baseHUD; };
 
-	IInteractionInterface* getFocusItem(){ return interactionItem; };
+	IInteractable* getFocusItem(){ return interactionItem; };
 
 	// Returns CameraBoom subobject
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

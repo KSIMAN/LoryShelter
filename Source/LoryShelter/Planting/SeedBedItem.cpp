@@ -2,7 +2,7 @@
 
 
 #include "SeedBedItem.h"
-#include "../UI/PlantWidgets/SeedbedSelectorWidget.h"
+#include "PlantWidgets/SeedbedSelectorWidget.h"
 #include "Plant.h"
 
 
@@ -48,15 +48,15 @@ APlant* ASeedBedItem::freePlantSlot()
 	return returnVal;
 }
 
-void ASeedBedItem::beginInteract(ALoryShelterCharacter* playerPtr)
+void ASeedBedItem::OnBeginInteract(IInteractor* playerPtr)
 {
 	//Create Plant Widget Here
 
 }
 
-void ASeedBedItem::Interact(ALoryShelterCharacter* playerPtr)
+void ASeedBedItem::OnInteract(IInteractor* playerPtr)
 {
-	Super::Interact(playerPtr);
+	Super::OnInteract(playerPtr);
 
 	if (!selectorWidgetClass)
 		return;

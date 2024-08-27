@@ -2,8 +2,7 @@
 
 
 #include "QuestSystemComponent.h"
-#include "../LoryShelterCharacter.h"
-#include "../UI/QuestWidgets/QuestPanel.h"
+#include "QuestWidgets/QuestPanel.h"
 
 // Sets default values for this component's properties
 UQuestSystemComponent::UQuestSystemComponent()

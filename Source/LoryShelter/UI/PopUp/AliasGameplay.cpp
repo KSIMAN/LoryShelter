@@ -4,7 +4,7 @@
 #include "AliasGameplay.h"
 #include <Components/ProgressBar.h>
 #include <Components/TextBlock.h>
-#include "../../Items/InteractItem.h"
+#include "../../Interactions/InteractItem.h"
 
 
 void UAliasGameplay::refreshItemAlias(const FInteractionInfo& interactInfo)

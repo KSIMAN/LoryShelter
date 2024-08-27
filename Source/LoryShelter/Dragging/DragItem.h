@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractItem.h"
+#include "../Interactions/InteractItem.h"
 #include "DragItem.generated.h"
 
 /**
@@ -19,6 +19,6 @@ public:
 	virtual ~ADragItem() {};
 	//--Interaction Interface------------------------------------------------------------------------------------
 
-	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
+	virtual void OnInteract(IInteractor* playerPtr) override;
 	
 };

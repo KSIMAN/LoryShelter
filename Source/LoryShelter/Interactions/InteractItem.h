@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "../Interfaces/InteractionInterface.h"
+#include "IInteractable.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Animation/AnimMontage.h"
@@ -14,7 +14,7 @@
 
 
 UCLASS()
-class LORYSHELTER_API AInteractItem : public AActor, public IInteractionInterface
+class LORYSHELTER_API AInteractItem : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 
@@ -45,15 +45,20 @@ protected:
 
 	//--Interaction Interface------------------------------------------------------------------------------------
 
-	virtual void Interact(ALoryShelterCharacter* playerPtr)override;
+	//Player is near item and can begin interact if he wants
+	virtual void OnStartFocus(IInteractor* playerPtr) override;
 
-	virtual void beginInteract(ALoryShelterCharacter* playerPtr) override;
+	//Player not near item yet. 
+	virtual void OnEndFocus(IInteractor* playerPtr) override;
 
-	virtual void endInteract(ALoryShelterCharacter* playerPtr) override;
+	//Player begin interaction
+	virtual void OnBeginInteract(IInteractor* playerPtr) override;
 
-	virtual void beginFocus(ALoryShelterCharacter* playerPtr) override;
+	//Interaction is over
+	virtual void OnEndInteract(IInteractor* playerPtr) override;
 
-	virtual void endFocus(ALoryShelterCharacter* playerPtr) override;
+	//Interaction process
+	virtual void OnInteract(IInteractor* playerPtr) override;
 
 	//Toggle type interaction handler
 	virtual void ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias);

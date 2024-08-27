@@ -6,7 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "QuestObject.h"
 #include "../Primitives/WorldArea.h"
-#include "../Logics/QuestSystemComponent.h"
+#include "QuestSystemComponent.h"
 
 QuestObjectCreator::QuestObjectCreator()
 {

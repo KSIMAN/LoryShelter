@@ -2,9 +2,8 @@
 
 
 #include "Animal.h"
-#include "../LoryShelterCharacter.h"
-#include "../UI/LoryHUD.h"
 #include "Components/CapsuleComponent.h"
+#include "LoryShelter/Interactions/IInteractor.h"
 
 // Sets default values
 AAnimal::AAnimal() : mindState(EAnimalMindState::NORMAL), 
@@ -60,41 +59,41 @@ void AAnimal::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 	//Handling here, cause overlap event for Item not so often, as for Player Character
 
-	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
-		beginFocus(loryPlayer);
+	if (IInteractor* loryPlayer = Cast<IInteractor>(OtherActor))
+		OnStartFocus(loryPlayer);
 }
 
 void AAnimal::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (ALoryShelterCharacter* loryPlayer = Cast<ALoryShelterCharacter>(OtherActor))
-		endFocus(loryPlayer);
+	if (IInteractor* loryPlayer = Cast<IInteractor>(OtherActor))
+		OnEndFocus(loryPlayer);
 }
 
-void AAnimal::beginInteract(ALoryShelterCharacter* playerPtr)
+void AAnimal::OnBeginInteract(IInteractor* playerPtr)
 {
 	
 }
 
-void AAnimal::endInteract(ALoryShelterCharacter* playerPtr)
+void AAnimal::OnEndInteract(IInteractor* playerPtr)
 {
 }
 
-void AAnimal::beginFocus(ALoryShelterCharacter* playerPtr)
+void AAnimal::OnStartFocus(IInteractor* playerPtr)
 {
-	if (!playerPtr || playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
+	if (!playerPtr)//*|| playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
 		return;
 
-	playerPtr->setFocusItem(this);
-	playerPtr->getPlayerHUD()->showAliasInteract(petInteractInfo, static_cast<EAliasIndex>(0));
+	//*playerPtr->setFocusItem(this);
+	//*playerPtr->getPlayerHUD()->showAliasInteract(petInteractInfo, static_cast<EAliasIndex>(0));
 }
 
-void AAnimal::endFocus(ALoryShelterCharacter* playerPtr)
+void AAnimal::OnEndFocus(IInteractor* playerPtr)
 {
 	if (!playerPtr )
 		return;
 
-	playerPtr->setFocusItem(nullptr);
-	playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
+	//*playerPtr->setFocusItem(nullptr);
+	//*playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
 }
 
 // Called every frame

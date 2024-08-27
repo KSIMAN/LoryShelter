@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractItem.h"
+#include "../Interactions/InteractItem.h"
 #include "ContainerItem.generated.h"
 
 /**

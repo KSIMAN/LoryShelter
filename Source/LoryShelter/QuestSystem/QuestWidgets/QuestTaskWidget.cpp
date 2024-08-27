@@ -2,7 +2,7 @@
 
 
 #include "QuestTaskWidget.h"
-#include "../../Logics/QuestItem.h"
+#include "../QuestItem.h"
 
 void UQuestTaskWidget::updateStepInfo(FQuestStep stepInfo)
 {
