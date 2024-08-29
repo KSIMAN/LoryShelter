@@ -60,6 +60,10 @@ protected:
 	//Interaction process
 	virtual void OnInteract(IInteractor* playerPtr) override;
 
+	virtual UAnimMontage* GetInteractAnimation() override;
+
+	virtual const FInteractionInfo& GetInteractionInfo() override;
+
 	//Toggle type interaction handler
 	virtual void ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias);
 

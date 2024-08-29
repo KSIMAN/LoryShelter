@@ -14,6 +14,7 @@
 #include "QuestSystem/QuestItem.h"
 #include "UI/LoryHUD.h"
 #include "Animations/LoryAnimInstance.h"
+#include "Dragging/Draggable.h"
 #include "Engine/SkeletalMeshSocket.h"
 
 #include "QuestSystem/QuestObjectCreator.h"
@@ -69,11 +70,79 @@ ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr), bMove
 
 }
 
-void ALoryShelterCharacter::setFocusItem(IInteractable* itemPointer)
+uint8 ALoryShelterCharacter::PutUp(IDraggable* Item)
 {
-	if (interactionItem && itemPointer) //if has focus item 
+	if (!animInstance)
+		return -1;
+
+	animInstance->setMovementType(EMovementType::CARRY);
+	Item->OnPutUp(this);
+	return 0;
+}
+
+uint8 ALoryShelterCharacter::PutDown(IDraggable* Item)
+{
+	if (!animInstance)
+		return -1;
+	animInstance->setMovementType(EMovementType::DEFAULT);
+	Item->OnPutDown(this);
+	return 0;
+}
+
+FVector ALoryShelterCharacter::GetPutDownPoint()
+{
+	//Find point  to put down
+	FVector groundPoint;
+
+	float putDistance = 5;
+	float bottomMax = 100;
+
+	FVector vTraceStart{ GetActorLocation() + GetActorForwardVector() * putDistance };
+	FVector vTraceEnd{ vTraceStart - FVector(0,0, bottomMax)};
+
+	FCollisionQueryParams queryParams;
+	queryParams.AddIgnoredActor(this);
+	FHitResult traceHit;
+
+	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECollisionChannel::ECC_Visibility, queryParams))
+	{
+		groundPoint = traceHit.ImpactPoint;
+	}
+	return groundPoint;
+}
+
+FDragInfo ALoryShelterCharacter::GetDragInfo()
+{
+	//Move to class Members later
+	const USkeletalMeshSocket* rhSocket = GetMesh()->GetSocketByName(FName("RHSocket"));
+	const USkeletalMeshSocket* lhSocket = GetMesh()->GetSocketByName(FName("LHSocket"));
+
+	if (!rhSocket || !lhSocket)
+		return FDragInfo();
+
+	FVector lhLoc = lhSocket->GetSocketLocation(GetMesh()); 
+	FVector rhLoc = rhSocket->GetSocketLocation(GetMesh());
+	FVector betwHandsLoc = lhLoc + GetActorRightVector() * FVector::DistXY(rhLoc, rhLoc) / 2; //Center Location between hands
+	FDragInfo DragInfo;
+	DragInfo.AttachmentPoint = betwHandsLoc;
+	DragInfo.AttachmentRotator = GetControlRotation();
+	DragInfo.AttachmentActor = this;
+	DragInfo.bToSocket = true;
+	DragInfo.SocketName = FName("RHSocket");
+	return  DragInfo;
+}
+
+
+void ALoryShelterCharacter::SetFocusItem(IInteractable* Interactable)
+{
+	if (interactionItem && Interactable) //if has focus item
 		return;
-	interactionItem = itemPointer; //We don't mind if its nullptr
+	interactionItem = Interactable;
+	
+	if(interactionItem)
+		getPlayerHUD()->showAliasInteract(Interactable->GetInteractionInfo(), static_cast<EAliasIndex>(0));
+	else
+		getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0));
 }
 
 void ALoryShelterCharacter::BeginPlay()
@@ -88,9 +157,7 @@ void ALoryShelterCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
-
 		baseHUD = Cast<ALoryHUD>(PlayerController->GetHUD());
-		
 	}
 
 	//////////////////////////////////////////////
@@ -107,9 +174,12 @@ void ALoryShelterCharacter::BeginPlay()
 	GetMesh()->GetAnimInstance()->OnMontageEnded.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageEnded);
 	
 	animInstance = Cast<ULoryAnimInstance>(GetMesh()->GetAnimInstance());
-
 }
 
+void ALoryShelterCharacter::InteractAction()
+{
+	BeginInteract(interactionItem);
+}
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -118,7 +188,7 @@ void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 {
 	// Set up action bindings
 
-	PlayerInputComponent->BindAction("Interaction", EInputEvent::IE_Pressed, this, &ALoryShelterCharacter::BeginInteractItem);
+	PlayerInputComponent->BindAction("Interaction", EInputEvent::IE_Pressed, this, &ALoryShelterCharacter::InteractAction);
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
@@ -138,95 +208,50 @@ void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	}
 }
 
-void ALoryShelterCharacter::OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+void ALoryShelterCharacter::StartFocus(IInteractable* itemPtr)
 {
-	bMovementBlock = false;
 }
 
-void ALoryShelterCharacter::OnAnimMontageStarted(UAnimMontage* Montage)
+void ALoryShelterCharacter::EndFocus(IInteractable* itemPtr)
 {
-	bMovementBlock = true;
 }
 
-uint8 ALoryShelterCharacter::pickUpForDragging(AActor* item)
+void ALoryShelterCharacter::BeginInteract(IInteractable* itemPtr)
 {
-	if (!animInstance)
-		return -1;
+	if (!itemPtr)
+		return; //Nothing to Interact With
 
-	animInstance->setMovementType(EMovementType::CARRY);
+	//interactionItem->beginInteract(this); (on future)
+	TArray<UObject*> objs = UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.GetAllObjects();
 
-	//Move to class Members later
-	const USkeletalMeshSocket* rhSocket = GetMesh()->GetSocketByName(FName("RHSocket"));
-	const USkeletalMeshSocket* lhSocket = GetMesh()->GetSocketByName(FName("LHSocket"));
-
-	if (!rhSocket || !lhSocket)
-		return -1;
-
-	FVector lhLoc = lhSocket->GetSocketLocation(GetMesh()); 
-	FVector rhLoc = rhSocket->GetSocketLocation(GetMesh());
-
-	FVector betwHandsLoc = lhLoc + GetActorRightVector() * FVector::DistXY(rhLoc, rhLoc) / 2; //Center Location between hands
-	item->SetActorLocation(betwHandsLoc);
-	item->SetActorRotation(GetControlRotation());
-	item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("RHSocket"));
-	//Change Actor Location
-	//item->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
-	return 0;
+	itemPtr->OnInteract(this);
 }
 
-uint8 ALoryShelterCharacter::putDownItem(AActor* item)
+void ALoryShelterCharacter::EndInteract(IInteractable* itemPtr)
 {
-	if (!animInstance)
-		return -1;
-
-	//Find point  to put down
-	FVector groundPoint;
-
-	float putDistance = 5;
-	float bottomMax = 100;
-
-	FVector vTraceStart{ GetActorLocation() + GetActorForwardVector() * putDistance };
-	FVector vTraceEnd{ vTraceStart - FVector(0,0, bottomMax)};
-
-	FCollisionQueryParams queryParams;
-	queryParams.AddIgnoredActor(this);
-	FHitResult traceHit;
-
-	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECollisionChannel::ECC_Visibility, queryParams))
-	{
-		groundPoint = traceHit.ImpactPoint;
-	}
-	else
-		return -1;
-
-	animInstance->setMovementType(EMovementType::DEFAULT);
-	//Change Actor Location
-	item->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-
-	//Change actor location
-	item->SetActorLocation(groundPoint);
-	item->SetActorRotation(FRotator::ZeroRotator);
-
-
-	if(Cast<AInteractItem>(item))
-		UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.Broadcast(Cast<AInteractItem>(item), EItemNotifyType::LOCATIONCHANGED);
-
-	return 0;
+	if (!interactionItem)
+		return; //Nothing to Interact With
+	interactionItem->OnEndInteract(this);
 }
 
-uint8 ALoryShelterCharacter::sitDownToItem(const FVector& sittingPoint)
+void ALoryShelterCharacter::Interact(IInteractable* itemPtr)
 {
-	if (!animInstance)
+	check(itemPtr)
+	GetMesh()->GetAnimInstance()->Montage_Play(itemPtr->GetInteractAnimation());
+}
+
+uint8 ALoryShelterCharacter::SitDown(ISittable* item)
+{
+	if (!animInstance || !item)
 		return -1;
 
-	SetActorLocation(sittingPoint);
+	SetActorLocation(item->GetPointToSeat());
 	bMovementBlock = true;
 	animInstance->setMovementType(EMovementType::SITTING);
 	return 0;
-
 }
 
-uint8 ALoryShelterCharacter::sitUpFromItem()
+uint8 ALoryShelterCharacter::SitUp(ISittable* item)
 {
 	if (!animInstance)
 		return -1;
@@ -256,6 +281,16 @@ uint8 ALoryShelterCharacter::sitUpFromItem()
 	animInstance->setMovementType(EMovementType::DEFAULT);
 
 	return 0;
+}
+
+void ALoryShelterCharacter::OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	bMovementBlock = false;
+}
+
+void ALoryShelterCharacter::OnAnimMontageStarted(UAnimMontage* Montage)
+{
+	bMovementBlock = true;
 }
 
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)
@@ -295,15 +330,4 @@ void ALoryShelterCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
-}
-
-void ALoryShelterCharacter::BeginInteractItem()
-{
-	if (!interactionItem)
-		return; //Nothing to Interact With
-
-	//interactionItem->beginInteract(this); (on future)
-	TArray<UObject*> objs = UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.GetAllObjects();
-
-	interactionItem->OnInteract(this);
 }

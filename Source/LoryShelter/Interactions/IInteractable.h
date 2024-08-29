@@ -7,7 +7,6 @@
 #include "IInteractable.generated.h"
 
 // This class does not need to be modified.
-class ALoryShelterCharacter;
 
 UINTERFACE(MinimalAPI)
 class UInteractable : public UInterface
@@ -19,8 +18,6 @@ class UInteractable : public UInterface
 /**
  * 
  */
-
-
 USTRUCT(BlueprintType)
 struct FInteractionInfo
 {
@@ -43,6 +40,7 @@ struct FInteractionInfo
 
 };
 class IInteractor;
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnFocusStarted, IInteractor)
 class LORYSHELTER_API IInteractable
 {
 	GENERATED_BODY()
@@ -65,5 +63,9 @@ public:
 
 	//Interaction process
 	virtual void OnInteract(IInteractor* playerPtr);
+	//
+	virtual UAnimMontage* GetInteractAnimation() = 0;
+	//
+	virtual const FInteractionInfo& GetInteractionInfo() = 0;
 
 };

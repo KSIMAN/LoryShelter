@@ -97,6 +97,12 @@ public:
 
 	virtual void OnEndFocus(IInteractor* playerPtr) override;
 
+	//
+	virtual UAnimMontage* GetInteractAnimation() override;
+	//
+	virtual const FInteractionInfo& GetInteractionInfo() override;
+	
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FInteractionInfo petInteractInfo;
 

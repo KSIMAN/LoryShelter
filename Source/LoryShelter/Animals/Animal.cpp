@@ -96,14 +96,21 @@ void AAnimal::OnEndFocus(IInteractor* playerPtr)
 	//*playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
 }
 
+UAnimMontage* AAnimal::GetInteractAnimation()
+{
+	return nullptr;
+}
+
+const FInteractionInfo& AAnimal::GetInteractionInfo()
+{
+	return petInteractInfo;
+}
+
 // Called every frame
 void AAnimal::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 	diffIndicators();
-
-	
 }
 
 // Called to bind functionality to input

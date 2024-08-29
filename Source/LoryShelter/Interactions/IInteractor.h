@@ -7,6 +7,7 @@
 #include "IInteractor.generated.h"
 
 class IInteractable;
+
 // This class does not need to be modified.
 UINTERFACE()
 class UInteractor : public UInterface
@@ -19,7 +20,9 @@ class UInteractor : public UInterface
  */
 class LORYSHELTER_API IInteractor
 {
+
 	GENERATED_BODY()
+public:
 	//Player is near item and can begin interact if he wants
 	virtual void StartFocus(IInteractable* itemPtr) = 0;
 
@@ -34,6 +37,12 @@ class LORYSHELTER_API IInteractor
 
 	//Interaction process
 	virtual void Interact(IInteractable* itemPtr) = 0;
+
+	//
+	virtual IInteractable* GetFocusItem() = 0;
+
+	//
+	virtual void SetFocusItem(IInteractable*) = 0;
 
 public:
 };

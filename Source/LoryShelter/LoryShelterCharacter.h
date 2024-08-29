@@ -3,10 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Dragging/Dragger.h"
 #include "GameFramework/Character.h"
 #include "Interactions/IInteractable.h"
 #include "Interactions/IInteractor.h"
 #include "Logging/LogMacros.h"
+#include "Sitting/Sitter.h"
 #include "LoryShelterCharacter.generated.h"
 
 class USpringArmComponent;
@@ -21,7 +23,7 @@ class UQuestSystemComponent;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ALoryShelterCharacter : public ACharacter, public IInteractor
+class ALoryShelterCharacter : public ACharacter, public IInteractor, public ISitter, public IDragger
 {
 	GENERATED_BODY()
 
@@ -57,24 +59,31 @@ class ALoryShelterCharacter : public ACharacter, public IInteractor
 	//--Interaction Interface------------------------------------------------------------------------
 
 	//Player is near item and can begin interact if he wants
-	virtual void StartFocus(IInteractable* itemPtr) override{};
+	virtual void StartFocus(IInteractable* itemPtr) override;
 
 	//Player not near item yet. 
-	virtual void EndFocus(IInteractable* itemPtr)override {};
+	virtual void EndFocus(IInteractable* itemPtr)override;
 
 	//Player begin interaction
-	virtual void BeginInteract(IInteractable* itemPtr)override{};
+	virtual void BeginInteract(IInteractable* itemPtr)override;
 
 	//Interaction is over
-	virtual void EndInteract(IInteractable* itemPtr)override{};
+	virtual void EndInteract(IInteractable* itemPtr)override;
 
 	//Interaction process
-	virtual void Interact(IInteractable* itemPtr)override{};
-
-	//--Interaction Interface------------------------------------------------------------------------
-
+	virtual void Interact(IInteractable* itemPtr)override;
+	
+	virtual IInteractable* GetFocusItem() override { return interactionItem; } ;
+	//Setting up Pointer on Item, that can be Interacted
+	virtual void SetFocusItem(IInteractable* itemPointer) override;
+	
 	IInteractable* interactionItem;
+	
+	//--Sitting Interface------------------------------------------------------------------------
 
+	virtual uint8 SitDown(ISittable* item) override;
+	virtual uint8 SitUp(ISittable* item) override;
+	
 	//--UI Components--------------------------------------------------------------------------------
 
 	//Base HUD for player
@@ -86,8 +95,6 @@ class ALoryShelterCharacter : public ACharacter, public IInteractor
 	void OnAnimMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 	UFUNCTION()
 	void OnAnimMontageStarted(UAnimMontage* Montage);
-
-
 
 protected:
 
@@ -104,18 +111,11 @@ protected:
 
 	//--User Input------------------------------------------------------------------------------------
 
-
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-
-	//Called when user press Interaction Key
-	void BeginInteractItem();
-
-	//Called when user unpress Interaction Key (on future)
-	//void BeginInteractItem();
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -124,28 +124,30 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay();
 
+	void InteractAction();
+
 public:
 	//Default Constructor
 	ALoryShelterCharacter();
 
 	//--Actions Logic Callbacks-----------------------------------------------------------------------
 
-	//Picks Up Item To drag return state 
-	uint8 pickUpForDragging(AActor* item);
-
-	//Puts Down Item  return state 
-	uint8 putDownItem(AActor* item);
+	//Dragger Puts Up Item
+	virtual uint8 PutUp(IDraggable* ) override;
+	//Dragger Puts Down Item
+	virtual uint8 PutDown(IDraggable* ) override;
+	//
+	virtual FVector GetPutDownPoint() override;
 	
-	//Sitting Down
-	uint8 sitDownToItem(const FVector& sittingPoint);
-
-	//Sitting Up
-	uint8 sitUpFromItem();
+	virtual FDragInfo GetDragInfo()override;
+	// //Picks Up Item To drag return state 
+	// uint8 pickUpForDragging(AActor* item);
+	//
+	// //Puts Down Item  return state 
+	// uint8 putDownItem(AActor* item);
 
 	//--Setters------------------------------------------------------------------------
 
-	//Setting up Pointer on Item, that can be Interacted
-	void setFocusItem(IInteractable* itemPointer);
 
 
 	//--Getters------------------------------------------------------------------------
@@ -153,7 +155,6 @@ public:
 	//Returns LoryHud pointer
 	ALoryHUD* getPlayerHUD() const { return baseHUD; };
 
-	IInteractable* getFocusItem(){ return interactionItem; };
 
 	// Returns CameraBoom subobject
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

@@ -50,9 +50,19 @@ void AInteractItem::OnInteract(IInteractor* playerPtr)
 	if (!playerPtr)
 		return;
 	//By default We Watching Item
-	//*playerPtr->GetMesh()->GetAnimInstance()->Montage_Play(interactMontage);
+	playerPtr->Interact(this);
 	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
 
+}
+
+UAnimMontage* AInteractItem::GetInteractAnimation()
+{
+	return interactMontage;
+}
+
+const FInteractionInfo& AInteractItem::GetInteractionInfo()
+{
+	return itemInfo;
 }
 
 void AInteractItem::OnBeginInteract(IInteractor* playerPtr)
@@ -62,20 +72,19 @@ void AInteractItem::OnBeginInteract(IInteractor* playerPtr)
 	//if elapsed endInteract
 }
 
-void AInteractItem::OnEndInteract(IInteractor* playerPtr)
+void AInteractItem::OnEndInteract(IInteractor* Interactor)
 {
 	//if isInteracting
 	//Stop Interaction (threadSafe please)
 }
 
-void AInteractItem::OnStartFocus(IInteractor* playerPtr)
+void AInteractItem::OnStartFocus(IInteractor* Interactor)
 {
-	if (!playerPtr) //*|| //*playerPtr->getFocusItem()) //if focus item != nullptr - object has another interaction
+	if (!Interactor || Interactor->GetFocusItem()) //if focus item != nullptr - object has another interaction
 		return;
 
 	bItemCaptured = true;
-	//*playerPtr->setFocusItem(this);
-	//*playerPtr->getPlayerHUD()->showAliasInteract(itemInfo, static_cast<EAliasIndex>(0));
+	Interactor->SetFocusItem(this);
 }
 
 void AInteractItem::OnEndFocus(IInteractor* playerPtr)
@@ -84,8 +93,7 @@ void AInteractItem::OnEndFocus(IInteractor* playerPtr)
 		return;
 
 	bItemCaptured = false;
-	//*playerPtr->setFocusItem(nullptr);
-	//*playerPtr->getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0)); //Item intract index = 0
+	playerPtr->SetFocusItem(nullptr);
 }
 
 void AInteractItem::ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias)
