@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Plantable.h"
 #include "GameFramework/Actor.h"
 #include "Components/WidgetComponent.h"
 
 #include "Plant.generated.h"
 
 UCLASS()
-class LORYSHELTER_API APlant : public AActor
+class LORYSHELTER_API APlant : public AActor, public IPlantable
 {
 	GENERATED_BODY()
 	
@@ -40,7 +41,7 @@ protected:
 	float calcGrowOffset(float meshHeight, int PhasesNum);
 
 	//calculates Mesh height
-	float getPlantHeight(UStaticMesh* plantMesh);
+	virtual float getPlantHeight() override;
 
 	//--Components------------------------------------------
 
@@ -50,7 +51,7 @@ protected:
 
 	//Timeer
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
-	UWidgetComponent* timerWidgetComp;
+	UWidgetComponent* TimerWidgetComponent;
 
 	//Plant Mesh
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)

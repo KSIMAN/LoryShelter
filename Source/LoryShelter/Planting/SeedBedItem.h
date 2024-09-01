@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlantZone.h"
 #include "../Interactions/InteractItem.h"
 #include "SeedBedItem.generated.h"
 
@@ -12,34 +13,27 @@
 class APlant;
 
 UCLASS()
-class LORYSHELTER_API ASeedBedItem : public AInteractItem
+class LORYSHELTER_API ASeedBedItem : public AInteractItem, public IPlantZone
 {
 	GENERATED_BODY()
 
 public:
-	//--Setters-----------------------------------------
+	//Set Grown Plant to slot returns success status
+	virtual bool AddPlant(IPlantable* newPlant) override;
 
 	//Set Grown Plant to slot returns success status
-	bool addPlantToSlot(APlant* newPlant);
-
-	//Set Grown Plant to slot returns success status
-	bool addPlantToSlot(const TSubclassOf<APlant>& newPlantClass);
+	bool AddPlantByClass(const TSubclassOf<APlant>& newPlantClass);
 
 	//Clearing plant slot. Returns pointer for plant thant was in slot
-	APlant* freePlantSlot();
-
-
+	virtual IPlantable* RemovePlant() override;
 protected:
 
 	//Contains growing plant
-	 APlant* plantSlot;
+	 IPlantable* plantSlot;
 
 	//While SeedBed Selector not ready
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<class USeedbedSelectorWidget> selectorWidgetClass; //maybe put this int HUD for player
-
-	
-	
 
 public:
 	ASeedBedItem();

@@ -58,8 +58,7 @@ public:
 	USeedCardWidget(const FObjectInitializer& ObjectInitializer);
 
 protected:
-
-
+	
 	//--UI Components-----------------------------------------------
 	
 	//Properties of seed

@@ -23,6 +23,9 @@ public:
 	//updates Info about remained time
 	void setTimeRemained(int seconds);
 
+	// Called every frame
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
 protected:
 
 	//--UI Components--------------------------------------------------

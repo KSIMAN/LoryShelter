@@ -6,16 +6,7 @@
 #include "Plant.h"
 
 
-
-
-ASeedBedItem::ASeedBedItem() : AInteractItem()
-{
-	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("SEEDBED"));
-	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PLANT"));
-	itemInfo.interactDuration = 3;
-}
-
-bool ASeedBedItem::addPlantToSlot(APlant* newPlant)
+bool ASeedBedItem::AddPlant(IPlantable* newPlant)
 {
 	if (plantSlot)
 		return false; //Slot is Busy
@@ -27,19 +18,19 @@ bool ASeedBedItem::addPlantToSlot(APlant* newPlant)
 	return true;
 }
 
-bool ASeedBedItem::addPlantToSlot(const TSubclassOf<APlant>& newPlantClass)
+bool ASeedBedItem::AddPlantByClass(const TSubclassOf<APlant>& newPlantClass)
 {
 	if (plantSlot)
 		return false; //Slot is Busy
 
-	return addPlantToSlot(Cast<APlant>(GetWorld()->SpawnActor(newPlantClass.Get(), &GetActorTransform())));
+	return AddPlant(Cast<IPlantable>(GetWorld()->SpawnActor(newPlantClass.Get(), &GetActorTransform())));
 }
 
-APlant* ASeedBedItem::freePlantSlot()
+IPlantable* ASeedBedItem::RemovePlant()
 {
 	//need to throw exeption if plantSlot == nullptr on func entry
 
-	APlant* returnVal = nullptr;
+	IPlantable* returnVal = nullptr;
 
 	Swap(plantSlot, returnVal);
 
@@ -48,10 +39,16 @@ APlant* ASeedBedItem::freePlantSlot()
 	return returnVal;
 }
 
+ASeedBedItem::ASeedBedItem() : AInteractItem()
+{
+	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("SEEDBED"));
+	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PLANT"));
+	itemInfo.interactDuration = 3;
+}
+
 void ASeedBedItem::OnBeginInteract(IInteractor* playerPtr)
 {
 	//Create Plant Widget Here
-
 }
 
 void ASeedBedItem::OnInteract(IInteractor* playerPtr)
@@ -69,11 +66,6 @@ void ASeedBedItem::OnInteract(IInteractor* playerPtr)
 	//While SeedBed Selector not ready
 	//if (!plantType) return;
 	//plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
-	
-	//
-	//
 	if (!plantSlot)
 		return;
-
-
 }

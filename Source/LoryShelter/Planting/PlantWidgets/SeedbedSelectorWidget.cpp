@@ -28,7 +28,6 @@ void USeedbedSelectorWidget::NativeOnInitialized()
 
 	GetOwningPlayer()->SetInputMode(FInputModeUIOnly());
 	GetOwningPlayer()->bShowMouseCursor = true;
-	
 	refreshSeedCards();
 }
 
@@ -47,13 +46,11 @@ void USeedbedSelectorWidget::OnItemSelected(const TSubclassOf<APlant>& selectedP
 	if (!ownerItem)
 		return;
 
-	if (ownerItem->addPlantToSlot(selectedPlant))
+	if (ownerItem->AddPlantByClass(selectedPlant))
 	{
 		GetOwningPlayer()->SetInputMode(FInputModeGameOnly());
 		GetOwningPlayer()->bShowMouseCursor = false;
-
 		RemoveFromParent();
-
 	}
 	
 }

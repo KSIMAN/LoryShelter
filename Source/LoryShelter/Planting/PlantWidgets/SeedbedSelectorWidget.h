@@ -41,8 +41,6 @@ protected:
 	//When widget closes
 	virtual void BeginDestroy() override;
 
-
-
 public:
 
 	void setSeedBedOwner(ASeedBedItem* selectorItem);
