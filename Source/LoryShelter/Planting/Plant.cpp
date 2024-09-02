@@ -2,7 +2,6 @@
 
 
 #include "Plant.h"
-#include "PlantWidgets/PlantTimerWidget.h"
 #include "CoreFwd.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -14,27 +13,18 @@ APlant::APlant()
 	SetActorTickInterval(1.);
 
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("PlantMesh");
-	TimerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("Timer Widget");
+
 	rootNode = CreateDefaultSubobject<USceneComponent>("Scene Component");
 	
 	RootComponent = rootNode;
 
 	itemMesh->SetupAttachment(RootComponent);
-	TimerWidgetComponent->SetupAttachment(RootComponent);
+
 	plantTime = 10.;
 	plantTimeRemained = plantTime;
 	maxPhase = 5;
 	currGrowPhase = 0;
 
-}
-
-void APlant::refreshTimeInfoText()
-{
-	if (timerWidgetPtr)
-	{
-		int timeInSeconds = plantTime * (maxPhase - currGrowPhase) + plantTimeRemained;
-		timerWidgetPtr->setTimeRemained(timeInSeconds);
-	}
 }
 
 void APlant::checkGrowPhase()
@@ -69,6 +59,16 @@ float APlant::getPlantHeight()
 	return static_cast<double>(itemMesh->GetStaticMesh()->GetBoundingBox().GetSize().Z * 4);
 }
 
+int APlant::GetGrowTimeRemained()
+{
+	return (plantTime * (maxPhase - currGrowPhase) + plantTimeRemained);
+}
+
+FName APlant::GetPlantName()
+{
+	return FName("PLANT");
+}
+
 // Called when the game starts or when spawned
 void APlant::BeginPlay()
 {
@@ -79,38 +79,16 @@ void APlant::BeginPlay()
 	float groundedHeight = growOffset * maxPhase * 2;
 	itemMesh->AddWorldOffset(FVector(0, 0, -groundedHeight));
 
-	
-	
-	// Move to setUpItem func ----------------------------------------------------------------------------
-	FSoftClassPath timerClassRef(TEXT("/Game/UI/Widgets/PlantTimerWidgetBP.PlantTimerWidgetBP_C"));
-
-	UClass* timerWidgetClass = timerClassRef.TryLoadClass<UWidget>();
-	
-	if (timerWidgetClass)
-	{
-		TimerWidgetComponent->SetWidgetClass(timerWidgetClass);
-		timerWidgetPtr = Cast<UPlantTimerWidget>(TimerWidgetComponent->GetWidget());
-	}
-		
-	if (timerWidgetPtr)
-		timerWidgetPtr->setItemName(FText(FText::FromString("Plant")));
-
-	//---------------------------------------------------------------------------------------------------
-
 }
 
 // Called every frame
 void APlant::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	auto ViewRotator = TimerWidgetComponent->GetComponentRotation();
-	ViewRotator.Yaw = UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetControlRotation().GetInverse().Yaw;
-	TimerWidgetComponent->SetWorldRotation(ViewRotator);
 	
 	if (currGrowPhase != maxPhase)
 	{
-		refreshTimeInfoText();
+		TimeUpdateDelegate.Broadcast();
 		checkGrowPhase();
 		plantTimeRemained--;
 	}

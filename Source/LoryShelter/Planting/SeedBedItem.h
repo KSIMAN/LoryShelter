@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PlantZone.h"
+#include "Components/WidgetComponent.h"
 #include "../Interactions/InteractItem.h"
 #include "SeedBedItem.generated.h"
 
@@ -18,6 +19,7 @@ class LORYSHELTER_API ASeedBedItem : public AInteractItem, public IPlantZone
 	GENERATED_BODY()
 
 public:
+
 	//Set Grown Plant to slot returns success status
 	virtual bool AddPlant(IPlantable* newPlant) override;
 
@@ -26,7 +28,18 @@ public:
 
 	//Clearing plant slot. Returns pointer for plant thant was in slot
 	virtual IPlantable* RemovePlant() override;
+
 protected:
+	
+	//Timeer
+	UPROPERTY(EditAnywhere, BlueprintReadwrite)
+	UWidgetComponent* TimerWidgetComponent;
+
+	//Plant Timer Widget
+	class UPlantTimerWidget* timerWidgetPtr;
+
+	void OnNeedUpdateTimer();
+	//---------------------------------------------------------
 
 	//Contains growing plant
 	 IPlantable* plantSlot;
@@ -43,4 +56,8 @@ public:
 	virtual void OnBeginInteract(IInteractor* playerPtr) override;
 
 	virtual void OnInteract(IInteractor* playerPtr)override;
+
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 };

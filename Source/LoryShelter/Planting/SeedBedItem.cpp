@@ -3,7 +3,58 @@
 
 #include "SeedBedItem.h"
 #include "PlantWidgets/SeedbedSelectorWidget.h"
+#include "PlantWidgets/PlantTimerWidget.h"
 #include "Plant.h"
+#include "Kismet/GameplayStatics.h"
+
+
+ASeedBedItem::ASeedBedItem() : AInteractItem()
+{
+	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("SEEDBED"));
+	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PLANT"));
+	itemInfo.interactDuration = 3;
+
+	TimerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("Timer Widget");
+	if(itemMesh)
+	TimerWidgetComponent->SetupAttachment(itemMesh);
+	TimerWidgetComponent->SetVisibility(false);
+}
+
+
+void ASeedBedItem::BeginPlay()
+{
+	Super::BeginPlay();
+
+		
+	// Move to setUpItem func ----------------------------------------------------------------------------
+	FSoftClassPath timerClassRef(TEXT("/Game/UI/Widgets/PlantTimerWidgetBP.PlantTimerWidgetBP_C"));
+
+	UClass* timerWidgetClass = timerClassRef.TryLoadClass<UWidget>();
+	
+	if (timerWidgetClass)
+	{
+		TimerWidgetComponent->SetWidgetClass(timerWidgetClass);
+		timerWidgetPtr = Cast<UPlantTimerWidget>(TimerWidgetComponent->GetWidget());
+	}
+		
+	if (timerWidgetPtr)
+		timerWidgetPtr->setItemName(FText(FText::FromString("Plant")));
+
+}
+
+void ASeedBedItem::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	
+	if(TimerWidgetComponent)
+	{
+		auto ViewRotator = TimerWidgetComponent->GetComponentRotation();
+		auto PlayerRotator = UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetControlRotation();
+		ViewRotator.Yaw = PlayerRotator.GetInverse().Yaw;
+		ViewRotator.Pitch = PlayerRotator.GetInverse().Pitch;
+		TimerWidgetComponent->SetWorldRotation(ViewRotator);
+	}
+}
 
 
 bool ASeedBedItem::AddPlant(IPlantable* newPlant)
@@ -13,6 +64,18 @@ bool ASeedBedItem::AddPlant(IPlantable* newPlant)
 
 	plantSlot = newPlant;
 
+	APlant* PlantPtr = Cast<APlant>(newPlant);
+	if(PlantPtr)
+		PlantPtr->TimeUpdateDelegate.AddUObject(this, &ASeedBedItem::OnNeedUpdateTimer);
+
+	//--Change Timer ---------------
+	check(timerWidgetPtr)
+	check(TimerWidgetComponent)
+	
+	timerWidgetPtr->setItemName(FText::FromName(PlantPtr->GetPlantName()));
+	TimerWidgetComponent->SetVisibility(true);
+
+	//--Item Usage-----------------
 	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
 
 	return true;
@@ -34,16 +97,25 @@ IPlantable* ASeedBedItem::RemovePlant()
 
 	Swap(plantSlot, returnVal);
 
+	
 	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
 
+	check(timerWidgetPtr)
+	check(TimerWidgetComponent)
+	
+	//timerWidgetPtr->setItemName(FText::FromName(returnVal->GetPlantName()));
+	TimerWidgetComponent->SetVisibility(false);
+	
 	return returnVal;
 }
 
-ASeedBedItem::ASeedBedItem() : AInteractItem()
+void ASeedBedItem::OnNeedUpdateTimer()
 {
-	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("SEEDBED"));
-	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PLANT"));
-	itemInfo.interactDuration = 3;
+	if (timerWidgetPtr)
+	{
+		int timeInSeconds = plantSlot->GetGrowTimeRemained();
+		timerWidgetPtr->setTimeRemained(timeInSeconds);
+	}
 }
 
 void ASeedBedItem::OnBeginInteract(IInteractor* playerPtr)

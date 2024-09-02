@@ -19,7 +19,13 @@ class UPlantable : public UInterface
 class LORYSHELTER_API IPlantable
 {
 	GENERATED_BODY()
-
+public:
+	//returns Max Plant Height
 	virtual float getPlantHeight() = 0;
+
+	virtual FName GetPlantName() = 0;
+
+	//Returns remained time to grow in seconds
+	virtual int GetGrowTimeRemained() = 0;
 public:
 };

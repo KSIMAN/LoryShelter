@@ -7,6 +7,11 @@ Key,SourceString
 "PUT_UP","Put up"
 "PUT_DOWN","Put Down"
 
+##OpenClose Item Actions#############
+
+"OPEN","Open"
+"CLOSE","Close"
+
 ##Furniture Item Actions########
 
 "SIT_UP","Sit Up"

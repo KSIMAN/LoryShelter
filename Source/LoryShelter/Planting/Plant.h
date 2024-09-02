@@ -5,10 +5,9 @@
 #include "CoreMinimal.h"
 #include "Plantable.h"
 #include "GameFramework/Actor.h"
-#include "Components/WidgetComponent.h"
 
 #include "Plant.generated.h"
-
+DECLARE_MULTICAST_DELEGATE(FNeedUpdateTime)
 UCLASS()
 class LORYSHELTER_API APlant : public AActor, public IPlantable
 {
@@ -18,8 +17,17 @@ public:
 	// Sets default values for this actor's properties
 	APlant();
 
-	//--Setters---------------------------------------
+	FNeedUpdateTime TimeUpdateDelegate;
+
 	
+	//calculates Mesh height
+	virtual float getPlantHeight() override;
+
+	//Returns remained time to grow in seconds
+	virtual int GetGrowTimeRemained() override;
+
+	//Plant Name
+	virtual FName GetPlantName() override;
 
 protected:
 
@@ -40,18 +48,11 @@ protected:
 	//calculates The grow offset for phase increasing
 	float calcGrowOffset(float meshHeight, int PhasesNum);
 
-	//calculates Mesh height
-	virtual float getPlantHeight() override;
-
 	//--Components------------------------------------------
 
 	//Root Scene Node
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
 	USceneComponent* rootNode;
-
-	//Timeer
-	UPROPERTY(EditAnywhere, BlueprintReadwrite)
-	UWidgetComponent* TimerWidgetComponent;
 
 	//Plant Mesh
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
@@ -77,9 +78,7 @@ protected:
 
 	//Grow Z offset for one phase
 	float growOffset; 
-
-	//Plant Timer Widget
-	class UPlantTimerWidget* timerWidgetPtr;
+	
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

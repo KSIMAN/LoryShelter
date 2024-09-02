@@ -2,13 +2,14 @@ Key,SourceString
 
 ##FURNITURE###########
 
-"STOOL","Stool"
+"STOOL","Chair"
 "BOX","Box"
 "WHEEL","Wheel"
 "BED", "Bed"
 "BENCH","Bench"
 "SHELF","Shelf"
 "TABLE","Table"
+"DOOR","Door"
 
 ##Planting############
 
