@@ -8,7 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 
 
-ASeedBedItem::ASeedBedItem() : AInteractItem()
+ASeedBedItem::ASeedBedItem()
 {
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("SEEDBED"));
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PLANT"));

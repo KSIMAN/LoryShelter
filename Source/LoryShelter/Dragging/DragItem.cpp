@@ -4,7 +4,7 @@
 #include "../QuestSystem/NotifyDispatcher.h"
 #include "../LoryShelterCharacter.h"
 
-ADragItem::ADragItem() : AInteractItem()
+ADragItem::ADragItem()
 {
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("BOX"));
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP"));

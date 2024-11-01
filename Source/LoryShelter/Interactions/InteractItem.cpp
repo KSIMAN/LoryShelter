@@ -15,7 +15,7 @@ AInteractItem::AInteractItem()
 	PrimaryActorTick.bCanEverTick = true;
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("Item Mesh");
 	itemCollider = CreateDefaultSubobject<UCapsuleComponent>("Item Interact Collider");
-	interactMontage = CreateDefaultSubobject<UAnimMontage>("Interaction Anim Montage");
+	//interactMontage = CreateDefaultSubobject<UAnimMontage>("Interaction Anim Montage");
 	interactSound = CreateDefaultSubobject<USoundCue>("Interaction Sound Cue");
 
 	

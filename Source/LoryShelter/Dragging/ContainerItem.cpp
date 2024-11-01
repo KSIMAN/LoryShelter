@@ -3,7 +3,7 @@
 
 #include "ContainerItem.h"
 
-AContainerItem::AContainerItem() : AInteractItem(), isEmpty(true)
+AContainerItem::AContainerItem() :  isEmpty(true)
 {
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("CHECK"));;
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("BOX"));;
