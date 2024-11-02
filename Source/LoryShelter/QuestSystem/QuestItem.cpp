@@ -3,7 +3,10 @@
 
 #include "QuestItem.h"
 #include "QuestWidgets/QuestTaskWidget.h"
-#include "NotifyDispatcher.h"
+#include "QuestControlSubsystem.h"
+#include "QuestSystemHelper.h"
+#include "Kismet/GameplayStatics.h"
+#include "LoryShelter/FarmGameInstance.h"
 
 
 void UQuestItem::addQuestStep(const FText& stepDescr, uint64 actionCounterMax, UQuestObject* objForImpl)
@@ -24,8 +27,11 @@ void FQuestStep::bindQuestObject(UQuestObject* objForImpl)
 {
 	questImpl = objForImpl;
 	questImpl->setOwner(this);
-
-	UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.AddDynamic(objForImpl, &UQuestObject::OnInteractionNotify);
+	
+	UQuestControlSubsystem* QuestSystemPtr = UQuestSystemHelper::GetQuestControlSubsystem(objForImpl->GetWorld());
+	if (!QuestSystemPtr)
+		return;
+	QuestSystemPtr->OnInteractionHappened.AddDynamic(objForImpl, &UQuestObject::OnInteractionNotify);
 }
 
 void FQuestStep::setTaskViewerRef(UQuestTaskWidget* viewerWidget)

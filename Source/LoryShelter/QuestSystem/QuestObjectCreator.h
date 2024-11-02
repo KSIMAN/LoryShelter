@@ -12,14 +12,11 @@ class UQuestSystemComponent;
 class LORYSHELTER_API QuestObjectCreator
 {
 public:
-
 	QuestObjectCreator();
 	~QuestObjectCreator();
 
 	static void initFlourSucksQuest(UQuestSystemComponent* compPtr);
 
-
 	//--Helpers----------------------------------------------------
-
 	static UClass* findBPClassReference(const FString& classPath);
 };

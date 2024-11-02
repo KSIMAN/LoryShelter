@@ -26,7 +26,9 @@ void UQuestSystemComponent::initQuestPanel()
 void UQuestSystemComponent::addQuest(UQuestItem* questItem)
 {
 	if (!questItem)
+	{
 		return;
+	}
 
 	quests.Add(questItem);
 	questPanel->refreshPanelInfo(quests);
@@ -38,15 +40,14 @@ void UQuestSystemComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	initQuestPanel();
-
 }
 
 
 // Called every frame
-void UQuestSystemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UQuestSystemComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+                                          FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
 }
-

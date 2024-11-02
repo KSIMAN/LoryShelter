@@ -20,9 +20,9 @@ class USitter : public UInterface
 class LORYSHELTER_API ISitter
 {
 	GENERATED_BODY()
+
 public:
 	virtual uint8 SitDown(ISittable* item) = 0;
 	virtual uint8 SitUp(ISittable* item) = 0;
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
-public:
 };

@@ -10,7 +10,7 @@
 
 void USeedCardWidget::setSelectorOwner(USeedbedSelectorWidget* owner)
 {
-	ownerSelector = owner; 
+	ownerSelector = owner;
 }
 
 USeedCardWidget::USeedCardWidget(const FObjectInitializer& ObjectInitializer) : UUserWidget(ObjectInitializer)
@@ -27,10 +27,11 @@ void USeedCardWidget::refreshWidgetInfo()
 void USeedCardWidget::onClickPlantSeedButton()
 {
 	if (!itemInfo.plantClass || !ownerSelector)
+	{
 		return;
+	}
 
 	ownerSelector->OnItemSelected(itemInfo.plantClass);
-
 }
 
 void USeedCardWidget::NativeOnInitialized()

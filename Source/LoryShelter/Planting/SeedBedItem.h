@@ -19,7 +19,6 @@ class LORYSHELTER_API ASeedBedItem : public AInteractItem, public IPlantZone
 	GENERATED_BODY()
 
 public:
-
 	//Set Grown Plant to slot returns success status
 	virtual bool AddPlant(IPlantable* newPlant) override;
 
@@ -30,7 +29,6 @@ public:
 	virtual IPlantable* RemovePlant() override;
 
 protected:
-	
 	//Timeer
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
 	UWidgetComponent* TimerWidgetComponent;
@@ -42,11 +40,11 @@ protected:
 	//---------------------------------------------------------
 
 	//Contains growing plant
-	 IPlantable* plantSlot;
+	IPlantable* plantSlot;
 
 	//While SeedBed Selector not ready
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSubclassOf<class USeedbedSelectorWidget> selectorWidgetClass; //maybe put this int HUD for player
+	TSubclassOf<class USeedbedSelectorWidget> selectorWidgetClass; //maybe put this int HUD for player
 
 public:
 	ASeedBedItem();
@@ -55,7 +53,7 @@ public:
 
 	virtual void OnBeginInteract(IInteractor* playerPtr) override;
 
-	virtual void OnInteract(IInteractor* playerPtr)override;
+	virtual void OnInteract(IInteractor* playerPtr) override;
 
 	virtual void BeginPlay() override;
 

@@ -18,8 +18,10 @@ struct FQuestStep
 	GENERATED_USTRUCT_BODY()
 
 	//Default Constructor
-	FQuestStep() : bDone(false), doneCounterCurrent(0), doneCounterMax(1), questImpl(nullptr) {};
-	
+	FQuestStep() : doneCounterMax(1), doneCounterCurrent(0), questImpl(nullptr), bDone(false)
+	{
+	};
+
 	//--Setters-------------------------
 
 	//Current Task Viewer Widget Pointer. Need for UI data update
@@ -27,7 +29,7 @@ struct FQuestStep
 
 	//Increases step progress to 1
 	void stepUnitDone();
-	
+
 	//
 	void bindQuestObject(UQuestObject* objForImpl);
 
@@ -45,30 +47,31 @@ struct FQuestStep
 
 	//Step ready flag
 	bool bDone;
-	
+
 	//
 	UQuestTaskWidget* viewerPtr; //Im so sorry, Ksush
 };
+
 UCLASS()
-class LORYSHELTER_API UQuestItem : public UObject
+class LORYSHELTER_API UQuestItem : public UDataAsset
 {
 	GENERATED_BODY()
-public:
 
+public:
 	//--Setters----------------------------------------------------------------------------
-	
+
 	//Adds Step to quest. actionCounterMax - how much action need be done for quest To end.
 	void addQuestStep(const FText& stepDescr, uint64 actionCounterMax = 1, UQuestObject* objForImpl = nullptr);
 
-	
+
 	//--Getters----------------------------------------------------------------------------
-	
+
 	//Returns Quest Name
-	
+
 	//Returns questDescr
-	
+
 	//Returns steps array
-	
+
 	//------------------------------------------
 	//Name
 	FName questName;
@@ -77,5 +80,4 @@ public:
 	FText questDecr;
 
 	TArray<TSharedRef<FQuestStep>> questSteps;
-
 };

@@ -21,14 +21,15 @@ void QuestObjectCreator::initFlourSucksQuest(UQuestSystemComponent* compPtr)
 	UQuestItem* quest = NewObject<UQuestItem>(compPtr);
 
 	quest->questName = FName("Barn work");
-	quest->questDecr = FText(FText::FromString(TEXT("Load sacks of flour form the barn into the truck at the entrance")));
+	quest->questDecr = FText(
+		FText::FromString(TEXT("Load sacks of flour form the barn into the truck at the entrance")));
 
 	UChangeLocationQuestObject* questObj = NewObject<UChangeLocationQuestObject>(quest);
 	if (questObj)
 	{
 		//UGameplayStatics::GetAllActorsOfClassWithTag() future
 
-		UClass* sackref = QuestObjectCreator::findBPClassReference(TEXT("/Game/Blueprints/Items/SackItemBP.SackItemBP_C"));
+		UClass* sackref = findBPClassReference(TEXT("/Game/Blueprints/Items/SackItemBP.SackItemBP_C"));
 		AActor* areaActor = UGameplayStatics::GetActorOfClass(compPtr->GetWorld(), AWorldArea::StaticClass());
 		//area to check location
 		questObj->setArea(Cast<AWorldArea>(areaActor));

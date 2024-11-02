@@ -8,14 +8,14 @@
 // Sets default values
 APlant::APlant()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	SetActorTickInterval(1.);
 
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("PlantMesh");
 
 	rootNode = CreateDefaultSubobject<USceneComponent>("Scene Component");
-	
+
 	RootComponent = rootNode;
 
 	itemMesh->SetupAttachment(RootComponent);
@@ -24,13 +24,14 @@ APlant::APlant()
 	plantTimeRemained = plantTime;
 	maxPhase = 5;
 	currGrowPhase = 0;
-
 }
 
 void APlant::checkGrowPhase()
 {
 	if (plantTimeRemained <= 0)
+	{
 		increaseGrowPhase();
+	}
 }
 
 void APlant::increaseGrowPhase()
@@ -51,12 +52,12 @@ float APlant::calcGrowOffset()
 
 float APlant::calcGrowOffset(float meshHeight, int PhasesNum)
 {
-	return meshHeight/PhasesNum;
+	return meshHeight / PhasesNum;
 }
 
 float APlant::getPlantHeight()
 {
-	return static_cast<double>(itemMesh->GetStaticMesh()->GetBoundingBox().GetSize().Z * 4);
+	return itemMesh->GetStaticMesh()->GetBoundingBox().GetSize().Z * 4;
 }
 
 int APlant::GetGrowTimeRemained()
@@ -78,14 +79,13 @@ void APlant::BeginPlay()
 	growOffset = calcGrowOffset();
 	float groundedHeight = growOffset * maxPhase * 2;
 	itemMesh->AddWorldOffset(FVector(0, 0, -groundedHeight));
-
 }
 
 // Called every frame
 void APlant::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	if (currGrowPhase != maxPhase)
 	{
 		TimeUpdateDelegate.Broadcast();
@@ -93,4 +93,3 @@ void APlant::Tick(float DeltaTime)
 		plantTimeRemained--;
 	}
 }
-

@@ -13,6 +13,4 @@ UCLASS()
 class LORYSHELTER_API UPetAlias : public UAliasGameplay
 {
 	GENERATED_BODY()
-
-	
 };

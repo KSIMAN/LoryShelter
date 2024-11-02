@@ -22,5 +22,4 @@ void FLoryShelter::ShutdownModule()
 }
 
 
-IMPLEMENT_PRIMARY_GAME_MODULE(FLoryShelter, LoryShelter, "LoryShelter" );
-
+IMPLEMENT_PRIMARY_GAME_MODULE(FLoryShelter, LoryShelter, "LoryShelter");

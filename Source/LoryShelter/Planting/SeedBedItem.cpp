@@ -15,8 +15,10 @@ ASeedBedItem::ASeedBedItem()
 	itemInfo.interactDuration = 3;
 
 	TimerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("Timer Widget");
-	if(itemMesh)
-	TimerWidgetComponent->SetupAttachment(itemMesh);
+	if (itemMesh)
+	{
+		TimerWidgetComponent->SetupAttachment(itemMesh);
+	}
 	TimerWidgetComponent->SetVisibility(false);
 }
 
@@ -25,28 +27,29 @@ void ASeedBedItem::BeginPlay()
 {
 	Super::BeginPlay();
 
-		
+
 	// Move to setUpItem func ----------------------------------------------------------------------------
 	FSoftClassPath timerClassRef(TEXT("/Game/UI/Widgets/PlantTimerWidgetBP.PlantTimerWidgetBP_C"));
 
 	UClass* timerWidgetClass = timerClassRef.TryLoadClass<UWidget>();
-	
+
 	if (timerWidgetClass)
 	{
 		TimerWidgetComponent->SetWidgetClass(timerWidgetClass);
 		timerWidgetPtr = Cast<UPlantTimerWidget>(TimerWidgetComponent->GetWidget());
 	}
-		
-	if (timerWidgetPtr)
-		timerWidgetPtr->setItemName(FText(FText::FromString("Plant")));
 
+	if (timerWidgetPtr)
+	{
+		timerWidgetPtr->setItemName(FText(FText::FromString("Plant")));
+	}
 }
 
 void ASeedBedItem::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	
-	if(TimerWidgetComponent)
+
+	if (TimerWidgetComponent)
 	{
 		auto ViewRotator = TimerWidgetComponent->GetComponentRotation();
 		auto PlayerRotator = UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetControlRotation();
@@ -60,23 +63,28 @@ void ASeedBedItem::Tick(float DeltaSeconds)
 bool ASeedBedItem::AddPlant(IPlantable* newPlant)
 {
 	if (plantSlot)
+	{
 		return false; //Slot is Busy
+	}
 
 	plantSlot = newPlant;
 
 	APlant* PlantPtr = Cast<APlant>(newPlant);
-	if(PlantPtr)
+	if (PlantPtr)
+	{
 		PlantPtr->TimeUpdateDelegate.AddUObject(this, &ASeedBedItem::OnNeedUpdateTimer);
+	}
 
 	//--Change Timer ---------------
 	check(timerWidgetPtr)
 	check(TimerWidgetComponent)
-	
+
 	timerWidgetPtr->setItemName(FText::FromName(PlantPtr->GetPlantName()));
 	TimerWidgetComponent->SetVisibility(true);
 
 	//--Item Usage-----------------
-	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")),
+	               FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
 
 	return true;
 }
@@ -84,7 +92,9 @@ bool ASeedBedItem::AddPlant(IPlantable* newPlant)
 bool ASeedBedItem::AddPlantByClass(const TSubclassOf<APlant>& newPlantClass)
 {
 	if (plantSlot)
+	{
 		return false; //Slot is Busy
+	}
 
 	return AddPlant(Cast<IPlantable>(GetWorld()->SpawnActor(newPlantClass.Get(), &GetActorTransform())));
 }
@@ -97,15 +107,16 @@ IPlantable* ASeedBedItem::RemovePlant()
 
 	Swap(plantSlot, returnVal);
 
-	
-	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")), FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
+
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("HARVEST")),
+	               FText::FromStringTable(FName("ActionsST"), TEXT("PLANT")));
 
 	check(timerWidgetPtr)
 	check(TimerWidgetComponent)
-	
+
 	//timerWidgetPtr->setItemName(FText::FromName(returnVal->GetPlantName()));
 	TimerWidgetComponent->SetVisibility(false);
-	
+
 	return returnVal;
 }
 
@@ -128,7 +139,9 @@ void ASeedBedItem::OnInteract(IInteractor* playerPtr)
 	Super::OnInteract(playerPtr);
 
 	if (!selectorWidgetClass)
+	{
 		return;
+	}
 
 	USeedbedSelectorWidget* selectorWidget = CreateWidget<USeedbedSelectorWidget>(GetWorld(), selectorWidgetClass);
 	selectorWidget->AddToViewport(1000);
@@ -139,5 +152,7 @@ void ASeedBedItem::OnInteract(IInteractor* playerPtr)
 	//if (!plantType) return;
 	//plantSlot = Cast<APlant>(GetWorld()->SpawnActor(plantType.Get(), &GetActorTransform()));
 	if (!plantSlot)
+	{
 		return;
+	}
 }

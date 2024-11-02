@@ -37,7 +37,6 @@ public:
 	bool createAlias(const EAliasIndex& aliasType);
 
 protected:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UVerticalBox* aliasLayout;
 
@@ -47,7 +46,7 @@ protected:
 
 	//Aliases that must be created
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray <TSubclassOf<UAliasGameplay>> aliasSubClasses;
+	TArray<TSubclassOf<UAliasGameplay>> aliasSubClasses;
 
 
 	virtual void NativeOnInitialized() override;

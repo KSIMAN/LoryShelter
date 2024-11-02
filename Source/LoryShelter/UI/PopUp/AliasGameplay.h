@@ -18,13 +18,11 @@ UCLASS()
 class LORYSHELTER_API UAliasGameplay : public UUserWidget
 {
 	GENERATED_BODY()
-	
-public:
 
+public:
 	void refreshItemAlias(const FInteractionInfo& interactInfo);
 
 protected:
-
 	//--Ui Components------------------------------------------
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))

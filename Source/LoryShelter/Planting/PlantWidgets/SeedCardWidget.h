@@ -21,7 +21,9 @@ struct FSeedCardInfo : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
-	FSeedCardInfo() {};
+	FSeedCardInfo()
+	{
+	};
 
 	//Name of plant
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
@@ -33,7 +35,7 @@ struct FSeedCardInfo : public FTableRowBase
 
 	//Price to plant this seed in coins
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
-	int seedPrice; 
+	int seedPrice;
 
 	//
 	//UTexture2D seedImage;
@@ -58,9 +60,8 @@ public:
 	USeedCardWidget(const FObjectInitializer& ObjectInitializer);
 
 protected:
-	
 	//--UI Components-----------------------------------------------
-	
+
 	//Properties of seed
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FSeedCardInfo itemInfo;
@@ -93,7 +94,7 @@ protected:
 	USeedbedSelectorWidget* ownerSelector;
 
 	//--Dynamic Delegates------------------------
-	
+
 	//
 	UFUNCTION()
 	void onClickPlantSeedButton();

@@ -17,10 +17,8 @@ UCLASS()
 class LORYSHELTER_API UQuestPanel : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
 public:
-
-
 	//Refreshes quests info by quest array
 	void refreshPanelInfo(const TArray<UQuestItem*>& quests);
 
@@ -37,6 +35,4 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UQuestViewerWidget> questViewerClass;
-
-
 };

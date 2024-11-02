@@ -8,7 +8,9 @@
 void ALoryHUD::showAliasInteract(const FInteractionInfo& interactInfo, EAliasIndex aliasType)
 {
 	if (!aliasHolderWidget)
+	{
 		return;
+	}
 
 	check(aliasHolderWidget->showAlias(aliasType, interactInfo));
 }
@@ -16,15 +18,17 @@ void ALoryHUD::showAliasInteract(const FInteractionInfo& interactInfo, EAliasInd
 void ALoryHUD::hideAliasInteract(EAliasIndex aliasType)
 {
 	if (!aliasHolderWidget)
+	{
 		return;
-	
+	}
+
 	check(aliasHolderWidget->hideAlias(aliasType));
 }
 
 void ALoryHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	if (AliasWidgetClass)
 	{
 		aliasHolderWidget = CreateWidget<UAliasHolderWidget>(GetWorld(), AliasWidgetClass);

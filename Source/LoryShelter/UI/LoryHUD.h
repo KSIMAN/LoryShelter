@@ -17,11 +17,10 @@ class LORYSHELTER_API ALoryHUD : public AHUD
 	GENERATED_BODY()
 
 public:
-
 	void showAliasInteract(const FInteractionInfo& interactInfo, EAliasIndex aliasType);
 	void hideAliasInteract(EAliasIndex aliasType);
-protected:
 
+protected:
 	//--Subclasses----------------------------------------------
 
 	//Subclass for alias widget
@@ -35,6 +34,4 @@ protected:
 	UAliasHolderWidget* aliasHolderWidget;
 
 	virtual void BeginPlay() override;
-
-	
 };

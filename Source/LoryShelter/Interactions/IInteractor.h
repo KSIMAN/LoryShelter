@@ -20,8 +20,8 @@ class UInteractor : public UInterface
  */
 class LORYSHELTER_API IInteractor
 {
-
 	GENERATED_BODY()
+
 public:
 	//Player is near item and can begin interact if he wants
 	virtual void StartFocus(IInteractable* itemPtr) = 0;
@@ -43,6 +43,4 @@ public:
 
 	//
 	virtual void SetFocusItem(IInteractable*) = 0;
-
-public:
 };

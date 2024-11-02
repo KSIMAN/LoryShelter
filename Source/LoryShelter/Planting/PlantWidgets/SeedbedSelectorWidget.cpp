@@ -24,7 +24,9 @@ void USeedbedSelectorWidget::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	if (!GetOwningPlayer())
+	{
 		return;
+	}
 
 	GetOwningPlayer()->SetInputMode(FInputModeUIOnly());
 	GetOwningPlayer()->bShowMouseCursor = true;
@@ -44,7 +46,9 @@ void USeedbedSelectorWidget::setSeedBedOwner(ASeedBedItem* selectorItem)
 void USeedbedSelectorWidget::OnItemSelected(const TSubclassOf<APlant>& selectedPlant)
 {
 	if (!ownerItem)
+	{
 		return;
+	}
 
 	if (ownerItem->AddPlantByClass(selectedPlant))
 	{
@@ -52,5 +56,4 @@ void USeedbedSelectorWidget::OnItemSelected(const TSubclassOf<APlant>& selectedP
 		GetOwningPlayer()->bShowMouseCursor = false;
 		RemoveFromParent();
 	}
-	
 }

@@ -11,12 +11,16 @@ ASittingItem::ASittingItem()
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN"));
 	itemInfo.interactDuration = 1;
 }
+
 //Remove Code Dubble  with Drag Item Item later
 void ASittingItem::OnInteract(IInteractor* playerPtr)
 {
 	ISitter* Sitter = Cast<ISitter>(playerPtr);
-	if(!Sitter)return;
-	
+	if (!Sitter)
+	{
+		return;
+	}
+
 	uint8 interState = 0; //State of interaction 0 - SUCCESS
 	if (bItemUsed)
 	{
@@ -34,7 +38,8 @@ void ASittingItem::OnInteract(IInteractor* playerPtr)
 		//Error Message
 		return;
 	}
-	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("SIT_UP")), FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN")));
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("SIT_UP")),
+	               FText::FromStringTable(FName("ActionsST"), TEXT("SIT_DOWN")));
 	//Move to Refocus function
 
 	OnEndFocus(playerPtr);
@@ -43,5 +48,5 @@ void ASittingItem::OnInteract(IInteractor* playerPtr)
 
 FVector ASittingItem::GetPointToSeat()
 {
-	return  getMesh()->GetComponentLocation(); // Replace by linetrace on surface center
+	return getMesh()->GetComponentLocation(); // Replace by linetrace on surface center
 }

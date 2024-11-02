@@ -16,7 +16,6 @@ class LORYSHELTER_API UPlantTimerWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
 	//sets Planting Item Name
 	void setItemName(const FText& newItemName);
 
@@ -27,7 +26,6 @@ public:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 protected:
-
 	//--UI Components--------------------------------------------------
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
@@ -39,5 +37,4 @@ protected:
 	//returns line with time in format 00:00:00
 	//if seconds == 0 returns "Ready to harvest" 
 	FText secondsToLineText(int seconds);
-	
 };

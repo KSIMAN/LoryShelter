@@ -15,17 +15,19 @@ UCLASS()
 class LORYSHELTER_API ADragItem : public AInteractItem, public IDraggable
 {
 	GENERATED_BODY()
-public:
 
+public:
 	ADragItem();
-	virtual ~ADragItem() {};
+
+	virtual ~ADragItem() override
+	{
+	};
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	virtual void OnInteract(IInteractor* playerPtr) override;
 
 	//After Dragger Puts Up Item
-	virtual void OnPutUp(IDragger* );
+	virtual void OnPutUp(IDragger*) override;
 	//After Dragger Puts Down Item
-	virtual void OnPutDown(IDragger* );
-	
+	virtual void OnPutDown(IDragger*) override;
 };

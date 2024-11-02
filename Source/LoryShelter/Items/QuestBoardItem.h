@@ -13,5 +13,4 @@ UCLASS()
 class LORYSHELTER_API AQuestBoardItem : public AInteractItem
 {
 	GENERATED_BODY()
-	
 };

@@ -10,11 +10,10 @@
 UENUM(BlueprintType)
 enum class EMovementType : uint8
 {
-	DEFAULT,	//Walking
-	CARRY,		//Walking with large object in hands
-	DRAG,		//Walk with drag object by floor(On Future)
+	DEFAULT, //Walking
+	CARRY, //Walking with large object in hands
+	DRAG, //Walk with drag object by floor(On Future)
 	SITTING
-
 };
 
 /**
@@ -35,7 +34,6 @@ public:
 	EMovementType& getMovementType() { return movementType; };
 
 protected:
-
 	//--Variables-------------------------------------------------
 
 	//Lory's Movement Type
@@ -45,10 +43,8 @@ protected:
 	//Lory's velocity
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float velocity;
-	
+
 	//--Engine Defaults--------------------------------------------
 
-	virtual void NativeUpdateAnimation(float DeltaSeconds);
-	
-
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 };

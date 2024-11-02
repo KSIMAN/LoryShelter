@@ -32,17 +32,18 @@ public:
 	//End of timeline
 	UFUNCTION()
 	void EndUpdatePosition();
-	
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Door Settings")
 	UCurveFloat* InteractionCurve; //TODO: МБ в интерактион айтем?
 
 	FTimeline InteractTimeLine;
-	
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Door Settings")
 	UTimelineComponent* TimelineComponent;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 private:
 	IInteractor* DoorInteractor;
 	float MinYaw;

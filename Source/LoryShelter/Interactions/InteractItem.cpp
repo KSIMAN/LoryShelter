@@ -11,14 +11,14 @@
 // Sets default values
 AInteractItem::AInteractItem()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	itemMesh = CreateDefaultSubobject<UStaticMeshComponent>("Item Mesh");
 	itemCollider = CreateDefaultSubobject<UCapsuleComponent>("Item Interact Collider");
 	//interactMontage = CreateDefaultSubobject<UAnimMontage>("Interaction Anim Montage");
 	interactSound = CreateDefaultSubobject<USoundCue>("Interaction Sound Cue");
 
-	
+
 	itemCollider->SetupAttachment(itemMesh);
 }
 
@@ -28,31 +28,38 @@ void AInteractItem::BeginPlay()
 	Super::BeginPlay();
 	itemCollider->OnComponentBeginOverlap.AddDynamic(this, &AInteractItem::OnOverlapBegin);
 	itemCollider->OnComponentEndOverlap.AddDynamic(this, &AInteractItem::OnOverlapEnd);
-	
 }
 
-void AInteractItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AInteractItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                   const FHitResult& SweepResult)
 {
 	//Handling here, cause overlap event for Item not so often, as for Player Character
-	
+
 	if (IInteractor* loryPlayer = Cast<IInteractor>(OtherActor))
+	{
 		OnStartFocus(loryPlayer);
+	}
 }
 
-void AInteractItem::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void AInteractItem::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (IInteractor* loryPlayer = Cast<IInteractor>(OtherActor))
+	{
 		OnEndFocus(loryPlayer);
+	}
 }
 
 void AInteractItem::OnInteract(IInteractor* playerPtr)
 {
 	if (!playerPtr)
+	{
 		return;
+	}
 	//By default We Watching Item
 	playerPtr->Interact(this);
 	UGameplayStatics::PlaySoundAtLocation(this, interactSound, GetActorLocation());
-
 }
 
 UAnimMontage* AInteractItem::GetInteractAnimation()
@@ -81,7 +88,9 @@ void AInteractItem::OnEndInteract(IInteractor* Interactor)
 void AInteractItem::OnStartFocus(IInteractor* Interactor)
 {
 	if (!Interactor || Interactor->GetFocusItem()) //if focus item != nullptr - object has another interaction
+	{
 		return;
+	}
 
 	bItemCaptured = true;
 	Interactor->SetFocusItem(this);
@@ -90,7 +99,9 @@ void AInteractItem::OnStartFocus(IInteractor* Interactor)
 void AInteractItem::OnEndFocus(IInteractor* playerPtr)
 {
 	if (!playerPtr || !bItemCaptured)
+	{
 		return;
+	}
 
 	bItemCaptured = false;
 	playerPtr->SetFocusItem(nullptr);
@@ -100,9 +111,13 @@ void AInteractItem::ToggleItemUsed(const FText& itemUsedAlias, const FText& item
 {
 	bItemUsed = !bItemUsed;
 	if (bItemUsed)
+	{
 		itemInfo.interactAlias = itemUsedAlias;
+	}
 	else
+	{
 		itemInfo.interactAlias = itemNotUsedAlias;
+	}
 }
 
 
@@ -110,6 +125,4 @@ void AInteractItem::ToggleItemUsed(const FText& itemUsedAlias, const FText& item
 void AInteractItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
-

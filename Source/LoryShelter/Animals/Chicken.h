@@ -13,5 +13,4 @@ UCLASS()
 class LORYSHELTER_API AChicken : public AAnimal
 {
 	GENERATED_BODY()
-	
 };

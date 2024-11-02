@@ -16,7 +16,9 @@ void UQuestPanel::NativeConstruct()
 void UQuestPanel::refreshPanelInfo(const TArray<UQuestItem*>& quests)
 {
 	if (!questViewerClass)
+	{
 		return; //Add Debug Error Message Later
+	}
 
 	for (auto quest : quests)
 	{
@@ -24,6 +26,5 @@ void UQuestPanel::refreshPanelInfo(const TArray<UQuestItem*>& quests)
 		questView->setQuestRef(quest);
 		questView->SetVisibility(ESlateVisibility::Visible);
 		QuestsViewerBox->AddChild(questView);
-
 	}
 }

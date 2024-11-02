@@ -19,6 +19,7 @@ class USittable : public UInterface
 class LORYSHELTER_API ISittable
 {
 	GENERATED_BODY()
+
 public:
 	virtual FVector GetPointToSeat() = 0;
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.

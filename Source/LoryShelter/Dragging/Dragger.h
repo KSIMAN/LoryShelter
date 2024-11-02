@@ -16,6 +16,7 @@ struct FDragInfo
 	bool bToSocket;
 	FName SocketName;
 };
+
 // This class does not need to be modified.
 UINTERFACE()
 class UDragger : public UInterface
@@ -27,19 +28,20 @@ class UDragger : public UInterface
  * 
  */
 class IDraggable;
+
 class LORYSHELTER_API IDragger
 {
 	GENERATED_BODY()
+
 public:
 	//Dragger Puts Up Item
-	virtual uint8 PutUp(IDraggable* ) = 0;
+	virtual uint8 PutUp(IDraggable*) = 0;
 	//Dragger Puts Down Item
-	virtual uint8 PutDown(IDraggable* ) = 0;
+	virtual uint8 PutDown(IDraggable*) = 0;
 
 	virtual FVector GetPutDownPoint() = 0;
 
 	virtual FDragInfo GetDragInfo() = 0;
-	
+
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
-public:
 };

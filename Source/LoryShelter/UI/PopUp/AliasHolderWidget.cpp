@@ -9,7 +9,9 @@ bool UAliasHolderWidget::showAlias(const EAliasIndex& index, const FInteractionI
 	UAliasGameplay* alias = *aliasses.Find(index);
 
 	if (alias == nullptr)
+	{
 		return false;
+	}
 
 	alias->SetVisibility(ESlateVisibility::Visible);
 	alias->refreshItemAlias(info);
@@ -21,7 +23,9 @@ bool UAliasHolderWidget::showAlias(EAliasIndex index)
 	UAliasGameplay* alias = *aliasses.Find(index);
 
 	if (!alias)
+	{
 		return false;
+	}
 
 	alias->SetVisibility(ESlateVisibility::Visible);
 	return true;
@@ -32,7 +36,9 @@ bool UAliasHolderWidget::hideAlias(EAliasIndex index)
 	UAliasGameplay* alias = *aliasses.Find(index);
 
 	if (!alias)
+	{
 		return false;
+	}
 
 	alias->SetVisibility(ESlateVisibility::Collapsed);
 	return true;
@@ -43,7 +49,6 @@ bool UAliasHolderWidget::createAlias(const EAliasIndex& aliasType)
 	int32 index = static_cast<int32>(aliasType);
 	if (aliasSubClasses[index] /*&& !*aliasses.Find(aliasType)*/)
 	{
-
 		UAliasGameplay* newAlias;
 		newAlias = CreateWidget<UAliasGameplay>(GetWorld(), aliasSubClasses[index]);
 		aliasLayout->AddChild(newAlias);
@@ -58,5 +63,4 @@ bool UAliasHolderWidget::createAlias(const EAliasIndex& aliasType)
 void UAliasHolderWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-
 }

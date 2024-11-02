@@ -13,22 +13,19 @@ AAnimalController::AAnimalController(const FObjectInitializer& ObjectInitializer
 	playerActorKey = FName("PlayerActor");
 }
 
-void AAnimalController::OnPossess(APawn * InPawn)
+void AAnimalController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 	AAnimal* pCreature = Cast<AAnimal>(InPawn);
 
 	if (pCreature && pCreature->getBTAsset()) //Remove Tree asset from animal later and init here
 	{
-		
 		BBC->InitializeBlackboard(*pCreature->getBTAsset()->BlackboardAsset);
 		BBC->SetValueAsObject(playerActorKey, pCreature);
 
 		CreatureKeyId = BBC->GetKeyID("TargetActor");
 		BTC->StartTree(*pCreature->getBTAsset());
 	}
-
-
 }
 
 

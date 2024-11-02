@@ -3,8 +3,8 @@
 
 #include "QuestObject.h"
 #include "../Interactions/InteractItem.h"
-#include "QuestItem.h"
 #include "../Primitives/WorldArea.h"
+#include "QuestItem.h"
 
 
 void UQuestObject::setOwner(FQuestStep* newOwner)
@@ -14,7 +14,6 @@ void UQuestObject::setOwner(FQuestStep* newOwner)
 
 UQuestObject::UQuestObject(FQuestStep* owner) : UObject()
 {
-
 }
 
 void UQuestObject::OnInteractionNotify(AInteractItem* item, EItemNotifyType type)
@@ -27,16 +26,18 @@ void UQuestObject::OnInteractionNotify(AInteractItem* item, EItemNotifyType type
 void UChangeLocationQuestObject::OnInteractionNotify(AInteractItem* item, EItemNotifyType type)
 {
 	if (!item || !destinationArea)
+	{
 		return;
+	}
 
-	if ((item->GetClass()->IsChildOf(itemType.Get()) || item->GetClass() == itemType.Get()) && type == EItemNotifyType::LOCATIONCHANGED) //Notification for correct item
+	if ((item->GetClass()->IsChildOf(itemType.Get()) || item->GetClass() == itemType.Get()) && type ==
+		EItemNotifyType::LOCATIONCHANGED) //Notification for correct item
 	{
 		if (destinationArea->checkActorInArea(item)) //Step unit done!!
 		{
 			owner->stepUnitDone();
 		}
 	}
-	
 }
 
 void UChangeLocationQuestObject::setItemType(const TSubclassOf<AInteractItem>& newType)

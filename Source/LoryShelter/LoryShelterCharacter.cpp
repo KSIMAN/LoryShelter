@@ -16,9 +16,9 @@
 #include "Animations/LoryAnimInstance.h"
 #include "Dragging/Draggable.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "QuestSystem/QuestObjectCreator.h"
-#include "QuestSystem/NotifyDispatcher.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -59,21 +59,23 @@ ALoryShelterCharacter::ALoryShelterCharacter() : interactionItem(nullptr), bMove
 
 		// Create a follow camera
 		FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-		FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+		FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+		// Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 		FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 		// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 		// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 	}
-	
-	questSystemComp = CreateDefaultSubobject<UQuestSystemComponent>("Quest System Component");
 
+	questSystemComp = CreateDefaultSubobject<UQuestSystemComponent>("Quest System Component");
 }
 
 uint8 ALoryShelterCharacter::PutUp(IDraggable* Item)
 {
 	if (!animInstance)
+	{
 		return -1;
+	}
 
 	animInstance->setMovementType(EMovementType::CARRY);
 	Item->OnPutUp(this);
@@ -83,7 +85,9 @@ uint8 ALoryShelterCharacter::PutUp(IDraggable* Item)
 uint8 ALoryShelterCharacter::PutDown(IDraggable* Item)
 {
 	if (!animInstance)
+	{
 		return -1;
+	}
 	animInstance->setMovementType(EMovementType::DEFAULT);
 	Item->OnPutDown(this);
 	return 0;
@@ -97,14 +101,14 @@ FVector ALoryShelterCharacter::GetPutDownPoint()
 	float putDistance = 5;
 	float bottomMax = 100;
 
-	FVector vTraceStart{ GetActorLocation() + GetActorForwardVector() * putDistance };
-	FVector vTraceEnd{ vTraceStart - FVector(0,0, bottomMax)};
+	FVector vTraceStart{GetActorLocation() + GetActorForwardVector() * putDistance};
+	FVector vTraceEnd{vTraceStart - FVector(0, 0, bottomMax)};
 
 	FCollisionQueryParams queryParams;
 	queryParams.AddIgnoredActor(this);
 	FHitResult traceHit;
 
-	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECollisionChannel::ECC_Visibility, queryParams))
+	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECC_Visibility, queryParams))
 	{
 		groundPoint = traceHit.ImpactPoint;
 	}
@@ -118,31 +122,40 @@ FDragInfo ALoryShelterCharacter::GetDragInfo()
 	const USkeletalMeshSocket* lhSocket = GetMesh()->GetSocketByName(FName("LHSocket"));
 
 	if (!rhSocket || !lhSocket)
+	{
 		return FDragInfo();
+	}
 
-	FVector lhLoc = lhSocket->GetSocketLocation(GetMesh()); 
+	FVector lhLoc = lhSocket->GetSocketLocation(GetMesh());
 	FVector rhLoc = rhSocket->GetSocketLocation(GetMesh());
-	FVector betwHandsLoc = lhLoc + GetActorRightVector() * FVector::DistXY(rhLoc, rhLoc) / 2; //Center Location between hands
+	FVector betwHandsLoc = lhLoc + GetActorRightVector() * FVector::DistXY(rhLoc, rhLoc) / 2;
+	//Center Location between hands
 	FDragInfo DragInfo;
 	DragInfo.AttachmentPoint = betwHandsLoc;
 	DragInfo.AttachmentRotator = GetControlRotation();
 	DragInfo.AttachmentActor = this;
 	DragInfo.bToSocket = true;
 	DragInfo.SocketName = FName("RHSocket");
-	return  DragInfo;
+	return DragInfo;
 }
 
 
 void ALoryShelterCharacter::SetFocusItem(IInteractable* Interactable)
 {
 	if (interactionItem && Interactable) //if has focus item
+	{
 		return;
+	}
 	interactionItem = Interactable;
-	
-	if(interactionItem)
+
+	if (interactionItem)
+	{
 		getPlayerHUD()->showAliasInteract(Interactable->GetInteractionInfo(), static_cast<EAliasIndex>(0));
+	}
 	else
+	{
 		getPlayerHUD()->hideAliasInteract(static_cast<EAliasIndex>(0));
+	}
 }
 
 void ALoryShelterCharacter::BeginPlay()
@@ -153,7 +166,8 @@ void ALoryShelterCharacter::BeginPlay()
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
@@ -172,7 +186,7 @@ void ALoryShelterCharacter::BeginPlay()
 
 	GetMesh()->GetAnimInstance()->OnMontageStarted.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageStarted);
 	GetMesh()->GetAnimInstance()->OnMontageEnded.AddDynamic(this, &ALoryShelterCharacter::OnAnimMontageEnded);
-	
+
 	animInstance = Cast<ULoryAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
@@ -188,10 +202,10 @@ void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 {
 	// Set up action bindings
 
-	PlayerInputComponent->BindAction("Interaction", EInputEvent::IE_Pressed, this, &ALoryShelterCharacter::InteractAction);
+	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &ALoryShelterCharacter::InteractAction);
 
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-		
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
@@ -204,7 +218,10 @@ void ALoryShelterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	}
 	else
 	{
-		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+		UE_LOG(LogTemplateCharacter, Error,
+		       TEXT(
+			       "'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."
+		       ), *GetNameSafe(this));
 	}
 }
 
@@ -219,18 +236,19 @@ void ALoryShelterCharacter::EndFocus(IInteractable* itemPtr)
 void ALoryShelterCharacter::BeginInteract(IInteractable* itemPtr)
 {
 	if (!itemPtr)
+	{
 		return; //Nothing to Interact With
-
+	}
 	//interactionItem->beginInteract(this); (on future)
-	TArray<UObject*> objs = UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.GetAllObjects();
-
 	itemPtr->OnInteract(this);
 }
 
 void ALoryShelterCharacter::EndInteract(IInteractable* itemPtr)
 {
 	if (!interactionItem)
+	{
 		return; //Nothing to Interact With
+	}
 	interactionItem->OnEndInteract(this);
 }
 
@@ -243,7 +261,9 @@ void ALoryShelterCharacter::Interact(IInteractable* itemPtr)
 uint8 ALoryShelterCharacter::SitDown(ISittable* item)
 {
 	if (!animInstance || !item)
+	{
 		return -1;
+	}
 
 	SetActorLocation(item->GetPointToSeat());
 	bMovementBlock = true;
@@ -254,7 +274,9 @@ uint8 ALoryShelterCharacter::SitDown(ISittable* item)
 uint8 ALoryShelterCharacter::SitUp(ISittable* item)
 {
 	if (!animInstance)
+	{
 		return -1;
+	}
 
 	//Find point  to put down remove dubbles later
 	FVector groundPoint;
@@ -262,19 +284,21 @@ uint8 ALoryShelterCharacter::SitUp(ISittable* item)
 	float putDistance = 20;
 	float bottomMax = 100;
 
-	FVector vTraceStart{ GetActorLocation() + GetActorForwardVector() * putDistance };
-	FVector vTraceEnd{ vTraceStart - FVector(0,0, bottomMax) };
+	FVector vTraceStart{GetActorLocation() + GetActorForwardVector() * putDistance};
+	FVector vTraceEnd{vTraceStart - FVector(0, 0, bottomMax)};
 
 	FCollisionQueryParams queryParams;
 	queryParams.AddIgnoredActor(this);
 	FHitResult traceHit;
 
-	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECollisionChannel::ECC_Visibility, queryParams))
+	if (GetWorld()->LineTraceSingleByChannel(traceHit, vTraceStart, vTraceEnd, ECC_Visibility, queryParams))
 	{
 		groundPoint = traceHit.ImpactPoint;
 	}
 	else
+	{
 		return -1;
+	}
 
 	SetActorLocation(groundPoint);
 	bMovementBlock = false;
@@ -295,7 +319,10 @@ void ALoryShelterCharacter::OnAnimMontageStarted(UAnimMontage* Montage)
 
 void ALoryShelterCharacter::Move(const FInputActionValue& Value)
 {
-	if (bMovementBlock) return; //Need To Check Where Is Using bBlockInput in Pawn
+	if (bMovementBlock)
+	{
+		return; //Need To Check Where Is Using bBlockInput in Pawn
+	}
 
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
@@ -308,14 +335,13 @@ void ALoryShelterCharacter::Move(const FInputActionValue& Value)
 
 		// get forward vector
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
+
 		// get right vector 
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 		// add movement 
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
-		
 	}
 }
 

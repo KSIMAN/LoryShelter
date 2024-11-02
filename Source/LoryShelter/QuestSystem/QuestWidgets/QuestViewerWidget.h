@@ -18,14 +18,13 @@ class LORYSHELTER_API UQuestViewerWidget : public UUserWidget
 	GENERATED_BODY()
 
 protected:
-
 	//--Widget Construct-------------------------------------
-	
+
 	//Native Init
 	virtual void NativeOnInitialized() override;
 	//Native Construct
 	virtual void NativeConstruct() override;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* NameText;
 
@@ -40,10 +39,10 @@ protected:
 
 	//Quest Item Reference
 	UQuestItem* questRef;
-public:
 
+public:
 	//--Setters--------------------------------------------
-	
+
 	//Sets Pointer For Quest And Update Info
 	void setQuestRef(UQuestItem* questPtr);
 
@@ -51,5 +50,4 @@ public:
 
 	//Returns Pointer On Quest Ref
 	UQuestItem* getQuestRef() const { return questRef; };
-
 };

@@ -14,6 +14,3 @@ class ALoryShelterGameMode : public AGameModeBase
 public:
 	ALoryShelterGameMode();
 };
-
-
-

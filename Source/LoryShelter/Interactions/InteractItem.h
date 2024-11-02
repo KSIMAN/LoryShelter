@@ -12,7 +12,6 @@
 #include "InteractItem.generated.h"
 
 
-
 UCLASS()
 class LORYSHELTER_API AInteractItem : public AActor, public IInteractable
 {
@@ -21,13 +20,17 @@ class LORYSHELTER_API AInteractItem : public AActor, public IInteractable
 public:
 	// Sets default values for this actor's properties
 	AInteractItem();
-	virtual ~AInteractItem() {};
+
+	virtual ~AInteractItem() override
+	{
+	};
 	//--Getters----------------------------------------
 	// 
 	//returns AnimMontage for Interaction
 	UAnimMontage* getInteractMontage() { return interactMontage; };
 
 	UStaticMeshComponent* getMesh() { return itemMesh; };
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,12 +38,13 @@ protected:
 	//Begin Overlap Delegate
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	                    UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	                    const FHitResult& SweepResult);
 
 	//End Overlap Delegate
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 
 	//--Interaction Interface------------------------------------------------------------------------------------
@@ -68,7 +72,7 @@ protected:
 	virtual void ToggleItemUsed(const FText& itemUsedAlias, const FText& itemNotUsedAlias);
 
 	//--Variables------------------------------------------------------------------------------------------------
-	
+
 	//Indicates that player used this item. Uses for toggle-type interaction
 	bool bItemUsed;
 
@@ -78,7 +82,7 @@ protected:
 
 
 	//--SubObjects-----------------------------------------------------------------------------------------------
-	
+
 	//Item Mesh
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	UStaticMeshComponent* itemMesh;
@@ -94,10 +98,7 @@ protected:
 
 	bool bItemCaptured;
 
-
-
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

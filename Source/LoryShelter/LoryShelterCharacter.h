@@ -36,7 +36,7 @@ class ALoryShelterCharacter : public ACharacter, public IInteractor, public ISit
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
-	
+
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
@@ -62,28 +62,28 @@ class ALoryShelterCharacter : public ACharacter, public IInteractor, public ISit
 	virtual void StartFocus(IInteractable* itemPtr) override;
 
 	//Player not near item yet. 
-	virtual void EndFocus(IInteractable* itemPtr)override;
+	virtual void EndFocus(IInteractable* itemPtr) override;
 
 	//Player begin interaction
-	virtual void BeginInteract(IInteractable* itemPtr)override;
+	virtual void BeginInteract(IInteractable* itemPtr) override;
 
 	//Interaction is over
-	virtual void EndInteract(IInteractable* itemPtr)override;
+	virtual void EndInteract(IInteractable* itemPtr) override;
 
 	//Interaction process
-	virtual void Interact(IInteractable* itemPtr)override;
-	
+	virtual void Interact(IInteractable* itemPtr) override;
+
 	virtual IInteractable* GetFocusItem() override { return interactionItem; } ;
 	//Setting up Pointer on Item, that can be Interacted
 	virtual void SetFocusItem(IInteractable* itemPointer) override;
-	
+
 	IInteractable* interactionItem;
-	
+
 	//--Sitting Interface------------------------------------------------------------------------
 
 	virtual uint8 SitDown(ISittable* item) override;
 	virtual uint8 SitUp(ISittable* item) override;
-	
+
 	//--UI Components--------------------------------------------------------------------------------
 
 	//Base HUD for player
@@ -97,15 +97,14 @@ class ALoryShelterCharacter : public ACharacter, public IInteractor, public ISit
 	void OnAnimMontageStarted(UAnimMontage* Montage);
 
 protected:
-
 	//--Components-----------------------------------------------------------------------------------
-	
+
 	//Quest Component
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
 	UQuestSystemComponent* questSystemComp;
 
 	//--Variables-------------------------------------------------------------------------------------
-	
+
 	//true if Player Can't Move
 	bool bMovementBlock;
 
@@ -119,10 +118,10 @@ protected:
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 
 	// To add mapping context
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 
 	void InteractAction();
 
@@ -133,13 +132,13 @@ public:
 	//--Actions Logic Callbacks-----------------------------------------------------------------------
 
 	//Dragger Puts Up Item
-	virtual uint8 PutUp(IDraggable* ) override;
+	virtual uint8 PutUp(IDraggable*) override;
 	//Dragger Puts Down Item
-	virtual uint8 PutDown(IDraggable* ) override;
+	virtual uint8 PutDown(IDraggable*) override;
 	//
 	virtual FVector GetPutDownPoint() override;
-	
-	virtual FDragInfo GetDragInfo()override;
+
+	virtual FDragInfo GetDragInfo() override;
 	// //Picks Up Item To drag return state 
 	// uint8 pickUpForDragging(AActor* item);
 	//
@@ -147,7 +146,6 @@ public:
 	// uint8 putDownItem(AActor* item);
 
 	//--Setters------------------------------------------------------------------------
-
 
 
 	//--Getters------------------------------------------------------------------------
@@ -162,4 +160,3 @@ public:
 	// Returns FollowCamera subobject 
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
-

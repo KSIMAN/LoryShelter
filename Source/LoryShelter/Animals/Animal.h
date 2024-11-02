@@ -15,6 +15,7 @@ enum class EAnimalMindState : uint8
 	NORMAL,
 	SAD
 };
+
 class ALoryShelterCharacter;
 
 constexpr int maxHunger = 100;
@@ -30,6 +31,7 @@ public:
 	AAnimal();
 
 	UBehaviorTree* getBTAsset() { return btAsset; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -68,7 +70,7 @@ protected:
 
 
 	//--Helper functions----------------------------
-	
+
 	EAnimalMindState recalcMindState();
 
 	//To became hungrier and more unhappy
@@ -79,12 +81,13 @@ protected:
 
 	//--Overlap events-----------------------------------
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                  int32 OtherBodyIndex);
 
-public:	
-
+public:
 	//--Interaction Interface------------------------------------------------------------------------------------
 
 	//virtual void Interact(ALoryShelterCharacter* playerPtr)override;
@@ -101,7 +104,7 @@ public:
 	virtual UAnimMontage* GetInteractAnimation() override;
 	//
 	virtual const FInteractionInfo& GetInteractionInfo() override;
-	
+
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FInteractionInfo petInteractInfo;
@@ -111,7 +114,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
-
 };

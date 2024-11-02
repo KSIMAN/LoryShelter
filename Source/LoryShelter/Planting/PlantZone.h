@@ -26,6 +26,4 @@ class LORYSHELTER_API IPlantZone
 
 	//Clearing plant slot. Returns pointer for plant thant was in slot
 	virtual IPlantable* RemovePlant() = 0;
-
-public:
 };

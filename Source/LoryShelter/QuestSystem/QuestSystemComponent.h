@@ -12,17 +12,17 @@ class UQuestPanel;
 class ALoryShelterCharacter; //On Future
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LORYSHELTER_API UQuestSystemComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-
-public:	
+public:
 	// Sets default values for this component's properties
 	UQuestSystemComponent();
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 	//--Getters--------------------------
 
@@ -31,7 +31,7 @@ public:
 
 	//Inits Quest Panel UI For Player Controller
 	void initQuestPanel();
-	
+
 	//Add Quest To Player
 	void addQuest(UQuestItem* questItem);
 
@@ -48,5 +48,4 @@ protected:
 
 	//Quest Panel Pointer
 	UQuestPanel* questPanel;
-
 };

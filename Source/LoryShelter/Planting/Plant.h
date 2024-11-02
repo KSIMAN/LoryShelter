@@ -8,18 +8,19 @@
 
 #include "Plant.generated.h"
 DECLARE_MULTICAST_DELEGATE(FNeedUpdateTime)
+
 UCLASS()
 class LORYSHELTER_API APlant : public AActor, public IPlantable
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APlant();
 
 	FNeedUpdateTime TimeUpdateDelegate;
 
-	
+
 	//calculates Mesh height
 	virtual float getPlantHeight() override;
 
@@ -30,9 +31,8 @@ public:
 	virtual FName GetPlantName() override;
 
 protected:
-
 	//--Helper functions---------------------------------------
-	
+
 	//Change timer text
 	void refreshTimeInfoText();
 
@@ -60,7 +60,7 @@ protected:
 
 
 	//--Variables------------------------------------------
-	
+
 	//Plant Time In seconds
 	UPROPERTY(EditAnywhere, BlueprintReadwrite)
 	int plantTime;
@@ -77,14 +77,13 @@ protected:
 
 
 	//Grow Z offset for one phase
-	float growOffset; 
-	
+	float growOffset;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

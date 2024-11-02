@@ -1,22 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "DragItem.h"
 #include "Dragger.h"
-#include "../QuestSystem/NotifyDispatcher.h"
 #include "../LoryShelterCharacter.h"
+#include "LoryShelter/QuestSystem/QuestControlSubsystem.h"
+#include "LoryShelter/QuestSystem/QuestSystemHelper.h"
 
 ADragItem::ADragItem()
 {
 	itemInfo.itemName = FText::FromStringTable(FName("ItemsST"), TEXT("BOX"));
 	itemInfo.interactAlias = FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP"));
 	itemInfo.interactDuration = 1;
-	
 }
 
 void ADragItem::OnInteract(IInteractor* Interactor)
 {
 	IDragger* Dragger = Cast<IDragger>(Interactor);
-	if(!Dragger)
+	if (!Dragger)
+	{
 		return;
+	}
 	uint8 interState = 0; //State of interaction 0 - SUCCESS
 	if (bItemUsed)
 	{
@@ -31,11 +33,11 @@ void ADragItem::OnInteract(IInteractor* Interactor)
 		//Error Message
 		return;
 	}
-	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("PUT_DOWN")), FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP")));
+	ToggleItemUsed(FText::FromStringTable(FName("ActionsST"), TEXT("PUT_DOWN")),
+	               FText::FromStringTable(FName("ActionsST"), TEXT("PUT_UP")));
 	//Move to Refocus function
 	OnEndFocus(Interactor);
 	OnStartFocus(Interactor);
-
 }
 
 void ADragItem::OnPutUp(IDragger* Dragger)
@@ -44,8 +46,11 @@ void ADragItem::OnPutUp(IDragger* Dragger)
 	FDragInfo DragInfo = Dragger->GetDragInfo();
 	SetActorLocation(DragInfo.AttachmentPoint);
 	SetActorRotation(DragInfo.AttachmentRotator);
-	if(DragInfo.bToSocket)
-		AttachToComponent(DragInfo.AttachmentActor->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, DragInfo.SocketName);
+	if (DragInfo.bToSocket)
+	{
+		AttachToComponent(DragInfo.AttachmentActor->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale,
+		                  DragInfo.SocketName);
+	}
 	// else
 	// 	AttachToActor(DragInfo.AttachmentActor);
 }
@@ -56,9 +61,11 @@ void ADragItem::OnPutDown(IDragger* Dragger)
 	SetActorLocation(Dragger->GetPutDownPoint());
 	SetActorRotation(FRotator::ZeroRotator);
 	getMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	
-	UNotifyDispatcher::getNotifyDispatcherInstance()->OnInteractionHappened.Broadcast(Cast<AInteractItem>(this), EItemNotifyType::LOCATIONCHANGED);
+
+	UQuestControlSubsystem* QuestSystem = UQuestSystemHelper::GetQuestControlSubsystem(GetWorld());
+	if (!QuestSystem)
+	{
+		return;
+	}
+	QuestSystem->OnInteractionHappened.Broadcast(Cast<AInteractItem>(this), EItemNotifyType::LOCATIONCHANGED);
 }
-
-	
-

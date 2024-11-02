@@ -14,6 +14,7 @@ UCLASS()
 class LORYSHELTER_API AAnimalController : public AAIController
 {
 	GENERATED_BODY()
+
 public:
 	AAnimalController(const FObjectInitializer& ObjectInitializer);
 
@@ -26,8 +27,8 @@ public:
 
 	//Returns Behavior tree used by this controller
 	UBehaviorTreeComponent* getBehaviourTreeComp();
+
 protected:
-	
 	UPROPERTY(transient)
 	class UBehaviorTreeComponent* BTC;
 
@@ -39,6 +40,4 @@ protected:
 	FName playerActorKey;
 
 	FBlackboard::FKey CreatureKeyId;
-	
-
 };

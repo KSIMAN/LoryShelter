@@ -6,9 +6,8 @@
 
 void UQuestTaskWidget::updateStepInfo(FQuestStep stepInfo)
 {
-
 	FText stepFormatted = FText::Format(NSLOCTEXT("QuestSpace", "StepInfoText", "{0} {1}/{2}"),
-		stepInfo.stepText, stepInfo.doneCounterCurrent, stepInfo.doneCounterMax);
+	                                    stepInfo.stepText, stepInfo.doneCounterCurrent, stepInfo.doneCounterMax);
 
 	stepText->SetText(stepFormatted);
 
@@ -18,10 +17,11 @@ void UQuestTaskWidget::updateStepInfo(FQuestStep stepInfo)
 		stepText->SetDefaultColorAndOpacity(FSlateColor(FColor(100, 100, 100, 100)));
 	}
 }
+
 void UQuestTaskWidget::updateStepInfo(const FText& stepActionText, int doneCounter, int doneMax)
 {
 	FText stepFormatted = FText::Format(NSLOCTEXT("QuestSpace", "StepInfoText", "{0} {1}/{2}"),
-		stepActionText, doneCounter, doneMax);
+	                                    stepActionText, doneCounter, doneMax);
 
 	stepText->SetText(stepFormatted);
 
@@ -31,6 +31,7 @@ void UQuestTaskWidget::updateStepInfo(const FText& stepActionText, int doneCount
 		stepText->SetDefaultColorAndOpacity(FSlateColor(FColor(100, 100, 100, 100)));
 	}
 }
+
 void UQuestTaskWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -40,5 +41,3 @@ void UQuestTaskWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 }
-
-

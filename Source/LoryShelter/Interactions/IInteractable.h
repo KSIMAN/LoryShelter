@@ -12,7 +12,6 @@ UINTERFACE(MinimalAPI)
 class UInteractable : public UInterface
 {
 	GENERATED_BODY()
-
 };
 
 /**
@@ -37,10 +36,11 @@ struct FInteractionInfo
 
 	//Duration of interaction in seconds
 	int interactDuration;
-
 };
+
 class IInteractor;
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnFocusStarted, IInteractor)
+
 class LORYSHELTER_API IInteractable
 {
 	GENERATED_BODY()
@@ -48,7 +48,6 @@ class LORYSHELTER_API IInteractable
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 
 public:
-
 	//Player is near item and can begin interact if he wants
 	virtual void OnStartFocus(IInteractor* playerPtr);
 
@@ -67,5 +66,4 @@ public:
 	virtual UAnimMontage* GetInteractAnimation() = 0;
 	//
 	virtual const FInteractionInfo& GetInteractionInfo() = 0;
-
 };
