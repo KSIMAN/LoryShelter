@@ -18,7 +18,7 @@ struct FQuestStep
 	GENERATED_USTRUCT_BODY()
 
 	//Default Constructor
-	FQuestStep() : doneCounterMax(1), doneCounterCurrent(0), questImpl(nullptr), bDone(false)
+	FQuestStep() : doneCounterMax(1), doneCounterCurrent(0), QuestObject(nullptr), bDone(false)
 	{
 	};
 
@@ -33,23 +33,32 @@ struct FQuestStep
 	//
 	void bindQuestObject(UQuestObject* objForImpl);
 
+	UPROPERTY(EditDefaultsOnly)
 	//How much need to do for close Step 
 	uint64 doneCounterMax;
 
+	UPROPERTY(EditDefaultsOnly)
 	//How much done to do for close Step
 	uint64 doneCounterCurrent;
 
+	UPROPERTY(EditDefaultsOnly)
 	//Quest Step Description
 	FText stepText;
 
+	//Class Ref For Quest Object
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UQuestObject> QuestObjectRef;
+	
+	UPROPERTY(EditDefaultsOnly)
 	//Step checker instance
-	UQuestObject* questImpl;
+	UQuestObject* QuestObject;
 
+	UPROPERTY(EditDefaultsOnly)
 	//Step ready flag
 	bool bDone;
 
 	//
-	UQuestTaskWidget* viewerPtr; //Im so sorry, Ksush
+	UQuestTaskWidget* viewerPtr; //Im so sorry, Ksush No Forgiveness for you
 };
 
 UCLASS()
@@ -62,8 +71,7 @@ public:
 
 	//Adds Step to quest. actionCounterMax - how much action need be done for quest To end.
 	void addQuestStep(const FText& stepDescr, uint64 actionCounterMax = 1, UQuestObject* objForImpl = nullptr);
-
-
+	
 	//--Getters----------------------------------------------------------------------------
 
 	//Returns Quest Name
@@ -72,12 +80,14 @@ public:
 
 	//Returns steps array
 
-	//------------------------------------------
+	UPROPERTY(EditDefaultsOnly)
 	//Name
 	FName questName;
 
-	//Description
+	UPROPERTY(EditDefaultsOnly)
+	//Description Ты меня разочаровала
 	FText questDecr;
-
-	TArray<TSharedRef<FQuestStep>> questSteps;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TArray<FQuestStep> questSteps;
 };

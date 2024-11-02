@@ -37,13 +37,13 @@ void UQuestViewerWidget::setQuestRef(UQuestItem* questPtr)
 		return;
 	}
 
-	for (auto step : questRef->questSteps)
+	for (auto &step : questRef->questSteps)
 	{
 		UQuestTaskWidget* taskView = CreateWidget<UQuestTaskWidget>(GetWorld(), taskViewerClass.Get());
 		if (taskView)
 		{
-			step.Get().setTaskViewerRef(taskView);
-			taskView->updateStepInfo(step.Get());
+			step.setTaskViewerRef(taskView);
+			taskView->updateStepInfo(step);
 			StepsVerticalBox->AddChild(taskView);
 		}
 

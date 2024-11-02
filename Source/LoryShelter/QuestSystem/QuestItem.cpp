@@ -11,22 +11,19 @@
 
 void UQuestItem::addQuestStep(const FText& stepDescr, uint64 actionCounterMax, UQuestObject* objForImpl)
 {
-	TSharedPtr<FQuestStep> step = MakeShared<FQuestStep>();
-	if (step.IsValid())
-	{
-		step->stepText = stepDescr;
-		step->doneCounterMax = actionCounterMax;
-		questSteps.Push(step.ToSharedRef());
+	FQuestStep step;
+	step.stepText = stepDescr;
+	step.doneCounterMax = actionCounterMax;
+	questSteps.Push(step);
 
-		if (objForImpl)
-			step->bindQuestObject(objForImpl);
-	}
+	if (objForImpl)
+		questSteps.Last().bindQuestObject(objForImpl);
 }
 
 void FQuestStep::bindQuestObject(UQuestObject* objForImpl)
 {
-	questImpl = objForImpl;
-	questImpl->setOwner(this);
+	QuestObject = objForImpl;
+	QuestObject->setOwner(this);
 	
 	UQuestControlSubsystem* QuestSystemPtr = UQuestSystemHelper::GetQuestControlSubsystem(objForImpl->GetWorld());
 	if (!QuestSystemPtr)
